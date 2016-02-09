@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
+import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.model.Company;
 
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 public class CompanyDAO extends DAO<Company> {
 
 	public CompanyDAO() {
+		super();
 	}
 
 	@Override
@@ -32,9 +34,13 @@ public class CompanyDAO extends DAO<Company> {
 	
 	@Override
 	public Company find(int id) {
+		
         Connection connect = ConnectionFactory.getConnection();
 
-		Company company = new Company();            
+		Company company = new Company();   
+		if (id==0){
+			return company;
+		}
 		try {
 			ResultSet result = connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -45,9 +51,11 @@ public class CompanyDAO extends DAO<Company> {
 			if(result.first()){
 				company = new Company(id, result.getString("name"));  
 			}
+			DbUtil.close(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		DbUtil.close(connect);
 		return company;		
 	}
 
@@ -63,11 +71,11 @@ public class CompanyDAO extends DAO<Company> {
 			while (result.next()){
 				companies.add(new Company(result.getInt("id"),result.getString("name")));
 			}
-
+			DbUtil.close(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		DbUtil.close(connect);
 		return companies;
 	}
 

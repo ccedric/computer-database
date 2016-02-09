@@ -1,7 +1,18 @@
 package com.excilys.formation.java.computerdb.model;
 
+/**
+ * A company is represented by an id, and a name
+ * @author Cédric Cousseran
+ *
+ */
 public class Company {
+	/**
+	 * id of the company
+	 */
 	private int id;
+	/**
+	 * name of the company
+	 */
 	private String name;
 	
 	public Company(){}

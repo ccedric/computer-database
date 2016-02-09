@@ -2,11 +2,31 @@ package com.excilys.formation.java.computerdb.model;
 
 import java.sql.Timestamp;
 
+/**
+ * A computer is represented by an id, a name, a company (manufacturer), an introduced date and discontinued date
+ * @author Cédric Cousseran
+ *
+ */
 public class Computer {
+	/**
+	 * id of the computer
+	 */
 	private int id;
+	/**
+	 * name of the computer
+	 */
 	private String name;
+	/**
+	 * manufacturer of the computer
+	 */
 	private Company company;
+	/**
+	 * date when the computer was introduced
+	 */
 	private Timestamp introduced;
+	/**
+	 * date when the computer was discontinued
+	 */
 	private Timestamp discontinued;
 
 	public Computer(){}

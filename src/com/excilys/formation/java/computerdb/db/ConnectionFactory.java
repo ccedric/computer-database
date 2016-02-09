@@ -5,11 +5,28 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
+/**
+ * Create a connection to the database, singleton pattern
+ * @author Cédric Cousseran
+ *
+ */
 public class ConnectionFactory {
     private static ConnectionFactory instance = new ConnectionFactory();
+    /**
+     * url to the database
+     */
     public static final String URL = "jdbc:mysql://localhost/computer-database-db?zeroDateTimeBehavior=convertToNull";
+    /**
+     * user in the database
+     */
     public static final String USER = "admincdb";
+    /**
+     * password of the user
+     */
     public static final String PASSWORD = "qwerty1234";
+    /**
+     * driver to connect to the database
+     */
     public static final String DRIVER_CLASS = "com.mysql.jdbc.Driver"; 
      
     //private constructor
@@ -31,6 +48,10 @@ public class ConnectionFactory {
         return connection;
     }   
      
+    /**
+     * Create and return a new connection to the database
+     * @return a connection to the database
+     */
     public static Connection getConnection() {
         return instance.createConnection();
     }
