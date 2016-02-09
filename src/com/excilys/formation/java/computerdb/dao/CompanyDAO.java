@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.model.Company;
@@ -12,6 +15,7 @@ import com.excilys.formation.java.computerdb.model.Company;
 import java.sql.Connection;
 
 public class CompanyDAO extends DAO<Company> {
+	 private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 	public CompanyDAO() {
 		super();
@@ -53,9 +57,11 @@ public class CompanyDAO extends DAO<Company> {
 			}
 			DbUtil.close(result);
 		} catch (SQLException e) {
+			logger.error("Error while finding the company, id searched: {}",id);
 			e.printStackTrace();
 		}
 		DbUtil.close(connect);
+		logger.info("Company found, id: {}, name: {}",company.getId(),company.getName());
 		return company;		
 	}
 
@@ -72,10 +78,14 @@ public class CompanyDAO extends DAO<Company> {
 				companies.add(new Company(result.getInt("id"),result.getString("name")));
 			}
 			DbUtil.close(result);
-		} catch (SQLException e) {
+		} catch (SQLException e){
+			logger.error("Error while retrieving the list of companies");
+
 			e.printStackTrace();
 		}
 		DbUtil.close(connect);
+		logger.info("List of companies found, size of the list: {}",companies.size());
+
 		return companies;
 	}
 

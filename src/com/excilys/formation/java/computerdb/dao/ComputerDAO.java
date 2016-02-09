@@ -7,6 +7,9 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.model.Company;
@@ -15,7 +18,8 @@ import java.sql.Connection;
 
 
 public class ComputerDAO extends DAO<Computer> {
-
+	 private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+	
 	public ComputerDAO() {
 		super();
 	}
@@ -39,7 +43,10 @@ public class ComputerDAO extends DAO<Computer> {
 				statement.setNull(3,Types.TIMESTAMP);
 			}else{
 				statement.setTimestamp(3, obj.getDiscontinued());
-			}			
+			}
+			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().after(obj.getDiscontinued()))){
+				throw new IllegalArgumentException();
+			}
 			if (obj.getCompany().getId()==0){
 				statement.setNull(4,Types.BIGINT);
 			}else{
@@ -55,6 +62,7 @@ public class ComputerDAO extends DAO<Computer> {
 				DbUtil.close(rs);
 				DbUtil.close(statement);
 				DbUtil.close(connect);
+				logger.info("New computer created, id {}, name {}, company {}, introduced date {}, discontinued date {}.", numero, obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
 				return numero;
 			}
 			DbUtil.close(rs);
@@ -64,6 +72,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("Error while creating the computer");
 			DbUtil.close(statement);
 			DbUtil.close(connect);
 			return 0;
@@ -83,13 +92,14 @@ public class ComputerDAO extends DAO<Computer> {
 			statement.executeUpdate();
 			DbUtil.close(statement);
 			DbUtil.close(connect);
+			logger.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			DbUtil.close(connect);
+			logger.error("Error while deleting the computer");
 			return false;
 		}
-
 	}
 
 	@Override
@@ -110,7 +120,10 @@ public class ComputerDAO extends DAO<Computer> {
 				statement.setNull(3,Types.TIMESTAMP);
 			}else{
 				statement.setTimestamp(3, obj.getDiscontinued());
-			}			
+			}
+			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().after(obj.getDiscontinued()))){
+				throw new IllegalArgumentException();
+			}
 			if (obj.getCompany()==null){
 				statement.setNull(4,Types.BIGINT);
 			}else{
@@ -124,12 +137,15 @@ public class ComputerDAO extends DAO<Computer> {
 			DbUtil.close(connect);
 
 			if (rowsUpdated > 0) {
+				logger.info("Computer updated, id {}, name {}, company {}, introduced date {}, discontinued date {}.", obj.getId(), obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
 				return true;
 			}
+			logger.error("Error while updating the computer");
 			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			DbUtil.close(connect);
+			logger.error("Error while updating the computer");
 			return false;
 		}
 
@@ -153,10 +169,11 @@ public class ComputerDAO extends DAO<Computer> {
 			}
 			DbUtil.close(result);
 		} catch (SQLException e) {
+			logger.error("Error while finding the computer");
 			e.printStackTrace();
 		}
 		DbUtil.close(connect);
-
+		logger.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
 		return computer;		
 	}
 
@@ -178,14 +195,17 @@ public class ComputerDAO extends DAO<Computer> {
 					computers.add(new Computer(result.getInt("id"), result.getString("name"),new Company(result.getInt("companyId"), result.getString("companyName")),result.getTimestamp("introduced"), result.getTimestamp("discontinued")));
 				}
 				catch(Exception e){
+					logger.error("Error while retrieving the list of computers");
 					e.printStackTrace();
 				}
 			}
 			DbUtil.close(result);
 		} catch (SQLException e) {
+			logger.error("Error sql while retrieving the list of computers");
 			e.printStackTrace();
 		}
 		DbUtil.close(connect);
+		logger.info("List of computers found, size of the list: {}",computers.size());
 
 		return computers;
 
