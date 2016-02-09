@@ -30,7 +30,7 @@ public class Computer {
 	private Timestamp discontinued;
 
 	public Computer(){}
-	
+
 	public Computer(int id, String name, Company company, Timestamp introduced, Timestamp discontinued) {
 		super();
 		this.id = id;
@@ -39,7 +39,7 @@ public class Computer {
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 	}
-	
+
 	public Computer( String name, Company company, Timestamp introduced, Timestamp discontinued) {
 		super();
 		this.name = name;
@@ -47,7 +47,7 @@ public class Computer {
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 	}
-	
+
 	public int getId() {
 		return id;
 	}

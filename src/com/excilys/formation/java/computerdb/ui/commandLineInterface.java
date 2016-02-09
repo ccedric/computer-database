@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
-import com.excilys.formation.java.computerdb.dao.CompanyDAO;
-import com.excilys.formation.java.computerdb.dao.ComputerDAO;
+import com.excilys.formation.java.computerdb.dao.implementation.CompanyDAO;
+import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 
