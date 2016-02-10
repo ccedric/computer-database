@@ -276,7 +276,7 @@ public class commandLineInterface {
 			}	
 		}
 
-		Computer comp = new Computer( name,company, timestamp,timestampEnd);
+		Computer comp = new Computer.ComputerBuilder( name).company(company).introduced(timestamp).discontinued(timestampEnd).build();
 		int number = computerService.create(comp);
 		if(number!=0){
 			System.out.println("Computer created successfully");

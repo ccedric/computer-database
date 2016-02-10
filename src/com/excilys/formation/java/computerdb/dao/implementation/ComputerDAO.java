@@ -156,32 +156,34 @@ public class ComputerDAO implements DAO<Computer> {
 	public Computer find(int id) {
 		Connection connect = ConnectionFactory.getConnection();
 
-		Computer computer = new Computer();  
 		ResultSet result = null;
+		PreparedStatement statement = null;
+		Computer computer;
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.id=?";
 		try {
-			result = connect.createStatement(
-					ResultSet.TYPE_SCROLL_INSENSITIVE, 
-					ResultSet.CONCUR_READ_ONLY
-					).executeQuery(
-							"SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
-									"LEFT JOIN company ON computer.company_id= company.id  WHERE computer.id="+id
-							);    
-			if(result.first()){
-				if (result.getInt("companyId")==0){
-					computer = new Computer(id, result.getString("name"),null,result.getTimestamp("introduced"), result.getTimestamp("discontinued"));  
-				} else{
-					computer = new Computer(id, result.getString("name"),new Company(result.getInt("companyId"), result.getString("companyName")),result.getTimestamp("introduced"), result.getTimestamp("discontinued"));  
-				}
+			statement = connect.prepareStatement(sql);
+			statement.setInt(1, id);
+			result = statement.executeQuery();    
+			result.next();
+			if (result.getInt("companyId")==0){
+				computer = new Computer.ComputerBuilder(result.getString("name")).id(id).introduced(result.getTimestamp("introduced")).discontinued(result.getTimestamp("discontinued")).build();
+			} else{
+				Company company = new Company(result.getInt("companyId"), result.getString("companyName"));
+				computer = new Computer.ComputerBuilder(result.getString("name")).id(id).company(company).introduced(result.getTimestamp("introduced")).discontinued(result.getTimestamp("discontinued")).build();
+
 			}
+			logger.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
+			return computer;		
+
 		} catch (SQLException e) {
 			logger.error("Error while finding the computer");
 			e.printStackTrace();
 		} finally{
 			DbUtil.close(result);
+			DbUtil.close(statement);
 			DbUtil.close(connect);
 		}
-		logger.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
-		return computer;		
+		return null;
 	}
 
 	@Override
@@ -189,6 +191,7 @@ public class ComputerDAO implements DAO<Computer> {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
+
 		try {
 			result = connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -200,9 +203,13 @@ public class ComputerDAO implements DAO<Computer> {
 			while (result.next()){
 				try{	
 					if (result.getInt("companyId")==0){
-						computers.add(new Computer(result.getInt("id"), result.getString("name"),null,result.getTimestamp("introduced"), result.getTimestamp("discontinued")));
+						Computer computer = new Computer.ComputerBuilder(result.getString("name")).id(result.getInt("id")).introduced(result.getTimestamp("introduced")).discontinued(result.getTimestamp("discontinued")).build();
+
+						computers.add(computer);
 					} else{
-						computers.add(new Computer(result.getInt("id"), result.getString("name"),new Company(result.getInt("companyId"), result.getString("companyName")),result.getTimestamp("introduced"), result.getTimestamp("discontinued")));
+						Company company = new Company(result.getInt("companyId"), result.getString("companyName"));
+						Computer computer = new Computer.ComputerBuilder(result.getString("name")).id(result.getInt("id")).company(company).introduced(result.getTimestamp("introduced")).discontinued(result.getTimestamp("discontinued")).build();
+						computers.add(computer);
 					}
 				}
 				catch(Exception e){

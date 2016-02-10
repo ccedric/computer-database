@@ -29,23 +29,13 @@ public class Computer {
 	 */
 	private Timestamp discontinued;
 
-	public Computer(){}
-
-	public Computer(int id, String name, Company company, Timestamp introduced, Timestamp discontinued) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.company = company;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-	}
-
-	public Computer( String name, Company company, Timestamp introduced, Timestamp discontinued) {
-		super();
-		this.name = name;
-		this.company = company;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
+	// builder pattern
+	private Computer(ComputerBuilder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
+		this.company = builder.company;
+		this.introduced = builder.introduced;
+		this.discontinued = builder.discontinued;
 	}
 
 	public int getId() {
@@ -77,6 +67,49 @@ public class Computer {
 	}
 	public void setDiscontinued(Timestamp discontinued) {
 		this.discontinued = discontinued;
+	}
+
+	/**
+	 * Builder of the Computer class, use it like this: 
+	 * new Computer.ComputerBuilder(name).id(id).company(Company).introduced(introduced).discontinued(discontinued).build()
+	 * @author Cédric Cousseran
+	 *
+	 */
+	public static class ComputerBuilder {
+		private int id;
+		private String name;
+		private Company company;
+		private Timestamp introduced;
+		private Timestamp discontinued;
+
+		public ComputerBuilder(String name) {
+			this.name = name;
+		}
+
+		public ComputerBuilder id(int id) {
+			this.id = id;
+			return this;
+		}
+
+		public ComputerBuilder company(Company company) {
+			this.company = company;
+			return this;
+		}
+
+		public ComputerBuilder introduced(Timestamp introduced) {
+			this.introduced = introduced;
+			return this;
+		}
+
+		public ComputerBuilder discontinued(Timestamp discontinued) {
+			this.discontinued = discontinued;
+			return this;
+		}
+
+		public Computer build() {
+			return new Computer(this);
+		}
+
 	}
 
 	@Override
@@ -129,5 +162,5 @@ public class Computer {
 			return false;
 		return true;
 	}
-	
+
 }

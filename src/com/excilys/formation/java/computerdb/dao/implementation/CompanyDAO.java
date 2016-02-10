@@ -14,6 +14,7 @@ import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.model.Company;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 /**
  * Data Access Object for the class Company
@@ -47,17 +48,17 @@ public class CompanyDAO implements DAO<Company> {
 
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
-		Company company = new Company();   
+		Company company = new Company();
+		PreparedStatement statement = null;
+		String sql = "SELECT * from company  WHERE id=?";
+
 		if (id==0){
 			return company;
 		}
 		try {
-			result = connect.createStatement(
-					ResultSet.TYPE_SCROLL_INSENSITIVE, 
-					ResultSet.CONCUR_READ_ONLY
-					).executeQuery(
-							"SELECT * from company  WHERE id="+id
-							);    
+			statement = connect.prepareStatement(sql);
+			statement.setInt(1, id);
+			result = statement.executeQuery();    
 			if(result.first()){
 				company = new Company(id, result.getString("name"));  
 			}
