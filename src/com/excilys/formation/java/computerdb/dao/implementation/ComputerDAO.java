@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.java.computerdb.dao.DAO;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DbUtil;
-import com.excilys.formation.java.computerdb.model.Company;
+import com.excilys.formation.java.computerdb.mapper.ComputerMapper;
 import com.excilys.formation.java.computerdb.model.Computer;
 import java.sql.Connection;
 
@@ -167,11 +167,9 @@ public class ComputerDAO implements DAO<Computer> {
 			result = statement.executeQuery();    
 			result.next();
 			if (result.getInt("companyId")==0){
-				computer = new Computer.ComputerBuilder(result.getString("name")).id(id).introduced(result.getTimestamp("introduced").toLocalDateTime()).discontinued(result.getTimestamp("discontinued").toLocalDateTime()).build();
+				computer = ComputerMapper.map(result);
 			} else{
-				Company company = new Company(result.getInt("companyId"), result.getString("companyName"));
-				computer = new Computer.ComputerBuilder(result.getString("name")).id(id).company(company).introduced(result.getTimestamp("introduced").toLocalDateTime()).discontinued(result.getTimestamp("discontinued").toLocalDateTime()).build();
-
+				computer = ComputerMapper.map(result);
 			}
 			logger.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
 			return computer;		
@@ -204,12 +202,11 @@ public class ComputerDAO implements DAO<Computer> {
 			while (result.next()){
 				try{	
 					if (result.getInt("companyId")==0){
-						Computer computer = new Computer.ComputerBuilder(result.getString("name")).id(result.getInt("id")).introduced(result.getTimestamp("introduced").toLocalDateTime()).discontinued(result.getTimestamp("discontinued").toLocalDateTime()).build();
+						Computer computer = ComputerMapper.map(result);
 
 						computers.add(computer);
 					} else{
-						Company company = new Company(result.getInt("companyId"), result.getString("companyName"));
-						Computer computer = new Computer.ComputerBuilder(result.getString("name")).id(result.getInt("id")).company(company).introduced(result.getTimestamp("introduced").toLocalDateTime()).discontinued(result.getTimestamp("discontinued").toLocalDateTime()).build();
+						Computer computer = ComputerMapper.map(result);
 						computers.add(computer);
 					}
 				}

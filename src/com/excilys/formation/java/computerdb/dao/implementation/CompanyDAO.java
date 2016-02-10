@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.java.computerdb.dao.DAO;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DbUtil;
+import com.excilys.formation.java.computerdb.mapper.CompanyMapper;
 import com.excilys.formation.java.computerdb.model.Company;
 
 import java.sql.Connection;
@@ -48,19 +49,19 @@ public class CompanyDAO implements DAO<Company> {
 
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
-		Company company = new Company();
+		Company company =  null;
 		PreparedStatement statement = null;
 		String sql = "SELECT * from company  WHERE id=?";
 
 		if (id==0){
-			return company;
+			return null;
 		}
 		try {
 			statement = connect.prepareStatement(sql);
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
 			if(result.first()){
-				company = new Company(id, result.getString("name"));  
+				company = CompanyMapper.map(result);  
 			}
 		} catch (SQLException e) {
 			logger.error("Error while finding the company, id searched: {}",id);
@@ -84,7 +85,7 @@ public class CompanyDAO implements DAO<Company> {
 					ResultSet.CONCUR_READ_ONLY
 					).executeQuery("SELECT * from company");  
 			while (result.next()){
-				companies.add(new Company(result.getInt("id"),result.getString("name")));
+				companies.add(CompanyMapper.map(result));
 			}
 		} catch (SQLException e){
 			logger.error("Error while retrieving the list of companies");

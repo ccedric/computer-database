@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdb.ui;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -16,7 +15,7 @@ import com.excilys.formation.java.computerdb.service.implementation.ComputerServ
  * @author Cédric Cousseran
  *
  */
-public class commandLineInterface {
+public class CommandLineInterface {
 	private static ComputerService computerService = null;
 	private static CompanyService companyService = null;
 	private static Scanner sc =  new Scanner(System.in);
