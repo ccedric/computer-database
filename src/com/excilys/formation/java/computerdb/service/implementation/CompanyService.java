@@ -4,6 +4,7 @@ package com.excilys.formation.java.computerdb.service.implementation;
 import java.util.List;
 
 import com.excilys.formation.java.computerdb.dao.implementation.CompanyDAO;
+import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.service.Service;
 
@@ -44,21 +45,22 @@ public class CompanyService implements Service<Company> {
 	}
 
 	@Override
-	public Company find(int id) {
+	public Company find(int id) throws DatabaseConnectionException {
 		return companyDAO.find(id);
 	}
 
 
 	@Override
-	public List<Company> list() {
+	public List<Company> list() throws DatabaseConnectionException {
 		return companyDAO.list();
 	}
 
 	/**
 	 * Paging not implemented for Company, will return the same result as list()
+	 * @throws DatabaseConnectionException 
 	 */
 	@Override
-	public List<Company> listPage(int indexBegin, int indexEnd) {
+	public List<Company> listPage(int indexBegin, int indexEnd) throws DatabaseConnectionException {
 		return companyDAO.list();
 	}
 

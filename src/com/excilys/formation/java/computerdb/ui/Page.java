@@ -2,6 +2,7 @@ package com.excilys.formation.java.computerdb.ui;
 
 import java.util.List;
 
+import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.service.Service;
 
 /**
@@ -28,6 +29,9 @@ public class Page<T> {
 	 */
 	private int startingIndex;
 
+	/**
+	 * Service corresponding to the class implemented
+	 */
 	private Service<T> service;
 	
 	/**
@@ -88,8 +92,9 @@ public class Page<T> {
 	 * Gets the subset of the list for the current page.
 	 * 
 	 * @return the list of elements for this page
+	 * @throws DatabaseConnectionException 
 	 */
-	public List<T> getListForPage() {
+	public List<T> getListForPage() throws DatabaseConnectionException {
 		return service.listPage(startingIndex,pageSize);
 	}
 

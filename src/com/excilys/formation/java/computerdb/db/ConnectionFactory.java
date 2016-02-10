@@ -38,12 +38,12 @@ public class ConnectionFactory {
 		}
 	}
 
-	private Connection createConnection() {
+	private Connection createConnection() throws DatabaseConnectionException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(URL, USER, PASSWORD);
 		} catch (SQLException e) {
-			System.out.println("ERROR: Unable to Connect to Database.");
+			throw new DatabaseConnectionException("Couldn't connect to the database, check URL/USER/PASS");
 		}
 		return connection;
 	}   
@@ -51,8 +51,9 @@ public class ConnectionFactory {
 	/**
 	 * Create and return a new connection to the database
 	 * @return a connection to the database
+	 * @throws DatabaseConnectionException 
 	 */
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DatabaseConnectionException {
 		return instance.createConnection();
 	}
 }

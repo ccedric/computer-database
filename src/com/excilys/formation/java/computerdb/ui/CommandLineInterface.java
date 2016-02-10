@@ -2,9 +2,12 @@ package com.excilys.formation.java.computerdb.ui;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+import com.excilys.formation.java.computerdb.dao.implementation.TimestampDiscontinuedBeforeIntroducedException;
+import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.implementation.CompanyService;
@@ -21,7 +24,7 @@ public class CommandLineInterface {
 	private static Scanner sc =  new Scanner(System.in);
 	private static int pageComputerSize=10;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DatabaseConnectionException {
 		computerService = new ComputerService();
 		companyService = new CompanyService();
 
@@ -33,8 +36,9 @@ public class CommandLineInterface {
 
 	/**
 	 * Show the help menu
+	 * @throws DatabaseConnectionException 
 	 */
-	public static void showHelp(){
+	public static void showHelp() throws DatabaseConnectionException{
 		System.out.println();
 		System.out.println("What do you want to do:");
 		System.out.println("1: List computers");
@@ -70,8 +74,9 @@ public class CommandLineInterface {
 
 	/**
 	 * CLI to delete a computer
+	 * @throws DatabaseConnectionException 
 	 */
-	private static void deleteComputer() {
+	private static void deleteComputer() throws DatabaseConnectionException {
 		System.out.println("Please enter the id of the computer you want to delete, or type q to go back to the menu");
 		String input = sc.nextLine();
 		if(input.equals("q")){
@@ -96,8 +101,9 @@ public class CommandLineInterface {
 
 	/**
 	 * CLI to update the computer
+	 * @throws DatabaseConnectionException 
 	 */
-	private static void updateComputer() {
+	private static void updateComputer() throws DatabaseConnectionException {
 		System.out.println("Please enter the id of the computer you want to update, or type q to go back to the menu");
 		String inputId = sc.nextLine();
 		if(inputId.equals("q")){
@@ -158,7 +164,7 @@ public class CommandLineInterface {
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 					timestamp = LocalDateTime.parse(input,formatter);
 					break;
-				}catch(IllegalArgumentException e){
+				}catch(DateTimeParseException e){
 					System.out.println("The timestamp doesn't have the right format.");
 				}
 			}
@@ -185,7 +191,7 @@ public class CommandLineInterface {
 					}else{
 						break;
 					}
-				}catch(IllegalArgumentException e){
+				}catch(DateTimeParseException e){
 					System.out.println("The timestamp doesn't have the right format.");
 				}	
 			}
@@ -195,7 +201,13 @@ public class CommandLineInterface {
 		comp.setCompany(company);
 		comp.setIntroduced(timestamp);
 		comp.setDiscontinued(timestampEnd);
-		boolean result = computerService.update(comp);
+		boolean result=false;
+		try {
+			result = computerService.update(comp);
+		} catch (TimestampDiscontinuedBeforeIntroducedException e) {
+			System.out.println("Update not successful, the discontinued timestamp was before the introduced timestamp");
+			e.printStackTrace();
+		}
 		if(result){
 			System.out.println("Computer update successfully");
 			System.out.println(computerService.find(comp.getId()));
@@ -209,8 +221,9 @@ public class CommandLineInterface {
 
 	/**
 	 * CLI to create a computer
+	 * @throws DatabaseConnectionException 
 	 */
-	private static void createComputer() {
+	private static void createComputer() throws DatabaseConnectionException {
 		System.out.println("Please enter the name of the computer you want to create, or type q to go back to the menu");
 		String name = sc.nextLine();
 		if(name.equals("q")){
@@ -251,7 +264,7 @@ public class CommandLineInterface {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 				timestamp = LocalDateTime.parse(input,formatter);
 				break;
-			}catch(IllegalArgumentException e){
+			}catch(DateTimeParseException e){
 				System.out.println("The timestamp doesn't have the right format.");
 			}	
 		}
@@ -276,13 +289,19 @@ public class CommandLineInterface {
 				}else{
 					break;
 				}
-			}catch(IllegalArgumentException e){
+			}catch(DateTimeParseException e){
 				System.out.println("The timestamp doesn't have the right format.");
 			}	
 		}
 
 		Computer comp = new Computer.ComputerBuilder( name).company(company).introduced(timestamp).discontinued(timestampEnd).build();
-		int number = computerService.create(comp);
+		int number = 0;
+		try {
+			number = computerService.create(comp);
+		} catch (TimestampDiscontinuedBeforeIntroducedException e) {
+			System.out.println("Creation not successful, the discontinued timestamp was before the introduced timestamp");
+			e.printStackTrace();
+		}
 		if(number!=0){
 			System.out.println("Computer created successfully");
 			System.out.println(computerService.find(number));
@@ -295,8 +314,9 @@ public class CommandLineInterface {
 
 	/**
 	 * CLI to show the details of a computer
+	 * @throws DatabaseConnectionException 
 	 */
-	private static void showComputerDetails() {
+	private static void showComputerDetails() throws DatabaseConnectionException {
 		System.out.println("Please enter the id of the computer you want to see, or type q to go back to the menu");
 		String input = sc.nextLine();
 		if(input.equals("q")){
@@ -314,8 +334,9 @@ public class CommandLineInterface {
 
 	/**
 	 * CLI to list all companies available in the database
+	 * @throws DatabaseConnectionException 
 	 */
-	private static void listCompanies() {
+	private static void listCompanies() throws DatabaseConnectionException {
 		List<Company> companies = companyService.list();
 		for (Company company : companies){
 			System.out.println(company);
@@ -325,8 +346,9 @@ public class CommandLineInterface {
 
 	/**
 	 * CLI to list all computers available in the database
+	 * @throws DatabaseConnectionException 
 	 */
-	private static void listComputer() {
+	private static void listComputer() throws DatabaseConnectionException {
 		Page<Computer> pageComputer = new Page<Computer>(pageComputerSize,computerService);
 		pageComputer.setPage(1);
 		List<Computer> computersPage;

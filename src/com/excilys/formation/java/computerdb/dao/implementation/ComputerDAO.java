@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dao.DAO;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
+import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.mapper.ComputerMapper;
 import com.excilys.formation.java.computerdb.model.Computer;
@@ -30,7 +31,7 @@ public class ComputerDAO implements DAO<Computer> {
 	public ComputerDAO() {}
 
 	@Override
-	public int create(Computer obj) {
+	public int create(Computer obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
 		Connection connect = ConnectionFactory.getConnection();
 
 		String sql = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES ( ?, ?, ?,?)";
@@ -51,7 +52,8 @@ public class ComputerDAO implements DAO<Computer> {
 				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued()));
 			}
 			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
-				throw new IllegalArgumentException();
+				LOGGER.info("Exception thrown: discontinued timestamp before introduced timestamp");
+				throw new TimestampDiscontinuedBeforeIntroducedException("The discontinued timestamp is before the introduced timestamp");
 			}
 			if (obj.getCompany().getId()==0){
 				statement.setNull(4,Types.BIGINT);
@@ -81,7 +83,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public boolean delete(Computer obj) {
+	public boolean delete(Computer obj) throws DatabaseConnectionException {
 		Connection connect = ConnectionFactory.getConnection();
 		PreparedStatement statement = null;
 		String sql = "DELETE FROM computer WHERE id=?";
@@ -104,7 +106,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public boolean update(Computer obj) {
+	public boolean update(Computer obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
 		String sql = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 		Connection connect = ConnectionFactory.getConnection();
 
@@ -123,7 +125,8 @@ public class ComputerDAO implements DAO<Computer> {
 				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued()));
 			}
 			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
-				throw new IllegalArgumentException();
+				LOGGER.info("Exception thrown: discontinued timestamp before introduced timestamp");
+				throw new TimestampDiscontinuedBeforeIntroducedException("The discontinued timestamp is before the introduced timestamp");
 			}
 			if (obj.getCompany()==null){
 				statement.setNull(4,Types.BIGINT);
@@ -152,7 +155,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public Computer find(int id) {
+	public Computer find(int id) throws DatabaseConnectionException {
 		Connection connect = ConnectionFactory.getConnection();
 
 		ResultSet result = null;
@@ -164,11 +167,8 @@ public class ComputerDAO implements DAO<Computer> {
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
 			result.next();
-			if (result.getInt("companyId")==0){
-				computer = ComputerMapper.map(result);
-			} else{
-				computer = ComputerMapper.map(result);
-			}
+
+			computer = ComputerMapper.map(result);
 			LOGGER.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
 			return computer;		
 
@@ -184,7 +184,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public List<Computer> list() {
+	public List<Computer> list() throws DatabaseConnectionException {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
@@ -228,7 +228,7 @@ public class ComputerDAO implements DAO<Computer> {
 
 
 	@Override
-	public List<Computer> listPage(int indexBegin, int pageSize) {
+	public List<Computer> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException  {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dao.DAO;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
+import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.mapper.CompanyMapper;
 import com.excilys.formation.java.computerdb.model.Company;
@@ -25,27 +26,25 @@ import java.sql.PreparedStatement;
 public class CompanyDAO implements DAO<Company> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
 
-	public CompanyDAO() {
-		super();
-	}
+	public CompanyDAO() {}
 
 	@Override
-	public int create(Company obj) {
+	public int create(Company obj) throws DatabaseConnectionException {
 		return 0;
 	}
 
 	@Override
-	public boolean delete(Company obj) {
+	public boolean delete(Company obj) throws DatabaseConnectionException {
 		return false;
 	}
 
 	@Override
-	public boolean update(Company obj) {
+	public boolean update(Company obj) throws DatabaseConnectionException {
 		return false;
 	}
 
 	@Override
-	public Company find(int id) {
+	public Company find(int id) throws DatabaseConnectionException {
 
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
@@ -75,7 +74,7 @@ public class CompanyDAO implements DAO<Company> {
 	}
 
 	@Override
-	public List<Company> list() {
+	public List<Company> list() throws DatabaseConnectionException {
 		Connection connect = ConnectionFactory.getConnection();
 		List<Company> companies = new ArrayList<Company>();
 		ResultSet result = null;
@@ -104,7 +103,7 @@ public class CompanyDAO implements DAO<Company> {
 	 * Not yet implemented, return null
 	 */
 	@Override
-	public List<Company> listPage(int indexBegin, int pageSize) {
+	public List<Company> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException {
 		return null;
 	}
 

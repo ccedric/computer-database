@@ -26,10 +26,10 @@ public interface ComputerMapper {
 		LocalDateTime introduced = null;
 		LocalDateTime discontinued = null;
 
-		if (result.getTimestamp("introduced")!=null){
+		if (null!=result.getTimestamp("introduced")){
 			introduced =result.getTimestamp("introduced").toLocalDateTime();
 		}
-		if (result.getTimestamp("discontinued")!=null){
+		if (null!=result.getTimestamp("discontinued")){
 			discontinued =result.getTimestamp("discontinued").toLocalDateTime();
 		}
 		return new  Computer.ComputerBuilder(result.getString("name"))
