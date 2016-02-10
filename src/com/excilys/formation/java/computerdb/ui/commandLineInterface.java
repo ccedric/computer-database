@@ -1,6 +1,8 @@
 package com.excilys.formation.java.computerdb.ui;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -142,9 +144,9 @@ public class commandLineInterface {
 				System.out.println("The id you entered is not a number, please type it again");
 			}
 		}
-		Timestamp timestamp= null;
+		LocalDateTime timestamp= null;
 		while(true){
-			System.out.println("Please enter the introduced timestamp, format: yyyy-MM-dd hh:mm:ss[.fffffffff], type 0 if you don't want to add this value, or type q to go back to the menu");
+			System.out.println("Please enter the introduced timestamp, format: yyyy-MM-dd HH:mm, type 0 if you don't want to add this value, or type q to go back to the menu");
 			String input = sc.nextLine();
 			if(input.equals("q")){
 				showHelp();
@@ -154,7 +156,8 @@ public class commandLineInterface {
 				break;
 			}else{
 				try{
-					timestamp = Timestamp.valueOf(input);
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+					timestamp = LocalDateTime.parse(input,formatter);
 					break;
 				}catch(IllegalArgumentException e){
 					System.out.println("The timestamp doesn't have the right format.");
@@ -163,9 +166,9 @@ public class commandLineInterface {
 
 		}
 
-		Timestamp timestampEnd= null;
+		LocalDateTime timestampEnd= null;
 		while(true){
-			System.out.println("Please enter the discontinued timestamp, format: yyyy-MM-dd hh:mm:ss[.fffffffff], type 0 if you don't want to add this value, or type q to go back to the menu");
+			System.out.println("Please enter the discontinued timestamp, format: yyyy-MM-dd HH:mm, type 0 if you don't want to add this value, or type q to go back to the menu");
 			String input = sc.nextLine();
 			if(input.equals("q")){
 				showHelp();
@@ -175,8 +178,9 @@ public class commandLineInterface {
 				break;
 			}else{
 				try{
-					timestampEnd = Timestamp.valueOf(input);
-					if (timestampEnd.before(timestamp)){
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+					timestampEnd = LocalDateTime.parse(input,formatter);
+					if (timestampEnd.isBefore(timestamp)){
 						System.out.println("The discontinued timestamp must be after the introduced timsestamp, wich is:");
 						System.out.println(timestamp);
 					}else{
@@ -233,9 +237,9 @@ public class commandLineInterface {
 				showComputerDetails();
 			}
 		}
-		Timestamp timestamp= null;
+		LocalDateTime timestamp= null;
 		while(true){
-			System.out.println("Please enter the introduced timestamp, format: yyyy-MM-dd hh:mm:ss[.fffffffff], type 0 if you don't want to add this value, or type q to go back to the menu");
+			System.out.println("Please enter the introduced timestamp, format: yyyy-MM-dd HH:mm, type 0 if you don't want to add this value, or type q to go back to the menu");
 			String input = sc.nextLine();
 			if(input.equals("q")){
 				showHelp();
@@ -245,16 +249,17 @@ public class commandLineInterface {
 				break;
 			}
 			try{
-				timestamp = Timestamp.valueOf(input);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+				timestamp = LocalDateTime.parse(input,formatter);
 				break;
 			}catch(IllegalArgumentException e){
 				System.out.println("The timestamp doesn't have the right format.");
 			}	
 		}
 
-		Timestamp timestampEnd= null;
+		LocalDateTime timestampEnd= null;
 		while(true){
-			System.out.println("Please enter the discontinued timestamp, format: yyyy-MM-dd hh:mm:ss[.fffffffff], or type 0 if you don't want to add this value, or type q to go back to the menu");
+			System.out.println("Please enter the discontinued timestamp, format: yyyy-MM-dd HH:mm, or type 0 if you don't want to add this value, or type q to go back to the menu");
 			String input = sc.nextLine();
 			if(input.equals("q")){
 				showHelp();
@@ -264,8 +269,9 @@ public class commandLineInterface {
 				break;
 			}
 			try{
-				timestampEnd = Timestamp.valueOf(input);
-				if (timestampEnd.before(timestamp)){
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+				timestampEnd = LocalDateTime.parse(input,formatter);
+				if (timestampEnd.isBefore(timestamp)){
 					System.out.println("The discontinued timestamp must be after the introduced timsestamp, wich is:");
 					System.out.println(timestamp);
 				}else{

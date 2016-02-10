@@ -3,6 +3,7 @@ package com.excilys.formation.java.computerdb.dao.implementation;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +45,14 @@ public class ComputerDAO implements DAO<Computer> {
 			if(obj.getIntroduced()==null){
 				statement.setNull(2,Types.TIMESTAMP);
 			}else{
-				statement.setTimestamp(2, obj.getIntroduced());
+				statement.setTimestamp(2, Timestamp.valueOf(obj.getIntroduced()));
 			}
 			if(obj.getDiscontinued()==null){
 				statement.setNull(3,Types.TIMESTAMP);
 			}else{
-				statement.setTimestamp(3, obj.getDiscontinued());
+				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued()));
 			}
-			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().after(obj.getDiscontinued()))){
+			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
 				throw new IllegalArgumentException();
 			}
 			if (obj.getCompany().getId()==0){
@@ -116,14 +117,14 @@ public class ComputerDAO implements DAO<Computer> {
 			if(obj.getIntroduced()==null){
 				statement.setNull(2,Types.TIMESTAMP);
 			}else{
-				statement.setTimestamp(2, obj.getIntroduced());
+				statement.setTimestamp(2, Timestamp.valueOf(obj.getIntroduced()));
 			}
 			if(obj.getDiscontinued()==null){
 				statement.setNull(3,Types.TIMESTAMP);
 			}else{
-				statement.setTimestamp(3, obj.getDiscontinued());
+				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued()));
 			}
-			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().after(obj.getDiscontinued()))){
+			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
 				throw new IllegalArgumentException();
 			}
 			if (obj.getCompany()==null){
@@ -166,10 +167,10 @@ public class ComputerDAO implements DAO<Computer> {
 			result = statement.executeQuery();    
 			result.next();
 			if (result.getInt("companyId")==0){
-				computer = new Computer.ComputerBuilder(result.getString("name")).id(id).introduced(result.getTimestamp("introduced")).discontinued(result.getTimestamp("discontinued")).build();
+				computer = new Computer.ComputerBuilder(result.getString("name")).id(id).introduced(result.getTimestamp("introduced").toLocalDateTime()).discontinued(result.getTimestamp("discontinued").toLocalDateTime()).build();
 			} else{
 				Company company = new Company(result.getInt("companyId"), result.getString("companyName"));
-				computer = new Computer.ComputerBuilder(result.getString("name")).id(id).company(company).introduced(result.getTimestamp("introduced")).discontinued(result.getTimestamp("discontinued")).build();
+				computer = new Computer.ComputerBuilder(result.getString("name")).id(id).company(company).introduced(result.getTimestamp("introduced").toLocalDateTime()).discontinued(result.getTimestamp("discontinued").toLocalDateTime()).build();
 
 			}
 			logger.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
@@ -203,12 +204,12 @@ public class ComputerDAO implements DAO<Computer> {
 			while (result.next()){
 				try{	
 					if (result.getInt("companyId")==0){
-						Computer computer = new Computer.ComputerBuilder(result.getString("name")).id(result.getInt("id")).introduced(result.getTimestamp("introduced")).discontinued(result.getTimestamp("discontinued")).build();
+						Computer computer = new Computer.ComputerBuilder(result.getString("name")).id(result.getInt("id")).introduced(result.getTimestamp("introduced").toLocalDateTime()).discontinued(result.getTimestamp("discontinued").toLocalDateTime()).build();
 
 						computers.add(computer);
 					} else{
 						Company company = new Company(result.getInt("companyId"), result.getString("companyName"));
-						Computer computer = new Computer.ComputerBuilder(result.getString("name")).id(result.getInt("id")).company(company).introduced(result.getTimestamp("introduced")).discontinued(result.getTimestamp("discontinued")).build();
+						Computer computer = new Computer.ComputerBuilder(result.getString("name")).id(result.getInt("id")).company(company).introduced(result.getTimestamp("introduced").toLocalDateTime()).discontinued(result.getTimestamp("discontinued").toLocalDateTime()).build();
 						computers.add(computer);
 					}
 				}
