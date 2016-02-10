@@ -23,7 +23,7 @@ import java.sql.PreparedStatement;
  *
  */
 public class CompanyDAO implements DAO<Company> {
-	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
 
 	public CompanyDAO() {
 		super();
@@ -64,13 +64,13 @@ public class CompanyDAO implements DAO<Company> {
 				company = CompanyMapper.map(result);  
 			}
 		} catch (SQLException e) {
-			logger.error("Error while finding the company, id searched: {}",id);
+			LOGGER.error("Error while finding the company, id searched: {}",id);
 			e.printStackTrace();
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(connect);
 		}		
-		logger.info("Company found, id: {}, name: {}",company.getId(),company.getName());
+		LOGGER.info("Company found, id: {}, name: {}",company.getId(),company.getName());
 		return company;		
 	}
 
@@ -88,16 +88,24 @@ public class CompanyDAO implements DAO<Company> {
 				companies.add(CompanyMapper.map(result));
 			}
 		} catch (SQLException e){
-			logger.error("Error while retrieving the list of companies");
+			LOGGER.error("Error while retrieving the list of companies");
 
 			e.printStackTrace();
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(connect);
 		}
-		logger.info("List of companies found, size of the list: {}",companies.size());
+		LOGGER.info("List of companies found, size of the list: {}",companies.size());
 
 		return companies;
+	}
+
+	/**
+	 * Not yet implemented, return null
+	 */
+	@Override
+	public List<Company> listPage(int indexBegin, int pageSize) {
+		return null;
 	}
 
 }

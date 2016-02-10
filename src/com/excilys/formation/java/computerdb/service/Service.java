@@ -45,4 +45,13 @@ public interface Service<T> {
 	 * @return the list of objects
 	 */
 	List<T> list();
+	
+
+	/**
+	 * Get a page of the select * query
+	 * @param indexBegin beginning index of the page
+	 * @param indexEnd ending index of the page
+	 * @return
+	 */
+	List<T> listPage(int indexBegin, int pageSize);
 }

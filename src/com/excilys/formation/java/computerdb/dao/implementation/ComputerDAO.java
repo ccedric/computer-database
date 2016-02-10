@@ -25,11 +25,9 @@ import java.sql.Connection;
  *
  */
 public class ComputerDAO implements DAO<Computer> {
-	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 
-	public ComputerDAO() {
-		super();
-	}
+	public ComputerDAO() {}
 
 	@Override
 	public int create(Computer obj) {
@@ -66,14 +64,14 @@ public class ComputerDAO implements DAO<Computer> {
 				int numero = rs.getInt(1);
 				System.out.println(numero);
 				obj.setId(numero);
-				logger.info("New computer created, id {}, name {}, company {}, introduced date {}, discontinued date {}.", numero, obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
+				LOGGER.info("New computer created, id {}, name {}, company {}, introduced date {}, discontinued date {}.", numero, obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
 				return numero;
 			}
 			return 0;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			logger.error("Error while creating the computer");
+			LOGGER.error("Error while creating the computer");
 			return 0;
 		} finally{
 			DbUtil.close(statement);
@@ -93,11 +91,11 @@ public class ComputerDAO implements DAO<Computer> {
 
 			statement.setInt(1, obj.getId());
 			statement.executeUpdate();
-			logger.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
+			LOGGER.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			logger.error("Error while deleting the computer");
+			LOGGER.error("Error while deleting the computer");
 			return false;
 		} finally{
 			DbUtil.close(statement);
@@ -137,14 +135,14 @@ public class ComputerDAO implements DAO<Computer> {
 			int rowsUpdated = statement.executeUpdate();
 
 			if (rowsUpdated > 0) {
-				logger.info("Computer updated, id {}, name {}, company {}, introduced date {}, discontinued date {}.", obj.getId(), obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
+				LOGGER.info("Computer updated, id {}, name {}, company {}, introduced date {}, discontinued date {}.", obj.getId(), obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
 				return true;
 			}
-			logger.error("Error while updating the computer");
+			LOGGER.error("Error while updating the computer");
 			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			logger.error("Error while updating the computer");
+			LOGGER.error("Error while updating the computer");
 			return false;
 		} finally{
 			DbUtil.close(statement);
@@ -171,11 +169,11 @@ public class ComputerDAO implements DAO<Computer> {
 			} else{
 				computer = ComputerMapper.map(result);
 			}
-			logger.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
+			LOGGER.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
 			return computer;		
 
 		} catch (SQLException e) {
-			logger.error("Error while finding the computer");
+			LOGGER.error("Error while finding the computer");
 			e.printStackTrace();
 		} finally{
 			DbUtil.close(result);
@@ -211,21 +209,64 @@ public class ComputerDAO implements DAO<Computer> {
 					}
 				}
 				catch(Exception e){
-					logger.error("Error while retrieving the list of computers");
+					LOGGER.error("Error while retrieving the list of computers");
 					e.printStackTrace();
 				}
 			}
 		} catch (SQLException e) {
-			logger.error("Error sql while retrieving the list of computers");
+			LOGGER.error("Error sql while retrieving the list of computers");
 			e.printStackTrace();
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(connect);
 		}
-		logger.info("List of computers found, size of the list: {}",computers.size());
+		LOGGER.info("List of computers found, size of the list: {}",computers.size());
 
 		return computers;
 
+	}
+
+
+	@Override
+	public List<Computer> listPage(int indexBegin, int pageSize) {
+		Connection connect = ConnectionFactory.getConnection();
+		ResultSet result = null;
+		List<Computer> computers = new ArrayList<Computer>();
+		PreparedStatement statement = null;
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
+				"LEFT JOIN company ON computer.company_id= company.id LIMIT ?, ? ";
+		try {
+
+			statement = connect.prepareStatement(sql);
+			statement.setInt(1, indexBegin);
+			statement.setInt(2, pageSize);
+			result = statement.executeQuery();    
+			while (result.next()){
+				try{	
+					if (result.getInt("companyId")==0){
+						Computer computer = ComputerMapper.map(result);
+
+						computers.add(computer);
+					} else{
+						Computer computer = ComputerMapper.map(result);
+						computers.add(computer);
+					}
+				}
+				catch(Exception e){
+					LOGGER.error("Error while retrieving the list of computers");
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.error("Error sql while retrieving the list of computers");
+			e.printStackTrace();
+		} finally{
+			DbUtil.close(result);
+			DbUtil.close(connect);
+		}
+		LOGGER.info("List of computers found, size of the list: {}",computers.size());
+
+		return computers;
 	}
 
 }

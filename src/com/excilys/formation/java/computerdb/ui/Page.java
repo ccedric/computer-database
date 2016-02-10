@@ -2,6 +2,8 @@ package com.excilys.formation.java.computerdb.ui;
 
 import java.util.List;
 
+import com.excilys.formation.java.computerdb.service.Service;
+
 /**
  * Class which transform a list into multiple pages
  * @author Cédric Cousseran
@@ -18,10 +20,6 @@ public class Page<T> {
 	 */
 	private int page;
 	/**
-	 * The maximum number of pages
-	 */
-	private int maxPages;
-	/**
 	 * the list this class is paging
 	 */
 	private List<T> list;
@@ -29,36 +27,23 @@ public class Page<T> {
 	 * the starting index in the list of the page
 	 */
 	private int startingIndex;
-	/**
-	 * the ending index in the list of the page
-	 */
-	private int endingIndex;
 
+	private Service<T> service;
+	
 	/**
 	 * @param list the list this class is paging
 	 * @param pageSize The page size, number of elements to show in a page
 	 */
-	public Page(List<T> list, int pageSize){
+	public Page( int pageSize, Service<T> service){
+		this.service = service;
 		this.pageSize=pageSize;
-		this.list=list;
 		this.page=0;
-		calculatePages();	
 	}
 
 	public List<T> getList(){
 		return this.list;
 	}
 
-	private void calculatePages() {
-		if (pageSize > 0) {
-			// calculate how many pages there are
-			if (list.size() % pageSize == 0) {
-				maxPages = list.size() / pageSize;
-			} else {
-				maxPages = (list.size() / pageSize) + 1;
-			}
-		}
-	}
 
 	/**
 	 * Determines whether there is a previous page and gets the page number.
@@ -78,11 +63,7 @@ public class Page<T> {
 	 * @return  the next page number, or 0
 	 */
 	public int getNextPage() {
-		if (page < maxPages) {
-			return page+1;
-		} else {
-			return 0;
-		}
+		return page+1;
 	}
 
 	/**
@@ -90,9 +71,7 @@ public class Page<T> {
 	 * @param p the page number
 	 */
 	public void setPage(int p) {
-		if (p >= maxPages) {
-			this.page = maxPages;
-		} else if (p <= 1) {
+		if (p <= 1) {
 			this.page = 1;
 		} else {
 			this.page = p;
@@ -103,10 +82,6 @@ public class Page<T> {
 		if (startingIndex < 0) {
 			startingIndex = 0;
 		}
-		endingIndex = startingIndex + pageSize;
-		if (endingIndex > list.size()) {
-			endingIndex = list.size();
-		}
 	}
 
 	/**
@@ -115,7 +90,7 @@ public class Page<T> {
 	 * @return the list of elements for this page
 	 */
 	public List<T> getListForPage() {
-		return list.subList(startingIndex, endingIndex);
+		return service.listPage(startingIndex,pageSize);
 	}
 
 }

@@ -54,4 +54,12 @@ public class CompanyService implements Service<Company> {
 		return companyDAO.list();
 	}
 
+	/**
+	 * Paging not implemented for Company, will return the same result as list()
+	 */
+	@Override
+	public List<Company> listPage(int indexBegin, int indexEnd) {
+		return companyDAO.list();
+	}
+
 }

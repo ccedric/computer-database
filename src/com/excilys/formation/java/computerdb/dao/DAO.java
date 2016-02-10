@@ -44,4 +44,10 @@ public interface DAO<T> {
 	 * @return the list of objects
 	 */
 	List<T> list();
+	
+	/**
+	 * Get a page of the list of all objects
+	 * @return the list paged 
+	 */
+	List<T> listPage(int indexBegin, int pageSize);
 }

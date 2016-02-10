@@ -14,7 +14,7 @@ import java.sql.ResultSet;
  * @author Cédric Cousseran
  *
  */
-public class ComputerMapper {
+public interface ComputerMapper {
 
 	/**
 	 * Map a computer with his company
@@ -22,7 +22,7 @@ public class ComputerMapper {
 	 * @return Object Computer
 	 * @throws SQLException
 	 */
-	public static Computer map(ResultSet result) throws SQLException{
+	static Computer map(ResultSet result) throws SQLException{
 		LocalDateTime introduced = null;
 		LocalDateTime discontinued = null;
 

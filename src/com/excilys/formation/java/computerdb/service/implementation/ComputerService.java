@@ -47,4 +47,10 @@ public class ComputerService implements Service<Computer> {
 		return computerDAO.list();
 	}
 
+
+	@Override
+	public List<Computer> listPage(int indexBegin, int pageSize) {
+		return computerDAO.listPage(indexBegin, pageSize);
+	}
+
 }

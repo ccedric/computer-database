@@ -327,8 +327,7 @@ public class CommandLineInterface {
 	 * CLI to list all computers available in the database
 	 */
 	private static void listComputer() {
-		List<Computer> computers = computerService.list();
-		Page<Computer> pageComputer = new Page<Computer>(computers, pageComputerSize);
+		Page<Computer> pageComputer = new Page<Computer>(pageComputerSize,computerService);
 		pageComputer.setPage(1);
 		List<Computer> computersPage;
 		while (true){
