@@ -1,14 +1,14 @@
 /**
  * 
  */
-package com.excilys.formation.java.computerdb.dao.implementation;
+package com.excilys.formation.java.computerdb.service;
 
 /**
  * @author Cédric Cousseran
  *
  */
 @SuppressWarnings("serial")
-public class TimestampDiscontinuedBeforeIntroducedException extends Exception {
+public class TimestampDiscontinuedBeforeIntroducedException extends RuntimeException {
 	public TimestampDiscontinuedBeforeIntroducedException() { 
 		super(); 
 	}

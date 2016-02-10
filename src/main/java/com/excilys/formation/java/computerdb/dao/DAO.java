@@ -3,7 +3,6 @@ package com.excilys.formation.java.computerdb.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.excilys.formation.java.computerdb.dao.implementation.TimestampDiscontinuedBeforeIntroducedException;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 
 
@@ -22,7 +21,7 @@ public interface DAO<T> {
 	 * @throws TimestampDisontinuedBeforeIntroducedException 
 	 * @throws SQLException 
 	 */
-	int create(T obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException;
+	int create(T obj) throws DatabaseConnectionException;
 
 	/**
 	 * Delete an object in the database
@@ -39,7 +38,7 @@ public interface DAO<T> {
 	 * @throws TimestampDiscontinuedBeforeIntroducedException 
 	 * @throws SQLException 
 	 */
-	boolean update(T obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException;
+	boolean update(T obj) throws DatabaseConnectionException;
 
 	/**
 	 * Find an object in the database with his id

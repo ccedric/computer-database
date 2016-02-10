@@ -6,10 +6,10 @@ package com.excilys.formation.java.computerdb.service.implementation;
 import java.util.List;
 
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
-import com.excilys.formation.java.computerdb.dao.implementation.TimestampDiscontinuedBeforeIntroducedException;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.Service;
+import com.excilys.formation.java.computerdb.service.TimestampDiscontinuedBeforeIntroducedException;
 
 /**
  * @author Cédric Cousseran
@@ -24,6 +24,9 @@ public class ComputerService implements Service<Computer> {
 	
 	@Override
 	public int create(Computer obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
+		if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
+			throw new TimestampDiscontinuedBeforeIntroducedException("The discontinued timestamp is before the introduced timestamp");
+		}
 		return computerDAO.create(obj);
 	}
 
@@ -35,6 +38,9 @@ public class ComputerService implements Service<Computer> {
 
 	@Override
 	public boolean update(Computer obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
+		if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
+			throw new TimestampDiscontinuedBeforeIntroducedException("The discontinued timestamp is before the introduced timestamp");
+		}
 		return computerDAO.update(obj);
 	}
 

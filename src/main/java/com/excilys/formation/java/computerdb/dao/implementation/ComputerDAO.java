@@ -31,7 +31,7 @@ public class ComputerDAO implements DAO<Computer> {
 	public ComputerDAO() {}
 
 	@Override
-	public int create(Computer obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
+	public int create(Computer obj) throws DatabaseConnectionException {
 		Connection connect = ConnectionFactory.getConnection();
 
 		String sql = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES ( ?, ?, ?,?)";
@@ -51,11 +51,7 @@ public class ComputerDAO implements DAO<Computer> {
 			}else{
 				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued()));
 			}
-			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
-				LOGGER.info("Exception thrown: discontinued timestamp before introduced timestamp");
-				throw new TimestampDiscontinuedBeforeIntroducedException("The discontinued timestamp is before the introduced timestamp");
-			}
-			if (obj.getCompany().getId()==0){
+			if (null==obj.getCompany() ){
 				statement.setNull(4,Types.BIGINT);
 			}else{
 				statement.setInt(4, obj.getCompany().getId());
@@ -106,7 +102,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public boolean update(Computer obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
+	public boolean update(Computer obj) throws DatabaseConnectionException {
 		String sql = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 		Connection connect = ConnectionFactory.getConnection();
 
@@ -124,10 +120,7 @@ public class ComputerDAO implements DAO<Computer> {
 			}else{
 				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued()));
 			}
-			if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
-				LOGGER.info("Exception thrown: discontinued timestamp before introduced timestamp");
-				throw new TimestampDiscontinuedBeforeIntroducedException("The discontinued timestamp is before the introduced timestamp");
-			}
+
 			if (obj.getCompany()==null){
 				statement.setNull(4,Types.BIGINT);
 			}else{

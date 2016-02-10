@@ -5,7 +5,6 @@ package com.excilys.formation.java.computerdb.service;
 
 import java.util.List;
 
-import com.excilys.formation.java.computerdb.dao.implementation.TimestampDiscontinuedBeforeIntroducedException;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 
 /**
