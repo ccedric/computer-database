@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
-import com.excilys.formation.java.computerdb.dao.implementation.CompanyDAO;
-import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.service.implementation.CompanyService;
+import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 
 /**
  * Create a command line interface to use the application
@@ -15,14 +15,14 @@ import com.excilys.formation.java.computerdb.model.Computer;
  *
  */
 public class commandLineInterface {
-	private static ComputerDAO computerDAO = null;
-	private static CompanyDAO companyDAO = null;
+	private static ComputerService computerService = null;
+	private static CompanyService companyService = null;
 	private static Scanner sc =  new Scanner(System.in);
 	private static int pageComputerSize=10;
 
 	public static void main(String[] args) {
-		computerDAO = new ComputerDAO();
-		companyDAO = new CompanyDAO();
+		computerService = new ComputerService();
+		companyService = new CompanyService();
 
 		System.out.println("------------------------------------------");
 		System.out.println("---Welcome in the computer database app---");
@@ -78,9 +78,9 @@ public class commandLineInterface {
 		}
 		try{
 			int id = Integer.parseInt(input);
-			Computer comp = computerDAO.find(id);
+			Computer comp = computerService.find(id);
 			if(comp.getId()!=0){
-				computerDAO.delete(comp);
+				computerService.delete(comp);
 				System.out.println("Computer successfully deleted");
 			}else{
 				System.out.println("This computer doesn't exist");
@@ -105,7 +105,7 @@ public class commandLineInterface {
 		Computer comp =null;
 		try{
 			int id = Integer.parseInt(inputId);
-			comp = computerDAO.find(id);
+			comp = computerService.find(id);
 			if (comp.getId()!=0){
 				System.out.println("Computer selected:");
 				System.out.println(comp);
@@ -135,7 +135,7 @@ public class commandLineInterface {
 					company = null;
 				}else{
 					int idManufacturer = Integer.parseInt(input);
-					company = companyDAO.find(idManufacturer);
+					company = companyService.find(idManufacturer);
 				}
 				break;
 			}catch(NumberFormatException e){
@@ -192,10 +192,10 @@ public class commandLineInterface {
 		comp.setCompany(company);
 		comp.setIntroduced(timestamp);
 		comp.setDiscontinued(timestampEnd);
-		boolean result = computerDAO.update(comp);
+		boolean result = computerService.update(comp);
 		if(result){
 			System.out.println("Computer update successfully");
-			System.out.println(computerDAO.find(comp.getId()));
+			System.out.println(computerService.find(comp.getId()));
 		}
 		else{
 			System.out.println("Error while creating the computer");
@@ -225,7 +225,7 @@ public class commandLineInterface {
 					company = null;
 				}{
 					int idManufacturer = Integer.parseInt(input);
-					company = companyDAO.find(idManufacturer);
+					company = companyService.find(idManufacturer);
 				}
 				break;
 			}catch(NumberFormatException e){
@@ -277,10 +277,10 @@ public class commandLineInterface {
 		}
 
 		Computer comp = new Computer( name,company, timestamp,timestampEnd);
-		int number = computerDAO.create(comp);
+		int number = computerService.create(comp);
 		if(number!=0){
 			System.out.println("Computer created successfully");
-			System.out.println(computerDAO.find(number));
+			System.out.println(computerService.find(number));
 		}
 		else{
 			System.out.println("Error while creating the computer");
@@ -299,7 +299,7 @@ public class commandLineInterface {
 		}
 		try{
 			int id = Integer.parseInt(input);
-			System.out.println(computerDAO.find(id));
+			System.out.println(computerService.find(id));
 			showHelp();
 		}catch(NumberFormatException e){
 			System.out.println("The id you entered is not a number, please type it again");
@@ -311,7 +311,7 @@ public class commandLineInterface {
 	 * CLI to list all companies available in the database
 	 */
 	private static void listCompanies() {
-		List<Company> companies = companyDAO.list();
+		List<Company> companies = companyService.list();
 		for (Company company : companies){
 			System.out.println(company);
 		}
@@ -322,7 +322,7 @@ public class commandLineInterface {
 	 * CLI to list all computers available in the database
 	 */
 	private static void listComputer() {
-		List<Computer> computers = computerDAO.list();
+		List<Computer> computers = computerService.list();
 		Page<Computer> pageComputer = new Page<Computer>(computers, pageComputerSize);
 		pageComputer.setPage(1);
 		List<Computer> computersPage;
