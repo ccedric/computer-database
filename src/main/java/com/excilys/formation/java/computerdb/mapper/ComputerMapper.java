@@ -32,9 +32,13 @@ public interface ComputerMapper {
 		if (null!=result.getTimestamp("discontinued")){
 			discontinued =result.getTimestamp("discontinued").toLocalDateTime();
 		}
+		Company company = null;
+		if (null!=result.getString("companyName")){
+			company = new Company(result.getInt("companyId"), result.getString("companyName"));
+		}
 		return new  Computer.ComputerBuilder(result.getString("name"))
 				.id(result.getInt("id"))
-				.company(new Company(result.getInt("companyId"), result.getString("companyName")))
+				.company(company)
 				.introduced(introduced)
 				.discontinued(discontinued)
 				.build();

@@ -67,7 +67,7 @@ public class ComputerDAO implements DAO<Computer> {
 			}
 			return 0;
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			LOGGER.error("Error while creating the computer");
 			return 0;
@@ -88,9 +88,14 @@ public class ComputerDAO implements DAO<Computer> {
 			statement = connect.prepareStatement(sql);
 
 			statement.setInt(1, obj.getId());
-			statement.executeUpdate();
-			LOGGER.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
-			return true;
+			int rows = statement.executeUpdate();
+			if (rows>0){
+				LOGGER.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
+				return true;
+			} else{
+				LOGGER.info("Computer couldn't be deleted, check if he exists in the database, id {}, name {}", obj.getId(), obj.getName());
+				return false;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error("Error while deleting the computer");
@@ -134,7 +139,7 @@ public class ComputerDAO implements DAO<Computer> {
 				LOGGER.info("Computer updated, id {}, name {}, company {}, introduced date {}, discontinued date {}.", obj.getId(), obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
 				return true;
 			}
-			LOGGER.error("Error while updating the computer");
+			LOGGER.error("Error while updating the computer, id: {}, name: {}",obj.getId(), obj.getName());
 			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -159,11 +164,15 @@ public class ComputerDAO implements DAO<Computer> {
 			statement = connect.prepareStatement(sql);
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
-			result.next();
+			if (result.next()){
+				computer = ComputerMapper.map(result);
+				LOGGER.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
+				return computer;		
+			} else{
+				LOGGER.info("No computer found with the id: {}.",  id);
+				return null;
+			}
 
-			computer = ComputerMapper.map(result);
-			LOGGER.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
-			return computer;		
 
 		} catch (SQLException e) {
 			LOGGER.error("Error while finding the computer");
@@ -218,7 +227,6 @@ public class ComputerDAO implements DAO<Computer> {
 		return computers;
 
 	}
-
 
 	@Override
 	public List<Computer> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException  {

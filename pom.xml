@@ -42,10 +42,10 @@
 
 	</dependencies>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>src</directory>
+				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
@@ -59,6 +59,27 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<configuration>
+						<additionalBuildcommands>
+							<buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
+						</additionalBuildcommands>
+						<additionalProjectnatures>
+							<projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
+						</additionalProjectnatures>
+						<additionalConfig>
+							<file>
+								<name>.checkstyle</name>
+								<location>/eclipse-checkstyle.xml</location>
+							</file>
+						</additionalConfig>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>build-tools</artifactId>
+							<version>${project.version}</version>
+						</dependency>
+					</dependencies>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -67,6 +88,13 @@
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<propertiesLocation>/checkstyle.properties</propertiesLocation>
+					<propertyExpansion>basedir=${project.basedir}</propertyExpansion>
 				</configuration>
 			</plugin>
 		</plugins>
