@@ -59,8 +59,11 @@ public class CompanyDAO implements DAO<Company> {
 			statement = connect.prepareStatement(sql);
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
-			if(result.first()){
+			if(result.next()){
 				company = CompanyMapper.map(result);  
+			} else{
+				LOGGER.info("No company found with the id: {}",id);
+				return null;
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error while finding the company, id searched: {}",id);
@@ -104,6 +107,27 @@ public class CompanyDAO implements DAO<Company> {
 	 */
 	@Override
 	public List<Company> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException {
+		return null;
+	}
+
+	@Override
+	public List<Company> findByName(String name) throws DatabaseConnectionException {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.excilys.formation.java.computerdb.dao.DAO#selectCount()
+	 */
+	@Override
+	public int selectCount(String name) throws DatabaseConnectionException {
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.excilys.formation.java.computerdb.dao.DAO#listPageByName(int, int, java.lang.String)
+	 */
+	@Override
+	public List<Company> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException {
 		return null;
 	}
 

@@ -5,7 +5,9 @@ package com.excilys.formation.java.computerdb.mapper;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import com.excilys.formation.java.computerdb.dto.ComputerDTO;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 import java.sql.ResultSet;
@@ -43,5 +45,27 @@ public interface ComputerMapper {
 				.discontinued(discontinued)
 				.build();
 	}
+	
+	static ComputerDTO mapComputerToDTO(Computer computer){
+		return new ComputerDTO.ComputerDTOBuilder(computer.getName())
+				.id(computer.getId())
+				.companyId(computer.getCompany().getId())
+				.companyName(computer.getCompany().getName())
+				.introduced(computer.getIntroduced().toString())
+				.discontinued(computer.getDiscontinued().toString()).build();
+	}
 
+	static Computer mapDTOToComputer(ComputerDTO dto){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime introduced = LocalDateTime.parse(dto.getIntroduced(),formatter);
+		LocalDateTime discontinued = LocalDateTime.parse(dto.getIntroduced(),formatter);
+
+		return new Computer.ComputerBuilder(dto.getName())
+				.id(dto.getId())
+				.company(new Company(dto.getCompanyId(),dto.getCompanyName()))
+				.introduced(introduced)
+				.discontinued(discontinued).build();
+	}
+
+	
 }

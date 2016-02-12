@@ -28,7 +28,9 @@ public class Page<T> {
 	 * the starting index in the list of the page
 	 */
 	private int startingIndex;
-
+	private int maxPages;
+	private String name;
+	
 	/**
 	 * Service corresponding to the class implemented
 	 */
@@ -38,10 +40,13 @@ public class Page<T> {
 	 * @param list the list this class is paging
 	 * @param pageSize The page size, number of elements to show in a page
 	 */
-	public Page( int pageSize, Service<T> service){
+	public Page( int pageSize, Service<T> service, String name){
 		this.service = service;
 		this.pageSize=pageSize;
 		this.page=0;
+		this.name=name;
+		
+		maxPages = service.selectCount(name)/pageSize;
 	}
 
 	public List<T> getList(){
@@ -67,7 +72,11 @@ public class Page<T> {
 	 * @return  the next page number, or 0
 	 */
 	public int getNextPage() {
-		return page+1;
+		if (page==maxPages-1){
+			return page;
+		}else{
+			return page+1;
+		}
 	}
 
 	/**
@@ -89,6 +98,21 @@ public class Page<T> {
 	}
 
 	/**
+	 * @return the pageSize
+	 */
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	/**
+	 * @param pageSize the pageSize to set
+	 */
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+		maxPages = service.selectCount(name)/pageSize;
+	}
+
+	/**
 	 * Gets the subset of the list for the current page.
 	 * 
 	 * @return the list of elements for this page
@@ -98,4 +122,36 @@ public class Page<T> {
 		return service.listPage(startingIndex,pageSize);
 	}
 
+	/**
+	 * Gets the subset of the list of the research by name for the current page.
+	 * 
+	 * @return the list of elements for this page
+	 * @throws DatabaseConnectionException 
+	 */
+	public List<T> getListByNameForPage() throws DatabaseConnectionException {
+		return service.listPageByName(startingIndex,pageSize,name);
+	}
+	
+	/**
+	 * @return the maxPages
+	 */
+	public int getMaxPages() {
+		return maxPages;
+	}
+
+	/**
+	 * @param maxPages the maxPages to set
+	 */
+	public void setMaxPages(int maxPages) {
+		this.maxPages = maxPages;
+	}
+
+	/**
+	 * @return the page
+	 */
+	public int getPage() {
+		return page;
+	}
+	
+	
 }

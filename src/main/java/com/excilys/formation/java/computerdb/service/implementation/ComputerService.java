@@ -61,4 +61,23 @@ public class ComputerService implements Service<Computer> {
 		return computerDAO.listPage(indexBegin, pageSize);
 	}
 
+	@Override
+	public List<Computer> findByName(String name) throws DatabaseConnectionException {
+		computerDAO.findByName(name);
+		return null;
+	}
+
+	@Override
+	public List<Computer> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException {
+		return computerDAO.listPageByName(indexBegin, pageSize, name);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.excilys.formation.java.computerdb.service.Service#selectCount(java.lang.String)
+	 */
+	@Override
+	public int selectCount(String name) {
+		return computerDAO.selectCount(name);
+	}
+
 }

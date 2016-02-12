@@ -244,14 +244,8 @@ public class ComputerDAO implements DAO<Computer> {
 			result = statement.executeQuery();    
 			while (result.next()){
 				try{	
-					if (result.getInt("companyId")==0){
-						Computer computer = ComputerMapper.map(result);
-
-						computers.add(computer);
-					} else{
-						Computer computer = ComputerMapper.map(result);
-						computers.add(computer);
-					}
+					Computer computer = ComputerMapper.map(result);
+					computers.add(computer);
 				}
 				catch(Exception e){
 					LOGGER.error("Error while retrieving the list of computers");
@@ -268,6 +262,107 @@ public class ComputerDAO implements DAO<Computer> {
 		LOGGER.info("List of computers found, size of the list: {}",computers.size());
 
 		return computers;
+	}
+
+	@Override
+	public List<Computer> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException  {
+		Connection connect = ConnectionFactory.getConnection();
+		ResultSet result = null;
+		List<Computer> computers = new ArrayList<Computer>();
+		PreparedStatement statement = null;
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
+				"LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ?% LIMIT ?, ? ";
+		try {
+
+			statement = connect.prepareStatement(sql);
+			statement.setInt(2, indexBegin);
+			statement.setInt(3, pageSize);
+			statement.setInt(1, pageSize);
+			result = statement.executeQuery();    
+			while (result.next()){
+				try{	
+					Computer computer = ComputerMapper.map(result);
+					computers.add(computer);
+				}
+				catch(Exception e){
+					LOGGER.error("Error while retrieving the list of computers");
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.error("Error sql while retrieving the list of computers");
+			e.printStackTrace();
+		} finally{
+			DbUtil.close(result);
+			DbUtil.close(connect);
+		}
+		LOGGER.info("List of computers found, size of the list: {}",computers.size());
+
+		return computers;
+	}
+	
+
+	@Override
+	public List<Computer> findByName(String name) throws DatabaseConnectionException {
+		Connection connect = ConnectionFactory.getConnection();
+
+		ResultSet result = null;
+		PreparedStatement statement = null;
+		List<Computer> computers = new ArrayList<Computer>();
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.name=?";
+		try {
+			statement = connect.prepareStatement(sql);
+			statement.setString(1, name);
+			result = statement.executeQuery();    
+			while (result.next()){
+				try{	
+					Computer computer = ComputerMapper.map(result);
+
+					computers.add(computer);
+				}
+				catch(Exception e){
+					LOGGER.error("Error while finding computers by name");
+					e.printStackTrace();
+				}
+			}
+
+
+		} catch (SQLException e) {
+			LOGGER.error("Error while finding computers by name");
+			e.printStackTrace();
+		} finally{
+			DbUtil.close(result);
+			DbUtil.close(statement);
+			DbUtil.close(connect);
+		}
+		return null;
+	}
+
+
+	@Override
+	public int selectCount(String name) throws DatabaseConnectionException {
+		Connection connect = ConnectionFactory.getConnection();
+		ResultSet result = null;
+		String sql = "SELECT COUNT(*) FROM computer WHERE computer.name=?";
+		PreparedStatement statement = null;
+
+		try {
+			statement = connect.prepareStatement(sql);
+			statement.setString(1, name);
+			result = statement.executeQuery();    
+			if (result.next()){
+				return result.getInt("COUNT(*)");
+			}
+		} catch (SQLException e) {
+			LOGGER.error("Error sql while retrieving the number of computers");
+			e.printStackTrace();
+		} finally{
+			DbUtil.close(result);
+			DbUtil.close(statement);
+			DbUtil.close(connect);
+		}
+
+		return 0;
 	}
 
 }

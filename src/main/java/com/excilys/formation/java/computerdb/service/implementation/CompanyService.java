@@ -64,4 +64,29 @@ public class CompanyService implements Service<Company> {
 		return companyDAO.list();
 	}
 
+
+	/**
+	 * Not implemented for Company
+	 */
+	@Override
+	public List<Company> findByName(String name) throws DatabaseConnectionException {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.excilys.formation.java.computerdb.service.Service#listPageByName(int, int, java.lang.String)
+	 */
+	@Override
+	public List<Company> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException {
+		return companyDAO.listPageByName(indexBegin,pageSize,name);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.excilys.formation.java.computerdb.service.Service#selectCount(java.lang.String)
+	 */
+	@Override
+	public int selectCount(String name) {
+		return companyDAO.selectCount(name);
+	}
+
 }

@@ -35,6 +35,8 @@ public class ComputerServiceTest {
 		LocalDateTime fin = LocalDateTime.parse("1999-10-10 10:10",formatter);
 		Computer computer = new Computer.ComputerBuilder("test create").introduced(debut).discontinued(fin).build();
 		assertNotEquals(0,service.create(computer));
+		
+		service.delete(computer);
 	}
 	
 	@Test
@@ -45,6 +47,23 @@ public class ComputerServiceTest {
 			LocalDateTime fin = LocalDateTime.parse("1989-10-10 10:10",formatter);
 			Computer computer = new Computer.ComputerBuilder("test create").introduced(debut).discontinued(fin).build();
 			service.create(computer);
+			fail("An exception should be thrown");
+		} catch (TimestampDiscontinuedBeforeIntroducedException e){
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void testUpdateException(){
+		try{
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			LocalDateTime debut = LocalDateTime.parse("2004-10-10 10:10",formatter);
+			LocalDateTime fin = LocalDateTime.parse("1989-10-10 10:10",formatter);
+			Computer computer = new Computer.ComputerBuilder("test create").build();
+			computer.setId(service.create(computer));
+			computer.setIntroduced(debut);
+			computer.setDiscontinued(fin);
+			service.update(computer);
 			fail("An exception should be thrown");
 		} catch (TimestampDiscontinuedBeforeIntroducedException e){
 			assertTrue(true);

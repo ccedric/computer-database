@@ -58,4 +58,27 @@ public interface Service<T> {
 	 * @return
 	 */
 	List<T> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException;
+	
+	/**
+	 * Return a list of objects who have a corresponding name, empty list if not found
+	 * @param name
+	 * @return
+	 * @throws DatabaseConnectionException
+	 */
+	List<T> findByName(String name) throws DatabaseConnectionException;
+	
+	/**
+	 * @param indexBegin
+	 * @param pageSize
+	 * @param name
+	 * @return
+	 * @throws DatabaseConnectionException
+	 */
+	List<T> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException;
+
+	/**
+	 * @param name
+	 * @return
+	 */
+	int selectCount(String name);
 }

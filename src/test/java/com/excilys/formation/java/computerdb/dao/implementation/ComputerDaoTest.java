@@ -25,6 +25,8 @@ public class ComputerDaoTest {
 		int id =dao.create(computer);
 		computer.setId(id);
 		assertEquals(computer, dao.find(id));
+		
+		dao.delete(computer);
 	}
 	
 	@Test
@@ -61,6 +63,8 @@ public class ComputerDaoTest {
 		computer.setName("autre test");
 		assertTrue(dao.update(computer));
 		assertEquals(computer,dao.find(id));
+		
+		dao.delete(computer);
 	}
 
 	@Test
@@ -82,6 +86,8 @@ public class ComputerDaoTest {
 			}
 		}
 		assertTrue(isInList);
+		
+		dao.delete(computer);
 	}
 	
 }

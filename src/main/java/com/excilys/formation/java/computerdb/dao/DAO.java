@@ -61,4 +61,28 @@ public interface DAO<T> {
 	 * @throws SQLException 
 	 */
 	List<T> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException;
+	
+	/**
+	 * Return a list of objects who have a corresponding name
+	 * @param name search criteria
+	 * @return list of objects
+	 * @throws DatabaseConnectionException
+	 */
+	List<T> findByName(String name) throws DatabaseConnectionException;
+	
+	/**
+	 * Return the number of elements in the table
+	 * @return
+	 * @throws DatabaseConnectionException
+	 */
+	int selectCount(String name) throws DatabaseConnectionException;
+
+	/**
+	 * @param indexBegin
+	 * @param pageSize
+	 * @param name
+	 * @return
+	 * @throws DatabaseConnectionException
+	 */
+	List<T> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException;
 }

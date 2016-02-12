@@ -349,7 +349,7 @@ public class CommandLineInterface {
 	 * @throws DatabaseConnectionException 
 	 */
 	private static void listComputer() throws DatabaseConnectionException {
-		Page<Computer> pageComputer = new Page<Computer>(pageComputerSize,computerService);
+		Page<Computer> pageComputer = new Page<Computer>(pageComputerSize,computerService,"");
 		pageComputer.setPage(1);
 		List<Computer> computersPage;
 		while (true){
