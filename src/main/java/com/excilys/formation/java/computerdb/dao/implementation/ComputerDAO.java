@@ -271,13 +271,13 @@ public class ComputerDAO implements DAO<Computer> {
 		List<Computer> computers = new ArrayList<Computer>();
 		PreparedStatement statement = null;
 		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
-				"LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ?% LIMIT ?, ? ";
+				"LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? LIMIT ?, ? ";
 		try {
 
 			statement = connect.prepareStatement(sql);
 			statement.setInt(2, indexBegin);
 			statement.setInt(3, pageSize);
-			statement.setInt(1, pageSize);
+			statement.setString(1, name+'%');
 			result = statement.executeQuery();    
 			while (result.next()){
 				try{	
@@ -309,10 +309,10 @@ public class ComputerDAO implements DAO<Computer> {
 		ResultSet result = null;
 		PreparedStatement statement = null;
 		List<Computer> computers = new ArrayList<Computer>();
-		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.name=?";
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.name LIKE ?";
 		try {
 			statement = connect.prepareStatement(sql);
-			statement.setString(1, name);
+			statement.setString(1, name+'%');
 			result = statement.executeQuery();    
 			while (result.next()){
 				try{	
@@ -343,12 +343,12 @@ public class ComputerDAO implements DAO<Computer> {
 	public int selectCount(String name) throws DatabaseConnectionException {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
-		String sql = "SELECT COUNT(*) FROM computer WHERE computer.name=?";
+		String sql = "SELECT COUNT(*) FROM computer WHERE computer.name LIKE ?";
 		PreparedStatement statement = null;
 
 		try {
 			statement = connect.prepareStatement(sql);
-			statement.setString(1, name);
+			statement.setString(1, name+'%');
 			result = statement.executeQuery();    
 			if (result.next()){
 				return result.getInt("COUNT(*)");

@@ -5,6 +5,8 @@ package com.excilys.formation.java.computerdb.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.formation.java.computerdb.dto.CompanyDTO;
 import com.excilys.formation.java.computerdb.model.Company;
@@ -30,6 +32,15 @@ public interface CompanyMapper {
 	
 	static Company mapDTOTOCompany(CompanyDTO dto){
 		return new Company(dto.getId(),dto.getName());
+	}
+
+	static List<CompanyDTO> mapListCompanyToDTO(List<Company> companies){
+		List<CompanyDTO> companiesDTO = new ArrayList<CompanyDTO>();
+	
+		for(Company company : companies){			
+			companiesDTO.add(new CompanyDTO(company.getId(),company.getName()));
+		}
+		return companiesDTO;
 	}
 
 }

@@ -30,6 +30,7 @@ public class Page<T> {
 	private int startingIndex;
 	private int maxPages;
 	private String name;
+	private int nbResults;
 	
 	/**
 	 * Service corresponding to the class implemented
@@ -46,7 +47,12 @@ public class Page<T> {
 		this.page=0;
 		this.name=name;
 		
-		maxPages = service.selectCount(name)/pageSize;
+		maxPages = (service.selectCount(name) + pageSize - 1)/pageSize;
+		nbResults =service.selectCount(name);
+	}
+	
+	public int getNbResults(){
+		return nbResults;
 	}
 
 	public List<T> getList(){
@@ -119,7 +125,7 @@ public class Page<T> {
 	 * @throws DatabaseConnectionException 
 	 */
 	public List<T> getListForPage() throws DatabaseConnectionException {
-		return service.listPage(startingIndex,pageSize);
+		return service.listPageByName(startingIndex,pageSize,name);
 	}
 
 	/**

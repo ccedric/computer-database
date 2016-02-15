@@ -2,10 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <%@ page import="java.util.List"%>
 
 <% List computers = (List)request.getAttribute("computers");%>
-
 <html>
 
 <head>
@@ -16,10 +16,11 @@
 	<%@include file="header.html"%>
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">121 Computers found</h1>
+			<h1 id="homeTitle">${nbResults} Computer(s) found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="#" method="GET" class="form-inline">
+					<form id="searchForm" method="GET" class="form-inline"
+						action="dashboard">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input
@@ -28,7 +29,7 @@
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="addComputer.html">Add
+					<a class="btn btn-success" id="addComputer" href="addComputer">Add
 						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
@@ -68,40 +69,20 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
-							<td><a href="editComputer.html" onclick="">${computer.name}</a></td>
-							<td>2006-01-10</td>
-							<td></td>
-							<td>Apple Inc.</td>
-	
+							<td><a href="editCompute" onclick="">${computer.name}</a></td>
+							<td>${computer.introduced}</td>
+							<td>${computer.discontinued}</td>
+							<td>${computer.companyName}</td>
+
 						</tr>
 					</c:forEach>
-
 				</tbody>
 			</table>
 		</div>
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<div class="container text-center">
-			<ul class="pagination">
-				<li><a href="#" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
-				</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
-			</ul>
-
-			<div class="btn-group btn-group-sm pull-right" role="group">
-				<button type="button" class="btn btn-default">10</button>
-				<button type="button" class="btn btn-default">50</button>
-				<button type="button" class="btn btn-default">100</button>
-			</div>
-		</div>
+		<t:TagPage maxPage="${maxPage}" numberResults="${numberResults}" search="${search}" page="${page}"></t:TagPage>
 	</footer>
 
 	<script src="js/jquery.min.js"></script>

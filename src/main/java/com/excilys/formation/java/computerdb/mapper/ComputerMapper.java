@@ -6,6 +6,11 @@ package com.excilys.formation.java.computerdb.mapper;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dto.ComputerDTO;
 import com.excilys.formation.java.computerdb.model.Company;
@@ -17,6 +22,7 @@ import java.sql.ResultSet;
  *
  */
 public interface ComputerMapper {
+	static final Logger LOGGER = LoggerFactory.getLogger(ComputerMapper.class);
 
 	/**
 	 * Map a computer with his company
@@ -57,14 +63,56 @@ public interface ComputerMapper {
 
 	static Computer mapDTOToComputer(ComputerDTO dto){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		LocalDateTime introduced = LocalDateTime.parse(dto.getIntroduced(),formatter);
-		LocalDateTime discontinued = LocalDateTime.parse(dto.getIntroduced(),formatter);
+		LocalDateTime introduced = null;
+		LocalDateTime discontinued = null;
+
+		if (null!=dto.getIntroduced() && !dto.getIntroduced().isEmpty()){
+			introduced = LocalDateTime.parse(dto.getIntroduced(),formatter);
+		}
+		if (null != dto.getDiscontinued() && !dto.getDiscontinued().isEmpty()){
+			discontinued = LocalDateTime.parse(dto.getIntroduced(),formatter);
+		}
+		Company company = null;
+		if (dto.getCompanyId()!=0){
+			company = new Company(dto.getCompanyId(),dto.getCompanyName());
+		}
 
 		return new Computer.ComputerBuilder(dto.getName())
 				.id(dto.getId())
-				.company(new Company(dto.getCompanyId(),dto.getCompanyName()))
+				.company(company)
 				.introduced(introduced)
 				.discontinued(discontinued).build();
+	}
+	
+	static List<ComputerDTO> mapListComputerToDTO(List<Computer> computers){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
+				
+		for(Computer computer : computers){
+			String introduced = null;
+			String discontinued = null;
+			int companyId = 0;
+			String companyName=null;
+			if (null!=computer.getIntroduced()){
+				introduced =computer.getIntroduced().format(formatter);
+			}
+			if (null!=computer.getDiscontinued()){
+				discontinued =computer.getDiscontinued().format(formatter);
+			}
+			if (null!=computer.getCompany()){
+				companyId=computer.getCompany().getId();
+				companyName= computer.getCompany().getName();
+			}
+
+			
+			computersDTO.add(new ComputerDTO.ComputerDTOBuilder(computer.getName())
+					.id(computer.getId())
+					.companyId(companyId)
+					.companyName(companyName)
+					.introduced(introduced)
+					.discontinued(discontinued).build());
+		}
+		return computersDTO;
 	}
 
 	

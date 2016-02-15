@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.java.computerdb.dto.ComputerDTO;
+import com.excilys.formation.java.computerdb.mapper.ComputerMapper;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 import com.excilys.formation.java.computerdb.ui.Page;
@@ -20,6 +24,7 @@ import com.excilys.formation.java.computerdb.ui.Page;
  */
 @WebServlet({ "/DashboardServlet", "/dashboard" })
 public class DashboardServlet extends HttpServlet {
+	private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -34,16 +39,38 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerService computerService = new ComputerService();
-		Page<ComputerDTO> pageComputer = new Page<ComputerDTO>(10,computerService,"");
+		String searchByName = request.getParameter("search");
+		int numberResultsPage = 50;
+		int page =1;
+		try{
+			page = Integer.parseInt(request.getParameter("page"));
+		} catch (Exception e){}
+
+		try{
+			numberResultsPage = Integer.parseInt(request.getParameter("numberResults"));
+		} catch (Exception e){}
 		
-		pageComputer.setPage(1);
-		List<ComputerDTO> computers= pageComputer.getListForPage();
+		if (null==searchByName){
+			searchByName="";
+		}
+		LOGGER.info("New search with the name : {}", searchByName);
+		
+		Page<Computer> pageComputer = new Page<Computer>(numberResultsPage,computerService,searchByName);
+		
+		pageComputer.setPage(page);
+		List<ComputerDTO> computers= ComputerMapper.mapListComputerToDTO(pageComputer.getListForPage());
 		int maxPage = pageComputer.getMaxPages();
 		int pageActuelle = pageComputer.getPage();
+		int numberResults = pageComputer.getNbResults();
 
 		request.setAttribute("maxPage", maxPage);
 		request.setAttribute("pageActuelle", pageActuelle);
 		request.setAttribute("computers", computers);
+		request.setAttribute("nbResults", numberResults);
+		request.setAttribute("search", searchByName);
+		request.setAttribute("numberResults", numberResultsPage);
+		request.setAttribute("page", page);
+		LOGGER.info("number of pages of the result: {}",maxPage);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp");
 		dispatcher.forward(request, response);
 	}
