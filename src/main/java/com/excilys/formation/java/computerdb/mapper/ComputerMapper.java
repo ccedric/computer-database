@@ -19,13 +19,13 @@ import java.sql.ResultSet;
 
 /**
  * @author Cédric Cousseran
- *
+ * Map the objects Computer, ComputerDTO and ResultSet of Computer toa nother
  */
 public interface ComputerMapper {
 	static final Logger LOGGER = LoggerFactory.getLogger(ComputerMapper.class);
 
 	/**
-	 * Map a computer with his company
+	 * Map a computer with his company from a resultset
 	 * @param result resultSet of the query, containing the computer
 	 * @return Object Computer
 	 * @throws SQLException
@@ -52,6 +52,11 @@ public interface ComputerMapper {
 				.build();
 	}
 	
+	/**
+	 * map a computer to a ComputerDTO
+	 * @param computer
+	 * @return 
+	 */
 	static ComputerDTO mapComputerToDTO(Computer computer){
 		return new ComputerDTO.ComputerDTOBuilder(computer.getName())
 				.id(computer.getId())
@@ -61,6 +66,11 @@ public interface ComputerMapper {
 				.discontinued(computer.getDiscontinued().toString()).build();
 	}
 
+	/**
+	 * Map a ComputerDTo to a Computer
+	 * @param dto
+	 * @return
+	 */
 	static Computer mapDTOToComputer(ComputerDTO dto){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		LocalDateTime introduced = null;
@@ -84,6 +94,11 @@ public interface ComputerMapper {
 				.discontinued(discontinued).build();
 	}
 	
+	/**
+	 * Map a list of Computer to a list of ComputerDTO
+	 * @param computers
+	 * @return
+	 */
 	static List<ComputerDTO> mapListComputerToDTO(List<Computer> computers){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();

@@ -68,17 +68,19 @@ public interface Service<T> {
 	List<T> findByName(String name) throws DatabaseConnectionException;
 	
 	/**
+	 * Return a list of objects who have a corresponding name, empty lsit if not found. The list has a limited size by pagSize
 	 * @param indexBegin
 	 * @param pageSize
 	 * @param name
-	 * @return
+	 * @return a list containing the results of a page of the research by name
 	 * @throws DatabaseConnectionException
 	 */
 	List<T> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException;
 
 	/**
-	 * @param name
-	 * @return
+	 * Get the number of results there will be in the sql query
+	 * @param name name in the search query
+	 * @return the number of results in the select query
 	 */
 	int selectCount(String name);
 }

@@ -4,7 +4,7 @@
 package com.excilys.formation.java.computerdb.dto;
 
 /**
- * Data Transfer Object of the model Company
+ * Data Transfer Object for the model Company
  * @author Cédric Cousseran
  *
  */

@@ -29,8 +29,9 @@ import com.excilys.formation.java.computerdb.service.implementation.ComputerServ
 
 /**
  * @author Cédric Cousseran
- *
+ * Servlet for the jsp page addComputer.jsp
  */
+
 @SuppressWarnings("serial")
 @WebServlet({ "/AddComputerServlet", "/addComputer" })
 public class AddComputerServlet extends HttpServlet{

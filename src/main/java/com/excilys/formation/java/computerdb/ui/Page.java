@@ -6,7 +6,7 @@ import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.service.Service;
 
 /**
- * Class which transform a list into multiple pages
+ * Class which implements a pagination feature. Exectute the sql select request of only the page needed
  * @author Cédric Cousseran
  *
  * @param <T> Class to implement for the Page, ie: Computer
@@ -28,8 +28,17 @@ public class Page<T> {
 	 * the starting index in the list of the page
 	 */
 	private int startingIndex;
+	/**
+	 * Maximum number of pages
+	 */
 	private int maxPages;
+	/**
+	 * Name searched in the sql query
+	 */
 	private String name;
+	/**
+	 * Number of results of the sql query
+	 */
 	private int nbResults;
 	
 	/**

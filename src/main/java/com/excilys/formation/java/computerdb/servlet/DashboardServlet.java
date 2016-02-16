@@ -20,12 +20,12 @@ import com.excilys.formation.java.computerdb.service.implementation.ComputerServ
 import com.excilys.formation.java.computerdb.ui.Page;
 
 /**
- * Servlet implementation class DashboardServlet
+ * Servlet implementation class DashboardServlet, servlet of the jsp dashboard.jsp, main page of the web application, where you can see the list of computers
  */
-@WebServlet({ "/DashboardServlet", "/dashboard" })
+@SuppressWarnings("serial")
+@WebServlet({ "/DashboardServlet", "/dashboard","/" })
 public class DashboardServlet extends HttpServlet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
-	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()

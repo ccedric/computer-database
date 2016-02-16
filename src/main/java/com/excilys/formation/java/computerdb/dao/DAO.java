@@ -71,6 +71,7 @@ public interface DAO<T> {
 	List<T> findByName(String name) throws DatabaseConnectionException;
 	
 	/**
+	 * Get the number of results of the search query on the name attribute
 	 * Return the number of elements in the table
 	 * @return
 	 * @throws DatabaseConnectionException
@@ -78,6 +79,7 @@ public interface DAO<T> {
 	int selectCount(String name) throws DatabaseConnectionException;
 
 	/**
+	 * Fetch in the database a list of T who have a corresponding name, null if no match. The size of the list is limited by pageSize
 	 * @param indexBegin
 	 * @param pageSize
 	 * @param name
