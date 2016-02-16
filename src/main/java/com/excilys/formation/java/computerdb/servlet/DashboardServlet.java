@@ -23,7 +23,7 @@ import com.excilys.formation.java.computerdb.ui.Page;
  * Servlet implementation class DashboardServlet, servlet of the jsp dashboard.jsp, main page of the web application, where you can see the list of computers
  */
 @SuppressWarnings("serial")
-@WebServlet({ "/DashboardServlet", "/dashboard","/" })
+@WebServlet({ "/DashboardServlet", "/dashboard" })
 public class DashboardServlet extends HttpServlet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
        
@@ -40,8 +40,10 @@ public class DashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerService computerService = new ComputerService();
 		String searchByName = request.getParameter("search");
+		System.out.println(searchByName);
 		int numberResultsPage = 50;
 		int page =1;
+		
 		try{
 			page = Integer.parseInt(request.getParameter("page"));
 		} catch (Exception e){}
@@ -67,7 +69,7 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("pageActuelle", pageActuelle);
 		request.setAttribute("computers", computers);
 		request.setAttribute("nbResults", numberResults);
-		request.setAttribute("search", searchByName);
+		request.setAttribute("searchByName", searchByName);
 		request.setAttribute("numberResults", numberResultsPage);
 		request.setAttribute("page", page);
 		LOGGER.info("number of pages of the result: {}",maxPage);

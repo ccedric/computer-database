@@ -7,11 +7,7 @@
 <%@include file="head.html"%>
 </head>
 <body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
-		</div>
-	</header>
+	<%@include file="header.html"%>
 
 	<section id="main">
 		<div class="container">	

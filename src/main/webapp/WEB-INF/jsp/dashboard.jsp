@@ -5,7 +5,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <%@ page import="java.util.List"%>
 
-<% List computers = (List)request.getAttribute("computers");%>
 <html>
 
 <head>
@@ -14,16 +13,26 @@
 </head>
 <body>
 	<%@include file="header.html"%>
+	<c:if test="${null!=newComputer}">
+		<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
+			A new computer has been created. Name of the computer:
+			${newComputer.getName()}, introduced date:
+			${newComputer.getIntroduced()}, discontinued date:
+			${newComputer.getDiscontinued() }
+		</div>
+	</c:if>
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">${nbResults} Computer(s) found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" method="GET" class="form-inline"
-						action="dashboard">
+						action="<t:TagLink url="dashboard" page="1" numberResults="${numberResults}" search="${searchByName}"/>">
 
 						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
+							class="form-control" placeholder="Search name" <c:if test="${searchByName.length()>1}">value=${searchByName}</c:if> /> <input
 							type="submit" id="searchsubmit" value="Filter by name"
 							class="btn btn-primary" />
 					</form>
@@ -82,7 +91,8 @@
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<t:TagPage maxPage="${maxPage}" numberResults="${numberResults}" search="${search}" page="${page}"></t:TagPage>
+		<t:TagPage maxPage="${maxPage}" numberResults="${numberResults}"
+			search="${searchByName}" page="${page}"></t:TagPage>
 	</footer>
 
 	<script src="js/jquery.min.js"></script>

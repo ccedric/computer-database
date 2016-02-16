@@ -11,7 +11,7 @@ $(document).ready(function() {
 		}
 	},
 	"Please enter a date in the format yyyy-mm-dd hh:mm.");
-	
+
 	$.validator.addMethod("datesGreater",
 			function(value, element) {
 		if ($("#discontinued").val()==""){
@@ -24,7 +24,15 @@ $(document).ready(function() {
 		return ($("#discontinued").val()>$("#introduced").val());
 	},
 	"Discontinued date must be greater than introduced.");
-
+	
+	$.validator.setDefaults({
+		highlight: function(element) {
+			$(element).closest('.form-group').addClass('has-error').removeClass('has-success');
+		},
+		unhighlight: function(element) {
+			$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+		},
+	});
 	
 	$('#formAdd')
 	.validate({
@@ -38,20 +46,7 @@ $(document).ready(function() {
 			discontinued : {
 				dateFormat: true,
 				datesGreater : true
-   			}
+			}
 		}
 	});
 });
-function checkIntroduced(document) {
-	element = document.getElementById("introduced")
-	re = /^[1-2][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/
-
-		if (element.value == "" || element.value.match(re)) {
-			$("#errorIntroduced").style.visibility = "hidden";
-			element.style.borderColor = "#CCC";
-			return true;
-		} else {
-			$("#errorIntroduced").style.visibility = "visible";
-			return false;
-		}
-}

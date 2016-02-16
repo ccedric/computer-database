@@ -52,6 +52,7 @@
 				value="50">50</button>
 			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==100 }">active</c:if>" name="numberResults"
 				value="100">100</button>
+			<input type="hidden" name="search" value="${search}"/>
 		</form>
 	</div>
 </div>
