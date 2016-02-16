@@ -58,12 +58,29 @@ public interface ComputerMapper {
 	 * @return 
 	 */
 	static ComputerDTO mapComputerToDTO(Computer computer){
+		String companyName=null;
+		int companyId=0;
+		String introduced = null;
+		String discontinued = null;
+
+		if (null!=computer.getCompany()){
+			companyId = computer.getCompany().getId();
+			companyName= computer.getCompany().getName();
+		}
+
+		if (null!=computer.getIntroduced()){
+			introduced = computer.getIntroduced().toString();
+		}
+		if(null!=computer.getDiscontinued()){
+			discontinued = computer.getDiscontinued().toString();
+		}
+		
 		return new ComputerDTO.ComputerDTOBuilder(computer.getName())
 				.id(computer.getId())
-				.companyId(computer.getCompany().getId())
-				.companyName(computer.getCompany().getName())
-				.introduced(computer.getIntroduced().toString())
-				.discontinued(computer.getDiscontinued().toString()).build();
+				.companyId(companyId)
+				.companyName(companyName)
+				.introduced(introduced)
+				.discontinued(discontinued).build();
 	}
 
 	/**

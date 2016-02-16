@@ -40,7 +40,7 @@ public interface CompanyMapper {
 	 * @param dto
 	 * @return
 	 */
-	static Company mapDTOTOCompany(CompanyDTO dto){
+	static Company mapDTOToCompany(CompanyDTO dto){
 		return new Company(dto.getId(),dto.getName());
 	}
 
