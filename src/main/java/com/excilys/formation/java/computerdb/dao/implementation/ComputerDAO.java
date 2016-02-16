@@ -60,7 +60,6 @@ public class ComputerDAO implements DAO<Computer> {
 			rs = statement.getGeneratedKeys();
 			if (rs.next()){
 				int numero = rs.getInt(1);
-				System.out.println(numero);
 				obj.setId(numero);
 				LOGGER.info("New computer created, id {}, name {}, company {}, introduced date {}, discontinued date {}.", numero, obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
 				return numero;
@@ -301,7 +300,6 @@ public class ComputerDAO implements DAO<Computer> {
 		return computers;
 	}
 	
-
 	@Override
 	public List<Computer> findByName(String name) throws DatabaseConnectionException {
 		Connection connect = ConnectionFactory.getConnection();
@@ -335,9 +333,8 @@ public class ComputerDAO implements DAO<Computer> {
 			DbUtil.close(statement);
 			DbUtil.close(connect);
 		}
-		return null;
+		return computers;
 	}
-
 
 	@Override
 	public int selectCount(String name) throws DatabaseConnectionException {

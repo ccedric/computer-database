@@ -76,8 +76,7 @@ public class ComputerDaoTest {
 	@Test
 	public void testList(){
 		Computer computer = new Computer.ComputerBuilder("test list").build();
-		int id =dao.create(computer);
-		computer.setId(id);
+		computer.setId(dao.create(computer));
 		List<Computer> computers = dao.list();
 		boolean isInList = false;
 		for (Computer computerInList : computers){
@@ -88,6 +87,55 @@ public class ComputerDaoTest {
 		assertTrue(isInList);
 		
 		dao.delete(computer);
+		
+		computers = dao.list();
+		isInList = false;
+		for (Computer computerInList : computers){
+			if (computerInList.equals(computer)){
+				isInList=true;
+			}
+		}
+		assertFalse(isInList);
+
+	}
+	
+	@Test
+	public void testSelectCount(){
+		Computer computer = new Computer.ComputerBuilder("test count").build();
+		int count = dao.selectCount("test");
+		
+		computer.setId(dao.create(computer));
+		int countAfter = dao.selectCount("test");
+		assertEquals(count+1,countAfter);
+		
+		dao.delete(computer);
+		
+		assertEquals(count,dao.selectCount("test"));
+	}
+	
+	@Test
+	public void testFindByName(){
+		Computer computer = new Computer.ComputerBuilder("test find by name").build();
+		int id =dao.create(computer);
+		computer.setId(id);
+		List<Computer> computers = dao.findByName("test find by name");
+		boolean isInList = false;
+		for (Computer computerInList : computers){
+			if (computerInList.equals(computer)){
+				isInList=true;
+			}
+		}
+		assertTrue(isInList);
+		
+		dao.delete(computer);
+		computers = dao.findByName("test find by name");
+		isInList = false;
+		for (Computer computerInList : computers){
+			if (computerInList.equals(computer)){
+				isInList=true;
+			}
+		}
+		assertFalse(isInList);
 	}
 	
 }

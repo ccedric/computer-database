@@ -28,4 +28,6 @@ input[type='checkbox'] {
     white-space: nowrap;
 }
 
-a:selected { color: lime }
+.error{
+	color:red;
+}

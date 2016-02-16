@@ -63,8 +63,7 @@ public class ComputerService implements Service<Computer> {
 
 	@Override
 	public List<Computer> findByName(String name) throws DatabaseConnectionException {
-		computerDAO.findByName(name);
-		return null;
+		return computerDAO.findByName(name);
 	}
 
 	@Override

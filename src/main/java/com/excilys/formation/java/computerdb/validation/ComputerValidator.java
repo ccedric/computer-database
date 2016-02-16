@@ -20,7 +20,7 @@ public class ComputerValidator {
 	 * @param name name of the Computer
 	 * @param introduced Introduced date of the Computer
 	 * @param discontinued Discontinued date of the Computer
-	 * @return
+	 * @return an empty string if no errors, a String containing the errors message otherwisee
 	 */
 	public static String validateComputer(String name, String introduced, String discontinued){
 		StringBuilder errors = new StringBuilder();
