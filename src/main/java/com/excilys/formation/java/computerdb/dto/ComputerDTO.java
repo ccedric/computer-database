@@ -184,5 +184,14 @@ public class ComputerDTO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ComputerDTO [id=" + id + ", name=" + name + ", companyName=" + companyName + ", companyId=" + companyId
+				+ ", introduced=" + introduced + ", discontinued=" + discontinued + "]";
+	}
+
 	
 }

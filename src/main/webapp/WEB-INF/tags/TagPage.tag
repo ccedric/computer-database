@@ -22,9 +22,9 @@
 				<c:if test="${(i < page+5) && (i> page-4) }">
 					<c:choose>
 						<c:when test="${i ==page }">
-							<li><a
+							<li class="active" ><a
 								href="<t:TagLink url="dashboard" page="${i}" numberResults="${numberResults}" search="${search}"/>"
-								> <font color="#808080">${i}</font></a></li>
+								>${i}</a></li>
 						</c:when>
 						<c:otherwise>
 							<li><a
@@ -46,11 +46,11 @@
 
 	<div class="btn-group btn-group-sm pull-right col-xs-3" role="group">
 		<form id="numberResultsPage" method="GET" action="dashboard">
-			<button type="submit" class="btn btn-default" name="numberResults"
+			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==10 }">active</c:if> " name="numberResults"
 				value="10">10</button>
-			<button type="submit" class="btn btn-default" name="numberResults"
+			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==50 }">active</c:if>" name="numberResults"
 				value="50">50</button>
-			<button type="submit" class="btn btn-default" name="numberResults"
+			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==100 }">active</c:if>" name="numberResults"
 				value="100">100</button>
 		</form>
 	</div>

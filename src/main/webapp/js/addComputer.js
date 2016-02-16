@@ -4,13 +4,26 @@ $(document).ready(function() {
 		if (element.value==""){
 			return true;
 		}
-		if(/^[1-2][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/gm.test(value)){
+		if(/^[1-2][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]$/gm.test(value)){
 			return true;
 		} else {
 			return false;
 		}
 	},
-	"Please enter a date in the format yyyy-mm-dd hh:mm:ss.");
+	"Please enter a date in the format yyyy-mm-dd hh:mm.");
+	
+	$.validator.addMethod("datesGreater",
+			function(value, element) {
+		if ($("#discontinued").val()==""){
+			return true;
+		} else{
+			if ($("#discontinued").val()==""){
+				return false;
+			}
+		}
+		return ($("#discontinued").val()>$("#introduced").val());
+	},
+	"Discontinued date must be greater than introduced.");
 
 	
 	$('#formAdd')
@@ -24,6 +37,7 @@ $(document).ready(function() {
 			},
 			discontinued : {
 				dateFormat: true,
+				datesGreater : true
    			}
 		}
 	});

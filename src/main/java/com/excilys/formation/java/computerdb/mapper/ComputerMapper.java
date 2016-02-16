@@ -70,7 +70,7 @@ public interface ComputerMapper {
 			introduced = LocalDateTime.parse(dto.getIntroduced(),formatter);
 		}
 		if (null != dto.getDiscontinued() && !dto.getDiscontinued().isEmpty()){
-			discontinued = LocalDateTime.parse(dto.getIntroduced(),formatter);
+			discontinued = LocalDateTime.parse(dto.getDiscontinued(),formatter);
 		}
 		Company company = null;
 		if (dto.getCompanyId()!=0){

@@ -19,6 +19,7 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
+					<span style="color:red">${errors}</span>
 					<form action="addComputer" method="POST" id="formAdd">
 						<fieldset>
 							<div class="form-group">
@@ -59,9 +60,9 @@
 	<footer>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
-		
 		<script src="js/addComputer.js"></script>
+		<script src="js/jquery.validate.min.js"></script>
+		
 	</footer>
 	
 </body>
