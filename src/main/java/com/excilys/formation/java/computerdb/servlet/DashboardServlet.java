@@ -26,13 +26,13 @@ import com.excilys.formation.java.computerdb.ui.Page;
 @WebServlet({ "/DashboardServlet", "/dashboard" })
 public class DashboardServlet extends HttpServlet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DashboardServlet() {
-        super();
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public DashboardServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,10 +40,9 @@ public class DashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerService computerService = new ComputerService();
 		String searchByName = request.getParameter("search");
-		System.out.println(searchByName);
 		int numberResultsPage = 50;
 		int page =1;
-		
+
 		try{
 			page = Integer.parseInt(request.getParameter("page"));
 		} catch (Exception e){}
@@ -51,14 +50,14 @@ public class DashboardServlet extends HttpServlet {
 		try{
 			numberResultsPage = Integer.parseInt(request.getParameter("numberResults"));
 		} catch (Exception e){}
-		
+
 		if (null==searchByName){
 			searchByName="";
 		}
 		LOGGER.info("New search with the name : {}", searchByName);
-		
+
 		Page<Computer> pageComputer = new Page<Computer>(numberResultsPage,computerService,searchByName);
-		
+
 		pageComputer.setPage(page);
 		List<ComputerDTO> computers= ComputerMapper.mapListComputerToDTO(pageComputer.getListForPage());
 		int maxPage = pageComputer.getMaxPages();
@@ -81,6 +80,27 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (null!=request.getParameter("selection") &&  !request.getParameter("selection").isEmpty()){
+			String[] idsDelete =  request.getParameter("selection").split(",");
+			ComputerService computerService = new ComputerService();
+			int idDeleteInt;
+			boolean resultDelete;
+			for(String idDelete : idsDelete){
+				try{
+					idDeleteInt = Integer.parseInt(idDelete);
+					resultDelete = computerService.delete(computerService.find(idDeleteInt));
+					if (resultDelete){
+						LOGGER.info("Deletion of the computer with id {} successful",idDelete);
+					} else{
+						LOGGER.info("Deletion of the computer with id {} unsuccessful",idDelete);
+					}
+				} catch (Exception e){
+					LOGGER.info("Exception occured during the deletion of the computer {}, stack trace: ",idDelete);
+					e.printStackTrace();
+				}
+			}
+
+		}
 		doGet(request, response);
 	}
 
