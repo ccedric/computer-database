@@ -46,11 +46,11 @@
 
 	<div class="btn-group btn-group-sm pull-right col-xs-3" role="group">
 		<form id="numberResultsPage" method="GET" action="dashboard">
-			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==10 }">active</c:if> " name="numberResults"
+			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==10 }">active</c:if> " name="number-results"
 				value="10">10</button>
-			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==50 }">active</c:if>" name="numberResults"
+			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==50 }">active</c:if>" name="number-results"
 				value="50">50</button>
-			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==100 }">active</c:if>" name="numberResults"
+			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==100 }">active</c:if>" name="number-results"
 				value="100">100</button>
 			<input type="hidden" name="search" value="${search}"/>
 		</form>
