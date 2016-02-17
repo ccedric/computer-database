@@ -80,6 +80,10 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+	
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (null!=request.getParameter("selection") &&  !request.getParameter("selection").isEmpty()){
 			String[] idsDelete =  request.getParameter("selection").split(",");
 			ComputerService computerService = new ComputerService();
