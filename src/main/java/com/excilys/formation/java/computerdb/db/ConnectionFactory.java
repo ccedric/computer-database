@@ -1,8 +1,12 @@
 package com.excilys.formation.java.computerdb.db;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 
 /**
@@ -12,18 +16,6 @@ import java.sql.SQLException;
  */
 public class ConnectionFactory {
 	private static ConnectionFactory instance = new ConnectionFactory();
-	/**
-	 * url to the database
-	 */
-	public static final String URL = "jdbc:mysql://localhost/computer-database-db?zeroDateTimeBehavior=convertToNull";
-	/**
-	 * user in the database
-	 */
-	public static final String USER = "admincdb";
-	/**
-	 * password of the user
-	 */
-	public static final String PASSWORD = "qwerty1234";
 	/**
 	 * driver to connect to the database
 	 */
@@ -40,9 +32,39 @@ public class ConnectionFactory {
 
 	private Connection createConnection() throws DatabaseConnectionException {
 		Connection connection = null;
+		
+		Properties prop = new Properties();
+		InputStream input = null;
+		String url=new String();
+		String user = new String();
+		String password = new String();
+		
 		try {
-			connection = DriverManager.getConnection(URL, USER, PASSWORD);
+			prop.load(getClass().getClassLoader().getResourceAsStream("db.properties"));
+
+			url = prop.getProperty("url");
+			user = prop.getProperty("user");
+			password  = prop.getProperty("password");
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			throw new DatabaseConnectionException("Error while reading db properties file");
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					throw new DatabaseConnectionException("Error while reading db properties file");
+				}
+			}
+		}
+		
+		
+		try {
+			connection = DriverManager.getConnection(url, user, password);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DatabaseConnectionException("Couldn't connect to the database, check URL/USER/PASS");
 		}
 		return connection;
