@@ -1,8 +1,6 @@
 package com.excilys.formation.java.computerdb.db;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -34,7 +32,6 @@ public class ConnectionFactory {
 		Connection connection = null;
 		
 		Properties prop = new Properties();
-		InputStream input = null;
 		String url=new String();
 		String user = new String();
 		String password = new String();
@@ -49,17 +46,7 @@ public class ConnectionFactory {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			throw new DatabaseConnectionException("Error while reading db properties file");
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-					throw new DatabaseConnectionException("Error while reading db properties file");
-				}
-			}
-		}
-		
+		} 		
 		
 		try {
 			connection = DriverManager.getConnection(url, user, password);

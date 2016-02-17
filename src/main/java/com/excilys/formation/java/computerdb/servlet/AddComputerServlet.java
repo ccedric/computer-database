@@ -32,7 +32,7 @@ import com.excilys.formation.java.computerdb.validation.ComputerValidator;
  */
 
 @SuppressWarnings("serial")
-@WebServlet({ "/AddComputerServlet", "/addComputer" })
+@WebServlet({ "/add-computer-servlet", "/add-computer" })
 public class AddComputerServlet extends HttpServlet{
 	private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 

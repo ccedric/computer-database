@@ -43,7 +43,7 @@ public class ComputerValidator {
 	}
 
 	private static void validateRequired(String input, StringBuilder errors, String message){
-		if ((input.trim()).equals("")){
+		if ((input.equals("") || (input.trim()).equals("")) ){
 			errors.append(message);
 		}
 	}

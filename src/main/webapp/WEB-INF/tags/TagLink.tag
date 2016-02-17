@@ -9,4 +9,4 @@
 
 
 <c:url
-	value="${url}?page=${page}&numberResults=${numberResults}&search=${search}" />
+	value="${url}?page=${page}&number-results=${numberResults}&search=${search}" />
