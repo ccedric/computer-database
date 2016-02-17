@@ -4,7 +4,7 @@
  */
 package com.excilys.formation.java.computerdb.validation;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
@@ -25,8 +25,8 @@ public class ComputerValidator {
 	public static String validateComputer(String name, String introduced, String discontinued){
 		StringBuilder errors = new StringBuilder();
 		validateRequired(name,errors,"Please enter the name of the computer. ");
-		validateDateTimeFormat(introduced, errors,"The introduced date doesn't have the right format: yyyy-mm-dd hh:mm. " );
-		validateDateTimeFormat(discontinued, errors,"The discontinued date doesn't have the right format: yyyy-mm-dd hh:mm. " );
+		validateDateTimeFormat(introduced, errors,"The introduced date doesn't have the right format: yyyy-mm-dd. " );
+		validateDateTimeFormat(discontinued, errors,"The discontinued date doesn't have the right format: yyyy-mm-dd. " );
 		if (errors.length() ==0 ){
 			validateIntroducedExistIfDiscontinuedDo(introduced, discontinued, errors, "Please enter an introduced date if you have a discontinued date. ");
 			validateDiscontinuedAfterIntroduced(introduced, discontinued, errors, "The discontinued date must be after the introduced date. ");
@@ -50,10 +50,10 @@ public class ComputerValidator {
 
 	private static void validateDateTimeFormat(String input, StringBuilder errors, String message){
 		if (!input.equals("")){
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 			try{
-				LocalDateTime.parse(input,formatter);
+				LocalDate.parse(input,formatter);
 			} catch(Exception e){
 				errors.append(message);
 			}		
@@ -62,10 +62,10 @@ public class ComputerValidator {
 
 	private static void validateDiscontinuedAfterIntroduced(String introduced, String discontinued, StringBuilder errors, String message){
 		if (!introduced.equals("") && !discontinued.equals("")){
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-			LocalDateTime introducedDate = LocalDateTime.parse(introduced,formatter);
-			LocalDateTime discontinuedDate = LocalDateTime.parse(discontinued,formatter);
+			LocalDate introducedDate = LocalDate.parse(introduced,formatter);
+			LocalDate discontinuedDate = LocalDate.parse(discontinued,formatter);
 			if (introducedDate.isAfter(discontinuedDate)){
 				errors.append(message);
 			}

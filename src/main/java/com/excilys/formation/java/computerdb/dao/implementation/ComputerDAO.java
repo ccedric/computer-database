@@ -44,12 +44,12 @@ public class ComputerDAO implements DAO<Computer> {
 			if(obj.getIntroduced()==null){
 				statement.setNull(2,Types.TIMESTAMP);
 			}else{
-				statement.setTimestamp(2, Timestamp.valueOf(obj.getIntroduced()));
+				statement.setTimestamp(2, Timestamp.valueOf(obj.getIntroduced().atStartOfDay()));
 			}
 			if(obj.getDiscontinued()==null){
 				statement.setNull(3,Types.TIMESTAMP);
 			}else{
-				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued()));
+				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued().atStartOfDay()));
 			}
 			if (null==obj.getCompany() ){
 				statement.setNull(4,Types.BIGINT);
@@ -117,12 +117,12 @@ public class ComputerDAO implements DAO<Computer> {
 			if(obj.getIntroduced()==null){
 				statement.setNull(2,Types.TIMESTAMP);
 			}else{
-				statement.setTimestamp(2, Timestamp.valueOf(obj.getIntroduced()));
+				statement.setTimestamp(2, Timestamp.valueOf(obj.getIntroduced().atStartOfDay()));
 			}
 			if(obj.getDiscontinued()==null){
 				statement.setNull(3,Types.TIMESTAMP);
 			}else{
-				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued()));
+				statement.setTimestamp(3, Timestamp.valueOf(obj.getDiscontinued().atStartOfDay()));
 			}
 
 			if (obj.getCompany()==null){

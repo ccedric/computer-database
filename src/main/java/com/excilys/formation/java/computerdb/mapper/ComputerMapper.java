@@ -4,7 +4,7 @@
 package com.excilys.formation.java.computerdb.mapper;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +31,14 @@ public interface ComputerMapper {
 	 * @throws SQLException
 	 */
 	static Computer map(ResultSet result) throws SQLException{
-		LocalDateTime introduced = null;
-		LocalDateTime discontinued = null;
+		LocalDate introduced = null;
+		LocalDate discontinued = null;
 
 		if (null!=result.getTimestamp("introduced")){
-			introduced =result.getTimestamp("introduced").toLocalDateTime();
+			introduced =result.getTimestamp("introduced").toLocalDateTime().toLocalDate();
 		}
 		if (null!=result.getTimestamp("discontinued")){
-			discontinued =result.getTimestamp("discontinued").toLocalDateTime();
+			discontinued =result.getTimestamp("discontinued").toLocalDateTime().toLocalDate();
 		}
 		Company company = null;
 		if (null!=result.getString("companyName")){
@@ -89,15 +89,15 @@ public interface ComputerMapper {
 	 * @return
 	 */
 	static Computer mapDTOToComputer(ComputerDTO dto){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		LocalDateTime introduced = null;
-		LocalDateTime discontinued = null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate introduced = null;
+		LocalDate discontinued = null;
 
 		if (null!=dto.getIntroduced() && !dto.getIntroduced().isEmpty()){
-			introduced = LocalDateTime.parse(dto.getIntroduced(),formatter);
+			introduced = LocalDate.parse(dto.getIntroduced(),formatter);
 		}
 		if (null != dto.getDiscontinued() && !dto.getDiscontinued().isEmpty()){
-			discontinued = LocalDateTime.parse(dto.getDiscontinued(),formatter);
+			discontinued = LocalDate.parse(dto.getDiscontinued(),formatter);
 		}
 		Company company = null;
 		if (dto.getCompanyId()!=0){
@@ -117,7 +117,7 @@ public interface ComputerMapper {
 	 * @return
 	 */
 	static List<ComputerDTO> mapListComputerToDTO(List<Computer> computers){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
 				
 		for(Computer computer : computers){

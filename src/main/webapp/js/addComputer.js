@@ -4,7 +4,7 @@ $(document).ready(function() {
 		if (element.value==""){
 			return true;
 		}
-		if(/^[1-2][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]$/gm.test(value)){
+		if(/^[1-2][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9]$/gm.test(value)){
 			return true;
 		} else {
 			return false;

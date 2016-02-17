@@ -37,13 +37,13 @@
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									type="text" class="form-control" id="introduced"
-									placeholder="Introduced date: yyyy-MM-dd HH:mm"
+									placeholder="Introduced date: yyyy-MM-dd"
 									name="introduced">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									type="text" class="form-control" id="discontinued"
-									placeholder="Discontinued date: yyyy-MM-dd HH:mm"
+									placeholder="Discontinued date: yyyy-MM-dd"
 									name="discontinued">
 							</div>
 							<div class="form-group">

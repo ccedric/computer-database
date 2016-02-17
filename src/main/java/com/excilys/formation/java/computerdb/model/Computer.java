@@ -1,6 +1,6 @@
 package com.excilys.formation.java.computerdb.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * A computer is represented by an id, a name, a company (manufacturer), an introduced date and discontinued date
@@ -23,11 +23,11 @@ public class Computer {
 	/**
 	 * date when the computer was introduced
 	 */
-	private LocalDateTime introduced;
+	private LocalDate introduced;
 	/**
 	 * date when the computer was discontinued
 	 */
-	private LocalDateTime discontinued;
+	private LocalDate discontinued;
 
 	// builder pattern
 	private Computer(ComputerBuilder builder) {
@@ -56,16 +56,16 @@ public class Computer {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	public LocalDateTime getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(LocalDateTime introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
-	public LocalDateTime getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(LocalDateTime discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 
@@ -79,8 +79,8 @@ public class Computer {
 		private int id;
 		private String name;
 		private Company company;
-		private LocalDateTime introduced;
-		private LocalDateTime discontinued;
+		private LocalDate introduced;
+		private LocalDate discontinued;
 
 		public ComputerBuilder(String name) {
 			this.name = name;
@@ -96,12 +96,12 @@ public class Computer {
 			return this;
 		}
 
-		public ComputerBuilder introduced(LocalDateTime introduced) {
+		public ComputerBuilder introduced(LocalDate introduced) {
 			this.introduced = introduced;
 			return this;
 		}
 
-		public ComputerBuilder discontinued(LocalDateTime discontinued) {
+		public ComputerBuilder discontinued(LocalDate discontinued) {
 			this.discontinued = discontinued;
 			return this;
 		}

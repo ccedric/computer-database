@@ -10,7 +10,7 @@ import com.excilys.formation.java.computerdb.service.TimestampDiscontinuedBefore
 
 import static org.junit.Assert.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -30,9 +30,9 @@ public class ComputerServiceTest {
 	
 	@Test
 	public void testCreate(){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		LocalDateTime debut = LocalDateTime.parse("1994-10-10 10:10",formatter);
-		LocalDateTime fin = LocalDateTime.parse("1999-10-10 10:10",formatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate debut = LocalDate.parse("1994-10-10",formatter);
+		LocalDate fin = LocalDate.parse("1999-10-10",formatter);
 		Computer computer = new Computer.ComputerBuilder("test create").introduced(debut).discontinued(fin).build();
 		assertNotEquals(0,service.create(computer));
 		
@@ -42,9 +42,9 @@ public class ComputerServiceTest {
 	@Test
 	public void testCreateException(){
 		try{
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			LocalDateTime debut = LocalDateTime.parse("2004-10-10 10:10",formatter);
-			LocalDateTime fin = LocalDateTime.parse("1989-10-10 10:10",formatter);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate debut = LocalDate.parse("2004-10-10 10:10",formatter);
+			LocalDate fin = LocalDate.parse("1989-10-10 10:10",formatter);
 			Computer computer = new Computer.ComputerBuilder("test create").introduced(debut).discontinued(fin).build();
 			service.create(computer);
 			fail("An exception should be thrown");
@@ -56,9 +56,9 @@ public class ComputerServiceTest {
 	@Test
 	public void testUpdateException(){
 		try{
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			LocalDateTime debut = LocalDateTime.parse("2004-10-10 10:10",formatter);
-			LocalDateTime fin = LocalDateTime.parse("1989-10-10 10:10",formatter);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate debut = LocalDate.parse("2004-10-10",formatter);
+			LocalDate fin = LocalDate.parse("1989-10-10",formatter);
 			Computer computer = new Computer.ComputerBuilder("test create").build();
 			computer.setId(service.create(computer));
 			computer.setIntroduced(debut);
