@@ -7,6 +7,7 @@ import com.excilys.formation.java.computerdb.dao.implementation.CompanyDAO;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.service.Service;
+import com.excilys.formation.java.computerdb.service.Page;
 
 /**
  * @author Cédric Cousseran
@@ -60,7 +61,7 @@ public class CompanyService implements Service<Company> {
 	 * @throws DatabaseConnectionException 
 	 */
 	@Override
-	public List<Company> listPage(int indexBegin, int indexEnd) throws DatabaseConnectionException {
+	public List<Company> listPage(Page page) throws DatabaseConnectionException {
 		return companyDAO.list();
 	}
 
@@ -77,8 +78,8 @@ public class CompanyService implements Service<Company> {
 	 * @see com.excilys.formation.java.computerdb.service.Service#listPageByName(int, int, java.lang.String)
 	 */
 	@Override
-	public List<Company> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException {
-		return companyDAO.listPageByName(indexBegin,pageSize,name);
+	public List<Company> listPageByName(Page page) throws DatabaseConnectionException {
+		return companyDAO.listPageByName(page.getPage()*page.getPageSize(), page.getPageSize(),page.getSearch());
 	}
 
 	/* (non-Javadoc)

@@ -15,9 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dto.ComputerDTO;
 import com.excilys.formation.java.computerdb.mapper.ComputerMapper;
-import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
-import com.excilys.formation.java.computerdb.ui.Page;
+import com.excilys.formation.java.computerdb.service.Page;
 
 /**
  * Servlet implementation class DashboardServlet, servlet of the jsp dashboard.jsp, main page of the web application, where you can see the list of computers
@@ -26,6 +25,7 @@ import com.excilys.formation.java.computerdb.ui.Page;
 @WebServlet({ "/dashboard-servlet", "/dashboard" })
 public class DashboardServlet extends HttpServlet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
+	private Page pageComputer = new Page(1,50,"");
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -54,15 +54,16 @@ public class DashboardServlet extends HttpServlet {
 		if (null==searchByName){
 			searchByName="";
 		}
-		LOGGER.info("New search with the name : {}", searchByName);
+		LOGGER.info("New search with the name : {}, page number: {}", searchByName,page);
 
-		Page<Computer> pageComputer = new Page<Computer>(numberResultsPage,computerService,searchByName);
-
+		pageComputer.setSearch(searchByName);
 		pageComputer.setPage(page);
-		List<ComputerDTO> computers= ComputerMapper.mapListComputerToDTO(pageComputer.getListForPage());
-		int maxPage = pageComputer.getMaxPages();
+		pageComputer.setPageSize(numberResultsPage);
+		
+		List<ComputerDTO> computers= ComputerMapper.mapListComputerToDTO(computerService.listPage(pageComputer));
+		int maxPage = computerService.selectCount(searchByName)/numberResultsPage;
 		int pageActuelle = pageComputer.getPage();
-		int numberResults = pageComputer.getNbResults();
+		int numberResults = computerService.selectCount(searchByName);
 
 		request.setAttribute("maxPage", maxPage);
 		request.setAttribute("pageActuelle", pageActuelle);

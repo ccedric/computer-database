@@ -8,6 +8,7 @@ import java.util.List;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.service.Page;
 import com.excilys.formation.java.computerdb.service.Service;
 import com.excilys.formation.java.computerdb.service.TimestampDiscontinuedBeforeIntroducedException;
 
@@ -57,8 +58,8 @@ public class ComputerService implements Service<Computer> {
 
 
 	@Override
-	public List<Computer> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException {
-		return computerDAO.listPage(indexBegin, pageSize);
+	public List<Computer> listPage(Page page) throws DatabaseConnectionException {
+		return computerDAO.listPage(page.getStartingIndex(), page.getPageSize());
 	}
 
 	@Override
@@ -67,8 +68,8 @@ public class ComputerService implements Service<Computer> {
 	}
 
 	@Override
-	public List<Computer> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException {
-		return computerDAO.listPageByName(indexBegin, pageSize, name);
+	public List<Computer> listPageByName(Page page) throws DatabaseConnectionException {
+		return computerDAO.listPageByName(page.getStartingIndex(), page.getPageSize(), page.getSearch());
 	}
 
 	/* (non-Javadoc)

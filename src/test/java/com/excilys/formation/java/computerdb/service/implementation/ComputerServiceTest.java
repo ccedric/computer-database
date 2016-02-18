@@ -6,6 +6,7 @@ package com.excilys.formation.java.computerdb.service.implementation;
 import org.junit.Test;
 
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.service.Page;
 import com.excilys.formation.java.computerdb.service.TimestampDiscontinuedBeforeIntroducedException;
 
 import static org.junit.Assert.*;
@@ -24,7 +25,7 @@ public class ComputerServiceTest {
 	
 	@Test
 	public void testListPage(){
-		List<Computer> computers = service.listPage(1, 20);
+		List<Computer> computers = service.listPage(new Page(1,20,""));
 		assertEquals(20,computers.size());
 	}
 	
@@ -43,8 +44,8 @@ public class ComputerServiceTest {
 	public void testCreateException(){
 		try{
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate debut = LocalDate.parse("2004-10-10 10:10",formatter);
-			LocalDate fin = LocalDate.parse("1989-10-10 10:10",formatter);
+			LocalDate debut = LocalDate.parse("2004-10-10",formatter);
+			LocalDate fin = LocalDate.parse("1989-10-10",formatter);
 			Computer computer = new Computer.ComputerBuilder("test create").introduced(debut).discontinued(fin).build();
 			service.create(computer);
 			fail("An exception should be thrown");

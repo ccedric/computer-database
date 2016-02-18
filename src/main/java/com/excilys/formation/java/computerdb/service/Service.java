@@ -6,6 +6,7 @@ package com.excilys.formation.java.computerdb.service;
 import java.util.List;
 
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
+import com.excilys.formation.java.computerdb.service.Page;
 
 /**
  * Service layer between the DAO and the ui
@@ -57,7 +58,7 @@ public interface Service<T> {
 	 * @param indexEnd ending index of the page
 	 * @return
 	 */
-	List<T> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException;
+	List<T> listPage(Page page) throws DatabaseConnectionException;
 	
 	/**
 	 * Return a list of objects who have a corresponding name, empty list if not found
@@ -75,7 +76,7 @@ public interface Service<T> {
 	 * @return a list containing the results of a page of the research by name
 	 * @throws DatabaseConnectionException
 	 */
-	List<T> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException;
+	List<T> listPageByName(Page page) throws DatabaseConnectionException;
 
 	/**
 	 * Get the number of results there will be in the sql query

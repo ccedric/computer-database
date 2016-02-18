@@ -9,6 +9,7 @@ import java.util.Scanner;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.service.Page;
 import com.excilys.formation.java.computerdb.service.TimestampDiscontinuedBeforeIntroducedException;
 import com.excilys.formation.java.computerdb.service.implementation.CompanyService;
 import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
@@ -349,11 +350,10 @@ public class CommandLineInterface {
 	 * @throws DatabaseConnectionException 
 	 */
 	private static void listComputer() throws DatabaseConnectionException {
-		Page<Computer> pageComputer = new Page<Computer>(pageComputerSize,computerService,"");
-		pageComputer.setPage(1);
+		Page pageComputer = new Page(1,pageComputerSize,"");
 		List<Computer> computersPage;
 		while (true){
-			computersPage= pageComputer.getListForPage();
+			computersPage= computerService.listPage(pageComputer);
 			for (Computer computer : computersPage){
 				System.out.println(computer);
 			}
