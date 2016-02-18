@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dto.CompanyDTO;
 import com.excilys.formation.java.computerdb.dto.ComputerDTO;
-import com.excilys.formation.java.computerdb.mapper.CompanyMapper;
-import com.excilys.formation.java.computerdb.mapper.ComputerMapper;
+import com.excilys.formation.java.computerdb.dto.mapper.ComputerDTOMapper;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
 import com.excilys.formation.java.computerdb.service.implementation.CompanyService;
 import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 import com.excilys.formation.java.computerdb.validation.ComputerValidator;
@@ -38,7 +38,7 @@ public class AddComputerServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CompanyService companyService = new CompanyService();
-		List<CompanyDTO> companies= CompanyMapper.mapListCompanyToDTO(companyService.list());
+		List<CompanyDTO> companies= CompanyMapper.listToDTO(companyService.list());
 		
 		request.setAttribute("companies", companies);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/addComputer.jsp");
@@ -65,7 +65,7 @@ public class AddComputerServlet extends HttpServlet{
 					.discontinued(discontinued)
 					.companyId(Integer.parseInt(companyId))
 					.build();
-			Computer computer = ComputerMapper.mapDTOToComputer(computerDTO);
+			Computer computer = ComputerDTOMapper.toComputer(computerDTO);
 			ComputerService computerService = new ComputerService();
 			computerService.create(computer);
 			LOGGER.info("creation of a new computer : {}",computerDTO);

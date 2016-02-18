@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.excilys.formation.java.computerdb.mapper;
+package com.excilys.formation.java.computerdb.model.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ import com.excilys.formation.java.computerdb.model.Company;
 
 /**
  * @author Cédric Cousseran
- * Map the object Company, CompanyDTO and ResultSet of Company to another
+ *
  */
 public interface CompanyMapper {
 	/**
@@ -22,34 +22,26 @@ public interface CompanyMapper {
 	 * @return the company object
 	 * @throws SQLException
 	 */
-	static Company map(ResultSet result) throws SQLException{
+	static Company fromResultSet(ResultSet result) throws SQLException{
 		return new  Company(result.getInt("id"),result.getString("name"));
 	}
-	
+
 	/**
 	 * Map a Company to a CompanyDTO
 	 * @param company
 	 * @return
 	 */
-	static CompanyDTO mapCompanyToDTO(Company company){
+	static CompanyDTO toDTO(Company company){
 		return new CompanyDTO(company.getId(),company.getName());
 	}
 	
-	/**
-	 * Map a CompanyDTO to a Company
-	 * @param dto
-	 * @return
-	 */
-	static Company mapDTOToCompany(CompanyDTO dto){
-		return new Company(dto.getId(),dto.getName());
-	}
 
 	/**
 	 * Map a list of Company to a list of CompanyDTO
 	 * @param companies
 	 * @return
 	 */
-	static List<CompanyDTO> mapListCompanyToDTO(List<Company> companies){
+	static List<CompanyDTO> listToDTO(List<Company> companies){
 		List<CompanyDTO> companiesDTO = new ArrayList<CompanyDTO>();
 	
 		for(Company company : companies){			
@@ -57,5 +49,4 @@ public interface CompanyMapper {
 		}
 		return companiesDTO;
 	}
-
 }

@@ -12,8 +12,8 @@ import com.excilys.formation.java.computerdb.dao.DAO;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
-import com.excilys.formation.java.computerdb.mapper.CompanyMapper;
 import com.excilys.formation.java.computerdb.model.Company;
+import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,7 +60,7 @@ public class CompanyDAO implements DAO<Company> {
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
 			if(result.next()){
-				company = CompanyMapper.map(result);  
+				company = CompanyMapper.fromResultSet(result);  
 			} else{
 				LOGGER.info("No company found with the id: {}",id);
 				return null;
@@ -87,7 +87,7 @@ public class CompanyDAO implements DAO<Company> {
 					ResultSet.CONCUR_READ_ONLY
 					).executeQuery("SELECT * from company");  
 			while (result.next()){
-				companies.add(CompanyMapper.map(result));
+				companies.add(CompanyMapper.fromResultSet(result));
 			}
 		} catch (SQLException e){
 			LOGGER.error("Error while retrieving the list of companies");

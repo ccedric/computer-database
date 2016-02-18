@@ -15,8 +15,9 @@ import com.excilys.formation.java.computerdb.dao.DAO;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
-import com.excilys.formation.java.computerdb.mapper.ComputerMapper;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
+
 import java.sql.Connection;
 
 
@@ -164,7 +165,7 @@ public class ComputerDAO implements DAO<Computer> {
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
 			if (result.next()){
-				computer = ComputerMapper.map(result);
+				computer = ComputerMapper.fromResultSet(result);
 				LOGGER.info("Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",  computer.getId(),computer.getName(), computer.getCompany(), computer.getIntroduced(),computer.getDiscontinued());
 				return computer;		
 			} else{
@@ -201,11 +202,11 @@ public class ComputerDAO implements DAO<Computer> {
 			while (result.next()){
 				try{	
 					if (result.getInt("companyId")==0){
-						Computer computer = ComputerMapper.map(result);
+						Computer computer = ComputerMapper.fromResultSet(result);
 
 						computers.add(computer);
 					} else{
-						Computer computer = ComputerMapper.map(result);
+						Computer computer = ComputerMapper.fromResultSet(result);
 						computers.add(computer);
 					}
 				}
@@ -243,7 +244,7 @@ public class ComputerDAO implements DAO<Computer> {
 			result = statement.executeQuery();    
 			while (result.next()){
 				try{	
-					Computer computer = ComputerMapper.map(result);
+					Computer computer = ComputerMapper.fromResultSet(result);
 					computers.add(computer);
 				}
 				catch(Exception e){
@@ -280,7 +281,7 @@ public class ComputerDAO implements DAO<Computer> {
 			result = statement.executeQuery();    
 			while (result.next()){
 				try{	
-					Computer computer = ComputerMapper.map(result);
+					Computer computer = ComputerMapper.fromResultSet(result);
 					computers.add(computer);
 				}
 				catch(Exception e){
@@ -314,7 +315,7 @@ public class ComputerDAO implements DAO<Computer> {
 			result = statement.executeQuery();    
 			while (result.next()){
 				try{	
-					Computer computer = ComputerMapper.map(result);
+					Computer computer = ComputerMapper.fromResultSet(result);
 
 					computers.add(computer);
 				}

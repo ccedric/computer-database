@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dto.ComputerDTO;
-import com.excilys.formation.java.computerdb.mapper.ComputerMapper;
+import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
 import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
 
@@ -60,7 +60,7 @@ public class DashboardServlet extends HttpServlet {
 		pageComputer.setPage(page);
 		pageComputer.setPageSize(numberResultsPage);
 		
-		List<ComputerDTO> computers= ComputerMapper.mapListComputerToDTO(computerService.listPage(pageComputer));
+		List<ComputerDTO> computers= ComputerMapper.listToDTO(computerService.listPage(pageComputer));
 		int maxPage = computerService.selectCount(searchByName)/numberResultsPage;
 		int pageActuelle = pageComputer.getPage();
 		int numberResults = computerService.selectCount(searchByName);

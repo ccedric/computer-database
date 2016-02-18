@@ -6,8 +6,10 @@ package com.excilys.formation.java.computerdb.mapper;
 import org.junit.Test;
 
 import com.excilys.formation.java.computerdb.dto.ComputerDTO;
+import com.excilys.formation.java.computerdb.dto.mapper.ComputerDTOMapper;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
 
 import static org.junit.Assert.*;
 
@@ -31,7 +33,7 @@ public class ComputerMapperTest {
 				.company(new Company(999,"test company"))
 				.build();
 		
-		assertEquals(computerDTO,ComputerMapper.mapComputerToDTO(computer));
+		assertEquals(computerDTO,ComputerMapper.toDTO(computer));
 	}
 	
 	@Test
@@ -47,7 +49,7 @@ public class ComputerMapperTest {
 				.company(new Company(999,"test company"))
 				.build();
 		
-		assertNotEquals(computerDTO,ComputerMapper.mapComputerToDTO(computer));
+		assertNotEquals(computerDTO,ComputerMapper.toDTO(computer));
 	}
 	
 	@Test
@@ -63,7 +65,7 @@ public class ComputerMapperTest {
 				.company(new Company(999,"test company"))
 				.build();
 		
-		assertEquals(computer,ComputerMapper.mapDTOToComputer(computerDTO));
+		assertEquals(computer,ComputerDTOMapper.toComputer(computerDTO));
 	}
 	
 	@Test
@@ -79,6 +81,6 @@ public class ComputerMapperTest {
 				.company(new Company(999,"test company"))
 				.build();
 		
-		assertNotEquals(computer,ComputerMapper.mapDTOToComputer(computerDTO));
+		assertNotEquals(computer,ComputerDTOMapper.toComputer(computerDTO));
 	}
 }
