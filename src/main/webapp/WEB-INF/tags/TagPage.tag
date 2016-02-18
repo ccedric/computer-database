@@ -9,7 +9,7 @@
 <%@ attribute name="search" required="true" description="Searched element"%>
 
 <div class="container text-center">
-	<form id="numberPage" method="GET" class="col-xs-8" action="dashboard">
+	<form id="numberPage" method="GET" class="col-xs-8" action="<t:TagLink url="dashboard"/>">
 		<ul class="pagination">
 			<c:if test="${page != 1}">
 				<li><a
@@ -45,7 +45,7 @@
 
 
 	<div class="btn-group btn-group-sm pull-right col-xs-3" role="group">
-		<form id="numberResultsPage" method="GET" action="dashboard">
+		<form id="numberResultsPage" method="GET" action="<t:TagLink url="dashboard"/>">
 			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==10 }">active</c:if> " name="number-results"
 				value="10">10</button>
 			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==50 }">active</c:if>" name="number-results"

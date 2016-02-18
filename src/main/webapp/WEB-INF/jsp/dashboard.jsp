@@ -38,14 +38,14 @@
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="add-computer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
+					<a class="btn btn-success" id="addComputer" href="<t:TagLink url="add-computer"/>">Add
+						Computer</a> <a class="btn btn-default" id="editComputer" href="<t:TagLink url="#"/>"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
 			</div>
 		</div>
 
-		<form id="deleteForm" action="#" method="POST">
+		<form id="deleteForm" action="<t:TagLink url="dashboard"/>" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -58,7 +58,7 @@
 
 						<th class="editMode" style="width: 60px; height: 22px;"><input
 							type="checkbox" id="selectall" /> <span
-							style="vertical-align: top;"> - <a href="#"
+							style="vertical-align: top;"> - <a href="<t:TagLink url="#"/>"
 								id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
@@ -78,7 +78,7 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
-							<td><a href="edit-computer" onclick="">${computer.name}</a></td>
+							<td><a href="<t:TagLink url="edit-computer"/>" onclick="">${computer.name}</a></td>
 							<td>${computer.introduced}</td>
 							<td>${computer.discontinued}</td>
 							<td>${computer.companyName}</td>
@@ -92,7 +92,7 @@
 
 	<footer class="navbar-fixed-bottom">
 		<t:TagPage maxPage="${maxPage}" numberResults="${numberResults}"
-			search="${searchByName}" page="${page}"></t:TagPage>
+			search="${searchByName}" page="${page}"/>
 	</footer>
 
 	<script src="js/jquery.min.js"></script>

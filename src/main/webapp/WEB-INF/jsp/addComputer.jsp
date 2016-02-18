@@ -27,7 +27,7 @@
 						</div>
 					</c:if>
 
-					<form action="add-computer" method="POST" id="formAdd">
+					<form action="<t:TagLink url="add-computer"/>" method="POST" id="formAdd">
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
@@ -58,7 +58,7 @@
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Add" class="btn btn-primary"
-								id="submit"> or <a href="dashboard"
+								id="submit"> or <a href="<t:TagLink url="dashboard"/>"
 								class="btn btn-default">Cancel</a>
 						</div>
 					</form>
