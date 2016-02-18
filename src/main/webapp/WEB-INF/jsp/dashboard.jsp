@@ -23,6 +23,17 @@
 			${newComputer.getDiscontinued() }
 		</div>
 	</c:if>
+	<c:if test="${null!=updateComputer}">
+		<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
+			A computer has been updated. Name of the computer:
+			${updateComputer.getName()}, introduced date:
+			${updateComputer.getIntroduced()}, discontinued date:
+			${updateComputer.getDiscontinued() }
+		</div>
+	</c:if>
+
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">${nbResults} Computer(s) found</h1>

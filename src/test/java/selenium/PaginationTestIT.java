@@ -1,13 +1,16 @@
 package selenium;
 
+import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 
 @SuppressWarnings("unused")
-public class NumberResultSet {
+public class PaginationTestIT {
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -21,15 +24,11 @@ public class NumberResultSet {
 	}
 
 	@Test
-	public void testNumberResultSet() throws Exception {
-		driver.get(baseUrl + "/computerDB/dashboard?page=5&numberResults=50&search=");
-		driver.findElement(By.name("numberResults")).click();
-		driver.findElement(By.xpath("(//button[@name='numberResults'])[2]")).click();
-		driver.findElement(By.xpath("(//button[@name='numberResults'])[3]")).click();
-		driver.findElement(By.linkText("5")).click();
-		driver.findElement(By.linkText("6")).click();
-		driver.findElement(By.xpath("(//button[@name='numberResults'])[2]")).click();
+	public void testPagination() throws Exception {
+		driver.get(baseUrl + "/computerDB/dashboard?page=1&numberResults=50&search=");
+		driver.findElement(By.linkText("»")).click();
 		driver.findElement(By.cssSelector("a > span")).click();
+		driver.findElement(By.linkText("5")).click();
 	}
 
 	@After
