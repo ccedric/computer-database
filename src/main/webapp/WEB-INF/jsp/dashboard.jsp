@@ -43,7 +43,7 @@
 						action="<t:TagLink url="dashboard" page="1" numberResults="${numberResults}" search="${searchByName}"/>">
 
 						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" <c:if test="${searchByName.length()>1}">value=${searchByName}</c:if> /> <input
+							class="form-control" placeholder="Computer or Company" <c:if test="${searchByName.length()>1}">value=${searchByName}</c:if> /> <input
 							type="submit" id="searchsubmit" value="Filter by name"
 							class="btn btn-primary" />
 					</form>
