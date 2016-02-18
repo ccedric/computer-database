@@ -21,6 +21,8 @@
 		<logback-core-version>1.1.3</logback-core-version>
 		<dbunit-version>2.5.1</dbunit-version>
 		<maven-compiler-version>3.5.1</maven-compiler-version>
+		<bonecp-version>0.8.0.RELEASE</bonecp-version>
+		<guava-version>19.0</guava-version>
 	</properties>
 
 	<dependencies>
@@ -71,13 +73,26 @@
 		</dependency>
 
 
-		<!-- MySQL -->
+		<!-- DataBase -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-version}</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>${bonecp-version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava-version}</version>
+			<scope>compile</scope>
+		</dependency>
+
 
 		<!-- Log -->
 		<dependency>
