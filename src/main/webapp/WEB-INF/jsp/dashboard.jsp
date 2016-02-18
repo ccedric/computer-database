@@ -78,7 +78,7 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
-							<td><a href="<t:TagLink url="edit-computer"/>" onclick="">${computer.name}</a></td>
+							<td><a href="<t:TagLink url="edit-computer?id=${computer.getId()}"/>" onclick="">${computer.name}</a></td>
 							<td>${computer.introduced}</td>
 							<td>${computer.discontinued}</td>
 							<td>${computer.companyName}</td>
