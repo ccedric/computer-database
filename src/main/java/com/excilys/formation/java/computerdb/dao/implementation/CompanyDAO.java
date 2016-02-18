@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dao.DAO;
+import com.excilys.formation.java.computerdb.dao.validation.CompanyNotFoundException;
+import com.excilys.formation.java.computerdb.dao.validation.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
@@ -34,17 +36,15 @@ public class CompanyDAO implements DAO<Company> {
 	}
 
 	@Override
-	public boolean delete(Company obj) throws DatabaseConnectionException {
-		return false;
+	public void delete(Company obj) throws DatabaseConnectionException {
 	}
 
 	@Override
-	public boolean update(Company obj) throws DatabaseConnectionException {
-		return false;
+	public void update(Company obj) throws DatabaseConnectionException {
 	}
 
 	@Override
-	public Company find(int id) throws DatabaseConnectionException {
+	public Company find(int id) throws DatabaseConnectionException, DAOSqlException, CompanyNotFoundException {
 
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
@@ -63,11 +63,12 @@ public class CompanyDAO implements DAO<Company> {
 				company = CompanyMapper.fromResultSet(result);  
 			} else{
 				LOGGER.info("No company found with the id: {}",id);
-				return null;
+				throw new CompanyNotFoundException("The company couln't be found");
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error while finding the company, id searched: {}",id);
 			e.printStackTrace();
+			throw new DAOSqlException("SQL error while finding the company");
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(connect);
@@ -77,7 +78,7 @@ public class CompanyDAO implements DAO<Company> {
 	}
 
 	@Override
-	public List<Company> list() throws DatabaseConnectionException {
+	public List<Company> list() throws DatabaseConnectionException, DAOSqlException {
 		Connection connect = ConnectionFactory.getConnection();
 		List<Company> companies = new ArrayList<Company>();
 		ResultSet result = null;
@@ -91,8 +92,8 @@ public class CompanyDAO implements DAO<Company> {
 			}
 		} catch (SQLException e){
 			LOGGER.error("Error while retrieving the list of companies");
-
 			e.printStackTrace();
+			throw new DAOSqlException("SQL error while finding the list of companies");
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(connect);

@@ -3,6 +3,10 @@ package com.excilys.formation.java.computerdb.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.excilys.formation.java.computerdb.dao.validation.CompanyNotFoundException;
+import com.excilys.formation.java.computerdb.dao.validation.ComputerDAOInvalidException;
+import com.excilys.formation.java.computerdb.dao.validation.ComputerNotFoundException;
+import com.excilys.formation.java.computerdb.dao.validation.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 
 
@@ -21,7 +25,7 @@ public interface DAO<T> {
 	 * @throws TimestampDisontinuedBeforeIntroducedException 
 	 * @throws SQLException 
 	 */
-	int create(T obj) throws DatabaseConnectionException;
+	int create(T obj) throws DatabaseConnectionException,ComputerDAOInvalidException, DAOSqlException;
 
 	/**
 	 * Delete an object in the database
@@ -29,7 +33,7 @@ public interface DAO<T> {
 	 * @return true the object was successfully deleted, false otherwise
 	 * @throws SQLException 
 	 */
-	 boolean delete(T obj) throws DatabaseConnectionException;
+	 void delete(T obj) throws DatabaseConnectionException,ComputerNotFoundException, DAOSqlException;
 
 	/**
 	 * Update an object in the database
@@ -38,7 +42,7 @@ public interface DAO<T> {
 	 * @throws TimestampDiscontinuedBeforeIntroducedException 
 	 * @throws SQLException 
 	 */
-	boolean update(T obj) throws DatabaseConnectionException;
+	void update(T obj) throws DatabaseConnectionException, ComputerNotFoundException, DAOSqlException;
 
 	/**
 	 * Find an object in the database with his id
@@ -46,21 +50,21 @@ public interface DAO<T> {
 	 * @return the object found, null if it was not found
 	 * @throws SQLException 
 	 */
-	T find(int id) throws DatabaseConnectionException;
+	T find(int id) throws DatabaseConnectionException, DAOSqlException, ComputerNotFoundException, CompanyNotFoundException;
 
 	/**
 	 * Return the list of object available in the database
 	 * @return the list of objects
 	 * @throws SQLException 
 	 */
-	List<T> list() throws DatabaseConnectionException;
+	List<T> list() throws DatabaseConnectionException,DAOSqlException;
 	
 	/**
 	 * Get a page of the list of all objects
 	 * @return the list paged 
 	 * @throws SQLException 
 	 */
-	List<T> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException;
+	List<T> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException, DAOSqlException;
 	
 	/**
 	 * Return a list of objects who have a corresponding name
@@ -68,7 +72,7 @@ public interface DAO<T> {
 	 * @return list of objects
 	 * @throws DatabaseConnectionException
 	 */
-	List<T> findByName(String name) throws DatabaseConnectionException;
+	List<T> findByName(String name) throws DatabaseConnectionException, DAOSqlException;
 	
 	/**
 	 * Get the number of results of the search query on the name attribute
@@ -76,7 +80,7 @@ public interface DAO<T> {
 	 * @return
 	 * @throws DatabaseConnectionException
 	 */
-	int selectCount(String name) throws DatabaseConnectionException;
+	int selectCount(String name) throws DatabaseConnectionException, DAOSqlException;
 
 	/**
 	 * Fetch in the database a list of T who have a corresponding name, null if no match. The size of the list is limited by pageSize
@@ -86,5 +90,5 @@ public interface DAO<T> {
 	 * @return
 	 * @throws DatabaseConnectionException
 	 */
-	List<T> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException;
+	List<T> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException, DAOSqlException;
 }

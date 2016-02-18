@@ -12,11 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dao.DAO;
+import com.excilys.formation.java.computerdb.dao.validation.ComputerDAOInvalidException;
+import com.excilys.formation.java.computerdb.dao.validation.DAOSqlException;
+import com.excilys.formation.java.computerdb.dao.validation.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
+import com.excilys.formation.java.computerdb.model.validation.ComputerInvalidException;
+import com.excilys.formation.java.computerdb.model.validation.ComputerValidator;
 
 import java.sql.Connection;
 
@@ -32,7 +37,15 @@ public class ComputerDAO implements DAO<Computer> {
 	public ComputerDAO() {}
 
 	@Override
-	public int create(Computer obj) throws DatabaseConnectionException {
+	public int create(Computer obj) throws DatabaseConnectionException, ComputerDAOInvalidException, DAOSqlException {
+		try {
+			ComputerValidator.validate(obj);
+		} catch (ComputerInvalidException e){
+			LOGGER.error("Error while creating a new Computer, computer invalid ");
+			throw new ComputerDAOInvalidException("Error while creating the coputer, computer invalid");
+		}
+
+
 		Connection connect = ConnectionFactory.getConnection();
 
 		String sql = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES ( ?, ?, ?,?)";
@@ -70,7 +83,7 @@ public class ComputerDAO implements DAO<Computer> {
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOGGER.error("Error while creating the computer");
-			return 0;
+			throw new DAOSqlException("SQL error while creating the computer");
 		} finally{
 			DbUtil.close(statement);
 			DbUtil.close(rs);
@@ -79,7 +92,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public boolean delete(Computer obj) throws DatabaseConnectionException {
+	public void delete(Computer obj) throws DatabaseConnectionException, ComputerNotFoundException, DAOSqlException {
 		Connection connect = ConnectionFactory.getConnection();
 		PreparedStatement statement = null;
 		String sql = "DELETE FROM computer WHERE id=?";
@@ -91,15 +104,14 @@ public class ComputerDAO implements DAO<Computer> {
 			int rows = statement.executeUpdate();
 			if (rows>0){
 				LOGGER.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
-				return true;
 			} else{
 				LOGGER.info("Computer couldn't be deleted, check if he exists in the database, id {}, name {}", obj.getId(), obj.getName());
-				return false;
+				throw new ComputerNotFoundException("Error while deleting the computer,computer not found");			
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error("Error while deleting the computer");
-			return false;
+			throw new DAOSqlException("SQL error while deleting the computer");
 		} finally{
 			DbUtil.close(statement);
 			DbUtil.close(connect);
@@ -107,7 +119,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public boolean update(Computer obj) throws DatabaseConnectionException {
+	public void update(Computer obj) throws DatabaseConnectionException, ComputerNotFoundException, DAOSqlException {
 		String sql = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 		Connection connect = ConnectionFactory.getConnection();
 
@@ -137,14 +149,14 @@ public class ComputerDAO implements DAO<Computer> {
 
 			if (rowsUpdated > 0) {
 				LOGGER.info("Computer updated, id {}, name {}, company {}, introduced date {}, discontinued date {}.", obj.getId(), obj.getName(), obj.getCompany(), obj.getIntroduced(),obj.getDiscontinued());
-				return true;
+			} else{
+				LOGGER.error("Error while updating the computer, id: {}, name: {}",obj.getId(), obj.getName());
+				throw new ComputerNotFoundException("Error while updating the computer,computer not found");					
 			}
-			LOGGER.error("Error while updating the computer, id: {}, name: {}",obj.getId(), obj.getName());
-			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error("Error while updating the computer");
-			return false;
+			throw new DAOSqlException("SQL error while updating the computer");
 		} finally{
 			DbUtil.close(statement);
 			DbUtil.close(connect);
@@ -153,7 +165,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public Computer find(int id) throws DatabaseConnectionException {
+	public Computer find(int id) throws DatabaseConnectionException, DAOSqlException, ComputerNotFoundException {
 		Connection connect = ConnectionFactory.getConnection();
 
 		ResultSet result = null;
@@ -170,23 +182,23 @@ public class ComputerDAO implements DAO<Computer> {
 				return computer;		
 			} else{
 				LOGGER.info("No computer found with the id: {}.",  id);
-				return null;
+				throw new ComputerNotFoundException("Error while updating the computer,computer not found");
 			}
 
 
 		} catch (SQLException e) {
 			LOGGER.error("Error while finding the computer");
 			e.printStackTrace();
+			throw new DAOSqlException("SQL error while finding the computer");
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(statement);
 			DbUtil.close(connect);
 		}
-		return null;
 	}
 
 	@Override
-	public List<Computer> list() throws DatabaseConnectionException {
+	public List<Computer> list() throws DatabaseConnectionException, DAOSqlException {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
@@ -200,24 +212,19 @@ public class ComputerDAO implements DAO<Computer> {
 									"LEFT JOIN company ON computer.company_id= company.id"							
 							);  
 			while (result.next()){
-				try{	
-					if (result.getInt("companyId")==0){
-						Computer computer = ComputerMapper.fromResultSet(result);
+				if (result.getInt("companyId")==0){
+					Computer computer = ComputerMapper.fromResultSet(result);
 
-						computers.add(computer);
-					} else{
-						Computer computer = ComputerMapper.fromResultSet(result);
-						computers.add(computer);
-					}
-				}
-				catch(Exception e){
-					LOGGER.error("Error while retrieving the list of computers");
-					e.printStackTrace();
+					computers.add(computer);
+				} else{
+					Computer computer = ComputerMapper.fromResultSet(result);
+					computers.add(computer);
 				}
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error sql while retrieving the list of computers");
 			e.printStackTrace();
+			throw new DAOSqlException("SQL error while finding the list of computer");
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(connect);
@@ -229,7 +236,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public List<Computer> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException  {
+	public List<Computer> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException, DAOSqlException  {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
@@ -243,18 +250,14 @@ public class ComputerDAO implements DAO<Computer> {
 			statement.setInt(2, pageSize);
 			result = statement.executeQuery();    
 			while (result.next()){
-				try{	
-					Computer computer = ComputerMapper.fromResultSet(result);
-					computers.add(computer);
-				}
-				catch(Exception e){
-					LOGGER.error("Error while retrieving the list of computers");
-					e.printStackTrace();
-				}
+				Computer computer = ComputerMapper.fromResultSet(result);
+				computers.add(computer);
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error sql while retrieving the list of computers");
 			e.printStackTrace();
+			throw new DAOSqlException("SQL error while finding the list for one page of computer");
+
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(connect);
@@ -265,7 +268,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public List<Computer> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException  {
+	public List<Computer> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException, DAOSqlException  {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
@@ -280,18 +283,14 @@ public class ComputerDAO implements DAO<Computer> {
 			statement.setString(1, name+'%');
 			result = statement.executeQuery();    
 			while (result.next()){
-				try{	
-					Computer computer = ComputerMapper.fromResultSet(result);
-					computers.add(computer);
-				}
-				catch(Exception e){
-					LOGGER.error("Error while retrieving the list of computers");
-					e.printStackTrace();
-				}
+				Computer computer = ComputerMapper.fromResultSet(result);
+				computers.add(computer);
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error sql while retrieving the list of computers");
 			e.printStackTrace();
+			throw new DAOSqlException("SQL error while finding the page of computer with a search by name");
+
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(connect);
@@ -300,9 +299,9 @@ public class ComputerDAO implements DAO<Computer> {
 
 		return computers;
 	}
-	
+
 	@Override
-	public List<Computer> findByName(String name) throws DatabaseConnectionException {
+	public List<Computer> findByName(String name) throws DatabaseConnectionException, DAOSqlException {
 		Connection connect = ConnectionFactory.getConnection();
 
 		ResultSet result = null;
@@ -316,7 +315,6 @@ public class ComputerDAO implements DAO<Computer> {
 			while (result.next()){
 				try{	
 					Computer computer = ComputerMapper.fromResultSet(result);
-
 					computers.add(computer);
 				}
 				catch(Exception e){
@@ -329,6 +327,8 @@ public class ComputerDAO implements DAO<Computer> {
 		} catch (SQLException e) {
 			LOGGER.error("Error while finding computers by name");
 			e.printStackTrace();
+			throw new DAOSqlException("SQL error while finding a computer by name");
+
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(statement);
@@ -338,7 +338,7 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public int selectCount(String name) throws DatabaseConnectionException {
+	public int selectCount(String name) throws DatabaseConnectionException, DAOSqlException {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		String sql = "SELECT COUNT(*) FROM computer WHERE computer.name LIKE ?";
@@ -354,6 +354,8 @@ public class ComputerDAO implements DAO<Computer> {
 		} catch (SQLException e) {
 			LOGGER.error("Error sql while retrieving the number of computers");
 			e.printStackTrace();
+			throw new DAOSqlException("SQL error while getting the number of computers");
+
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(statement);
