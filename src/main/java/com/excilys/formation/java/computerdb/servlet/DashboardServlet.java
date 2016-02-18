@@ -61,7 +61,7 @@ public class DashboardServlet extends HttpServlet {
 		pageComputer.setPageSize(numberResultsPage);
 		
 		List<ComputerDTO> computers= ComputerMapper.listToDTO(computerService.listPage(pageComputer));
-		int maxPage = computerService.selectCount(searchByName)/numberResultsPage;
+		int maxPage = (computerService.selectCount(searchByName) + numberResultsPage - 1)/numberResultsPage;
 		int pageActuelle = pageComputer.getPage();
 		int numberResults = computerService.selectCount(searchByName);
 
