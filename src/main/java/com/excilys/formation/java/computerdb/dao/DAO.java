@@ -3,10 +3,10 @@ package com.excilys.formation.java.computerdb.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.excilys.formation.java.computerdb.dao.validation.CompanyNotFoundException;
-import com.excilys.formation.java.computerdb.dao.validation.ComputerDAOInvalidException;
-import com.excilys.formation.java.computerdb.dao.validation.ComputerNotFoundException;
-import com.excilys.formation.java.computerdb.dao.validation.DAOSqlException;
+import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
+import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidException;
+import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
+import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 
 

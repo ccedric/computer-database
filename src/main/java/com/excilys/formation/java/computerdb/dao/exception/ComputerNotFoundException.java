@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.excilys.formation.java.computerdb.dao.validation;
+package com.excilys.formation.java.computerdb.dao.exception;
 
 /**
  * @author Cédric Cousseran

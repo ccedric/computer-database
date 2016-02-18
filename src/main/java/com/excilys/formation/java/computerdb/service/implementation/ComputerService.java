@@ -4,10 +4,11 @@
 package com.excilys.formation.java.computerdb.service.implementation;
 
 import java.util.List;
+
+import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidException;
+import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
+import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
-import com.excilys.formation.java.computerdb.dao.validation.ComputerDAOInvalidException;
-import com.excilys.formation.java.computerdb.dao.validation.ComputerNotFoundException;
-import com.excilys.formation.java.computerdb.dao.validation.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.Page;

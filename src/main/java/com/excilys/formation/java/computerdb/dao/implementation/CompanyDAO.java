@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dao.DAO;
-import com.excilys.formation.java.computerdb.dao.validation.CompanyNotFoundException;
-import com.excilys.formation.java.computerdb.dao.validation.DAOSqlException;
+import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
+import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;

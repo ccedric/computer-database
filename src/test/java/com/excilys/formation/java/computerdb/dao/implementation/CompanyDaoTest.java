@@ -5,8 +5,8 @@ package com.excilys.formation.java.computerdb.dao.implementation;
 
 import org.junit.Test;
 
-import com.excilys.formation.java.computerdb.dao.validation.CompanyNotFoundException;
-import com.excilys.formation.java.computerdb.dao.validation.DAOSqlException;
+import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
+import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 
 import static org.junit.Assert.*;

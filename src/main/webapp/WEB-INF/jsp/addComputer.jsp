@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="java.util.List"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 
 
 <!DOCTYPE html>
@@ -70,7 +71,6 @@
 	<footer>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
- 		<script src="js/addComputer.js"></script>
 		<script src="js/jquery.validate.min.js"></script>
 
 	</footer>
