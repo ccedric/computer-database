@@ -5,10 +5,16 @@ package com.excilys.formation.java.computerdb.order;
 
 /**
  * @author Cédric Cousseran
- *
+ * Class containing the information concerning the order by in the web ui
  */
 public class OrderSearch {
+	/**
+	 * The column the order by is on
+	 */
 	private Column column = Column.computerId;
+	/**
+	 * Order by ascending or descending
+	 */
 	private Order order = Order.ASC;
 		
 	public OrderSearch(Column column, Order order) {
@@ -17,8 +23,13 @@ public class OrderSearch {
 		this.order = order;
 	}
 	
+	/**
+	 * 
+	 */
 	public OrderSearch() {
 	}
+	
+	
 	/**
 	 * @return the column
 	 */

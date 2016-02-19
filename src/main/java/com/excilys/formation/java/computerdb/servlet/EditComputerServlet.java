@@ -32,12 +32,13 @@ import com.excilys.formation.java.computerdb.service.implementation.ComputerServ
 
 /**
  * @author Cédric Cousseran
- *
+ * Servlet for the edit computer page, in the web-ui
  */
 @SuppressWarnings("serial")
 @WebServlet({  "/edit-computer" })
 public class EditComputerServlet extends HttpServlet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CompanyService companyService = new CompanyService();
@@ -51,6 +52,7 @@ public class EditComputerServlet extends HttpServlet {
 			request.setAttribute("computer", computer);
 			request.setAttribute("companies", companies);
 			LOGGER.info("Edit page of the computer: {}",computer.toString());
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/editComputer.jsp");
 			dispatcher.forward(request, response);
 
@@ -62,6 +64,7 @@ public class EditComputerServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Called when the user has finished updating the computer
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("computerName");
@@ -78,14 +81,20 @@ public class EditComputerServlet extends HttpServlet {
 				.companyId(Integer.parseInt(companyId))
 				.build();
 		try {
+			//Validation of the ComputerDTO
 			ComputerDTOValidator.validate(computerDTO);
+			
+			//Creation of a Computer from a ComputerDTO
 			Computer computer = ComputerDTOMapper.toComputer(computerDTO);
+			
 			ComputerService computerService = new ComputerService();
 			computerService.update(computer);
 			LOGGER.info("update of a new computer : {}",computerDTO);
+			
 			request.setAttribute("updateComputer", computerDTO);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard");
 			dispatcher.forward(request, response);
+			
 		} catch (DiscontinuedBeforeIntroducedException | NameRequiredException | DateTimeInvalidException e) {
 			request.setAttribute("errors", e.getMessage());
 			doGet(request,response);

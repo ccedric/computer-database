@@ -45,12 +45,15 @@ public class DashboardServlet extends HttpServlet {
 		String searchByName = request.getParameter("search");
 		String orderColumn = request.getParameter("order-column");
 		String orderOrder = request.getParameter("order-order");
+		StringBuilder errors = new StringBuilder();
+		
 		int numberResultsPage = 50;
 		int page = 1;
 
 		try{
 			page = Integer.parseInt(request.getParameter("page"));
-		} catch (Exception e){}
+		} catch (Exception e){
+		}
 
 		try{
 			numberResultsPage = Integer.parseInt(request.getParameter("number-results"));
@@ -88,6 +91,11 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("page", page);
 		request.setAttribute("orderColumn", orderColumn);
 		request.setAttribute("orderOrder", orderOrder);
+		
+		
+		if (!errors.toString().isEmpty()){
+			request.setAttribute("errors", errors.toString());
+		}
 
 		LOGGER.info("number of pages of the result: {}",maxPage);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp");

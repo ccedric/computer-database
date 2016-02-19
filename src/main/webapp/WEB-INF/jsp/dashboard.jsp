@@ -13,6 +13,8 @@
 </head>
 <body>
 	<%@include file="header.html"%>
+	
+	<!-- Alert if the user just created a new computer -->
 	<c:if test="${null!=newComputer}">
 		<div class="alert alert-success alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert"
@@ -23,6 +25,8 @@
 			${newComputer.getDiscontinued() }
 		</div>
 	</c:if>
+	
+	<!-- Alert if the user just updated a new computer -->
 	<c:if test="${null!=updateComputer}">
 		<div class="alert alert-success alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert"
@@ -33,6 +37,8 @@
 			${updateComputer.getDiscontinued() }
 		</div>
 	</c:if>
+	
+	<!-- Alert if the user just deleted some computers -->
 	<c:if test="${null!=computerDelete}">
 		<div class="alert alert-success alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert"
@@ -40,9 +46,12 @@
 			${computerDelete } Computer(s) have been deleted successfully
 		</div>
 	</c:if>
+		
 	<section id="main">
+	
+		<!-- Search bar and buttons of the webapp -->
 		<div class="container">
-			<h1 id="homeTitle">${nbResults}Computer(s) found</h1>
+			<h1 id="homeTitle">${nbResults} Computer(s) found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" method="GET" class="form-inline"
@@ -84,6 +93,8 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
+						
+						<!-- Header of the column Computer name -->
 						<c:if
 							test="${orderColumn.equals('computerName') && orderOrder.equals('ASC') }">
 							<th><a
@@ -101,6 +112,7 @@
 									</c:if></th>
 						</c:if>
 
+						<!-- Header of the column Introduced date -->
 						<c:if
 							test="${orderColumn.equals('introduced') && orderOrder.equals('ASC') }">
 							<th><a

@@ -275,7 +275,9 @@ public class ComputerDAO implements DAO<Computer> {
 		List<Computer> computers = new ArrayList<Computer>();
 		PreparedStatement statement = null;
 		StringBuilder request = new StringBuilder();
-		request.append("SELECT computer.id AS computerId, computer.name AS computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY ");
+		request.append("SELECT computer.id AS computerId, computer.name AS computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY ISNULL(");
+		request.append(order.getColumn());
+		request.append("), ");
 		request.append(order.getColumn());
 		request.append(" ");
 		request.append(order.getOrder());
