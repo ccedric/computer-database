@@ -8,11 +8,14 @@
 <%@ attribute name="numberResults"
 	description="Number of element for each page"%>
 <%@ attribute name="search" description="Searched element"%>
+<%@ attribute name="orderColumn" description="Column ordered"%>
+<%@ attribute name="orderOrder" description="Order ascending or descending"%>
+
 
 <c:choose>
 	<c:when test="${url.equals('dashboard') }">
 		<c:url
-			value="${url}?page=${page}&number-results=${numberResults}&search=${search}" />
+			value="${url}?page=${page}&number-results=${numberResults}&search=${search}&order-column=${orderColumn}&order-order=${orderOrder}" />
 	</c:when>
 	<c:otherwise>
 		<c:url value="${url}" />

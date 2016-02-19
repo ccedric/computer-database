@@ -103,7 +103,7 @@ public class CompanyService implements Service<Company> {
 	 */
 	@Override
 	public List<Company> listPageByName(Page page) throws DatabaseConnectionException {
-		return companyDAO.listPageByName(page.getPage()*page.getPageSize(), page.getPageSize(),page.getSearch());
+		return companyDAO.listPageByName(page.getPage()*page.getPageSize(), page.getPageSize(),page.getSearch(), page.getOrderSearch());
 	}
 
 	/* (non-Javadoc)

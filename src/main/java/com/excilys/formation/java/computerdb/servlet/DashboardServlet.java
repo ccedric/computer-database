@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dto.ComputerDTO;
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
+import com.excilys.formation.java.computerdb.order.Column;
+import com.excilys.formation.java.computerdb.order.Order;
+import com.excilys.formation.java.computerdb.order.OrderSearch;
 import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
 
@@ -40,6 +43,8 @@ public class DashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerService computerService = new ComputerService();
 		String searchByName = request.getParameter("search");
+		String orderColumn = request.getParameter("order-column");
+		String orderOrder = request.getParameter("order-order");
 		int numberResultsPage = 50;
 		int page =1;
 
@@ -60,6 +65,15 @@ public class DashboardServlet extends HttpServlet {
 		pageComputer.setPage(page);
 		pageComputer.setPageSize(numberResultsPage);
 		
+		OrderSearch order = new OrderSearch();
+		try{
+			 order = new OrderSearch(Column.valueOf(orderColumn),Order.valueOf(orderOrder));
+		} catch (Exception e){
+			
+		}
+		
+		pageComputer.setOrderSearch(order);
+		
 		List<ComputerDTO> computers= ComputerMapper.listToDTO(computerService.listPageByName(pageComputer));
 		int maxPage = (computerService.selectCount(searchByName) + numberResultsPage - 1)/numberResultsPage;
 		int pageActuelle = pageComputer.getPage();
@@ -72,6 +86,9 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("searchByName", searchByName);
 		request.setAttribute("numberResults", numberResultsPage);
 		request.setAttribute("page", page);
+		request.setAttribute("orderColumn", orderColumn);
+		request.setAttribute("orderOrder", orderOrder);
+
 		LOGGER.info("number of pages of the result: {}",maxPage);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp");
 		dispatcher.forward(request, response);

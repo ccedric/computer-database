@@ -3,6 +3,8 @@
  */
 package com.excilys.formation.java.computerdb.service;
 
+import com.excilys.formation.java.computerdb.order.OrderSearch;
+
 /**
  * @author Cédric Cousseran
  *
@@ -11,7 +13,8 @@ public class Page {
 	private int page;
 	private int pageSize;
 	private String search;
-		
+	private OrderSearch orderSearch;
+	
 	public Page(int page, int pageSize, String search) {
 		super();
 		this.page = page;
@@ -74,5 +77,19 @@ public class Page {
 	
 	public int getStartingIndex() {
 		return (getPage()-1)*getPageSize();
+	}
+
+	/**
+	 * @return the orderSearch
+	 */
+	public OrderSearch getOrderSearch() {
+		return orderSearch;
+	}
+
+	/**
+	 * @param orderSearch the orderSearch to set
+	 */
+	public void setOrderSearch(OrderSearch orderSearch) {
+		this.orderSearch = orderSearch;
 	}
 }

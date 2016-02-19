@@ -16,6 +16,7 @@ import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
+import com.excilys.formation.java.computerdb.order.OrderSearch;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -170,7 +171,7 @@ public class CompanyDAO implements DAO<Company> {
 	 * @see com.excilys.formation.java.computerdb.dao.DAO#listPageByName(int, int, java.lang.String)
 	 */
 	@Override
-	public List<Company> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException {
+	public List<Company> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order) throws DatabaseConnectionException {
 		return null;
 	}
 

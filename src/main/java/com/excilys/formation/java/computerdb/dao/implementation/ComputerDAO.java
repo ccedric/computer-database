@@ -22,6 +22,7 @@ import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
 import com.excilys.formation.java.computerdb.model.validation.ComputerInvalidException;
 import com.excilys.formation.java.computerdb.model.validation.ComputerValidator;
+import com.excilys.formation.java.computerdb.order.OrderSearch;
 
 import java.sql.Connection;
 
@@ -268,13 +269,13 @@ public class ComputerDAO implements DAO<Computer> {
 	}
 
 	@Override
-	public List<Computer> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException, DAOSqlException  {
+	public List<Computer> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order) throws DatabaseConnectionException, DAOSqlException  {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		PreparedStatement statement = null;
 		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
-				"LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? OR company.name LIKE ? LIMIT ?, ? ";
+				"LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY "+ order.getColumn() + " " +order.getOrder()+" LIMIT ?, ? ";
 		try {
 
 			statement = connect.prepareStatement(sql);

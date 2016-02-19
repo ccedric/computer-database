@@ -74,13 +74,33 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer name</th>
-						<th>Introduced date</th>
-						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date</th>
-						<!-- Table header for Company -->
-						<th>Company</th>
-
+						<c:if test="${orderColumn.equals('name') && orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="name" orderOrder="DESC"/>">Computer name</a></th>
+						</c:if>
+						<c:if test="${!orderColumn.equals('name') ||  !orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="name" orderOrder="ASC"/>">Computer name</a></th>
+						</c:if>
+						
+						<c:if test="${orderColumn.equals('introduced') && orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="introduced" orderOrder="DESC"/>">Introduced date</a></th>
+						</c:if>
+						<c:if test="${!orderColumn.equals('introduced') ||  !orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="introduced" orderOrder="ASC"/>">Introduced date</a></th>
+						</c:if>						
+						
+						<c:if test="${orderColumn.equals('discontinued') && orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="discontinued" orderOrder="DESC"/>">Discontinued date</a></th>
+						</c:if>
+						<c:if test="${!orderColumn.equals('discontinued') ||  !orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="discontinued" orderOrder="ASC"/>">Discontinued date</a></th>
+						</c:if>		
+						
+						<c:if test="${orderColumn.equals('companyName') && orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="companyName" orderOrder="DESC"/>">Company</a></th>
+						</c:if>
+						<c:if test="${!orderColumn.equals('companyName') ||  !orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="companyName" orderOrder="ASC"/>">Company</a></th>
+						</c:if>														
 					</tr>
 				</thead>
 				<!-- Browse attribute computers -->

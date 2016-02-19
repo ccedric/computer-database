@@ -8,6 +8,7 @@ import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidExc
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
+import com.excilys.formation.java.computerdb.order.OrderSearch;
 
 
 /**
@@ -90,5 +91,5 @@ public interface DAO<T> {
 	 * @return
 	 * @throws DatabaseConnectionException
 	 */
-	List<T> listPageByName(int indexBegin, int pageSize, String name) throws DatabaseConnectionException, DAOSqlException;
+	List<T> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order) throws DatabaseConnectionException, DAOSqlException;
 }

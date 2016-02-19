@@ -114,7 +114,7 @@ public class ComputerService implements Service<Computer> {
 	@Override
 	public List<Computer> listPageByName(Page page) throws DatabaseConnectionException {
 		try {
-			return computerDAO.listPageByName(page.getStartingIndex(), page.getPageSize(), page.getSearch());
+			return computerDAO.listPageByName(page.getStartingIndex(), page.getPageSize(), page.getSearch(), page.getOrderSearch());
 		} catch (DAOSqlException e) {
 			e.printStackTrace();
 		}
