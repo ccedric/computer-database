@@ -16,11 +16,11 @@ import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidExc
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
-import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
+import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.model.exception.ComputerInvalidException;
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
-import com.excilys.formation.java.computerdb.model.validation.ComputerInvalidException;
 import com.excilys.formation.java.computerdb.model.validation.ComputerValidator;
 import com.excilys.formation.java.computerdb.order.OrderSearch;
 
@@ -172,7 +172,7 @@ public class ComputerDAO implements DAO<Computer> {
 		ResultSet result = null;
 		PreparedStatement statement = null;
 		Computer computer;
-		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.id=?";
+		String sql = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.id=?";
 		try {
 			statement = connect.prepareStatement(sql);
 			statement.setInt(1, id);
@@ -209,7 +209,7 @@ public class ComputerDAO implements DAO<Computer> {
 					ResultSet.TYPE_SCROLL_INSENSITIVE, 
 					ResultSet.CONCUR_READ_ONLY
 					).executeQuery(
-							"SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
+							"SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
 									"LEFT JOIN company ON computer.company_id= company.id"							
 							);  
 			while (result.next()){
@@ -242,7 +242,7 @@ public class ComputerDAO implements DAO<Computer> {
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		PreparedStatement statement = null;
-		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
+		String sql = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
 				"LEFT JOIN company ON computer.company_id= company.id LIMIT ?, ? ";
 		try {
 
@@ -274,8 +274,14 @@ public class ComputerDAO implements DAO<Computer> {
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		PreparedStatement statement = null;
-		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
-				"LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY "+ order.getColumn() + " " +order.getOrder()+" LIMIT ?, ? ";
+		StringBuilder request = new StringBuilder();
+		request.append("SELECT computer.id AS computerId, computer.name AS computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY ");
+		request.append(order.getColumn());
+		request.append(" ");
+		request.append(order.getOrder());
+		request.append(" LIMIT ?, ? ");
+		
+		String sql = request.toString();
 		try {
 
 			statement = connect.prepareStatement(sql);
@@ -310,7 +316,7 @@ public class ComputerDAO implements DAO<Computer> {
 		ResultSet result = null;
 		PreparedStatement statement = null;
 		List<Computer> computers = new ArrayList<Computer>();
-		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.name LIKE ?";
+		String sql = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.name LIKE ?";
 		try {
 			statement = connect.prepareStatement(sql);
 			statement.setString(1, name+'%');

@@ -7,7 +7,7 @@ import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundExcept
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
-import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
+import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.order.OrderSearch;
 
 

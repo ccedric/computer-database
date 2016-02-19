@@ -6,11 +6,11 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
-import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
+import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.Page;
-import com.excilys.formation.java.computerdb.service.TimestampDiscontinuedBeforeIntroducedException;
+import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 import com.excilys.formation.java.computerdb.service.implementation.CompanyService;
 import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 

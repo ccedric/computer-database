@@ -8,7 +8,7 @@ package com.excilys.formation.java.computerdb.dto.exception;
  *
  */
 @SuppressWarnings("serial")
-public class DiscontinuedBeforeIntroducedException extends Exception {
+public class DiscontinuedBeforeIntroducedException extends RuntimeException {
 	public DiscontinuedBeforeIntroducedException() { 
 		super(); 
 	}

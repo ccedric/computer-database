@@ -12,7 +12,7 @@ import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidExc
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
-import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
+import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 
 

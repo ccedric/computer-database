@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.excilys.formation.java.computerdb.db;
+package com.excilys.formation.java.computerdb.db.exception;
 
 /**
  * @author Cédric Cousseran

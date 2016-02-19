@@ -46,7 +46,7 @@ public class DashboardServlet extends HttpServlet {
 		String orderColumn = request.getParameter("order-column");
 		String orderOrder = request.getParameter("order-order");
 		int numberResultsPage = 50;
-		int page =1;
+		int page = 1;
 
 		try{
 			page = Integer.parseInt(request.getParameter("page"));
@@ -114,6 +114,7 @@ public class DashboardServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+			request.setAttribute("computerDelete",idsDelete.length);
 
 		}
 		doGet(request, response);

@@ -8,7 +8,7 @@ package com.excilys.formation.java.computerdb.dao.exception;
  *
  */
 @SuppressWarnings("serial")
-public class ComputerDAOInvalidException extends Exception {
+public class ComputerDAOInvalidException extends RuntimeException {
 	public ComputerDAOInvalidException() { 
 		super(); 
 	}

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.Page;
-import com.excilys.formation.java.computerdb.service.TimestampDiscontinuedBeforeIntroducedException;
+import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
 import static org.junit.Assert.*;
 

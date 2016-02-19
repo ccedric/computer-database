@@ -8,7 +8,7 @@ package com.excilys.formation.java.computerdb.dao.exception;
  *
  */
 @SuppressWarnings("serial")
-public class ComputerNotFoundException extends Exception{
+public class ComputerNotFoundException extends RuntimeException {
 	public ComputerNotFoundException() { 
 		super(); 
 	}

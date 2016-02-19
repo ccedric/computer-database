@@ -8,7 +8,7 @@ package com.excilys.formation.java.computerdb.order;
  *
  */
 public class OrderSearch {
-	private Column column = Column.id;
+	private Column column = Column.computerId;
 	private Order order = Order.ASC;
 		
 	public OrderSearch(Column column, Order order) {

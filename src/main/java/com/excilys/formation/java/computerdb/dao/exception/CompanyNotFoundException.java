@@ -8,7 +8,7 @@ package com.excilys.formation.java.computerdb.dao.exception;
  *
  */
 @SuppressWarnings("serial")
-public class CompanyNotFoundException extends Exception {
+public class CompanyNotFoundException extends RuntimeException {
 	public CompanyNotFoundException() { 
 		super(); 
 	}

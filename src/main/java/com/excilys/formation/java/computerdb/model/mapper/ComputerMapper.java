@@ -39,8 +39,8 @@ public interface ComputerMapper {
 		if (null!=result.getString("companyName")){
 			company = new Company(result.getInt("companyId"), result.getString("companyName"));
 		}
-		return new  Computer.ComputerBuilder(result.getString("name"))
-				.id(result.getInt("id"))
+		return new  Computer.ComputerBuilder(result.getString("computerName"))
+				.id(result.getInt("computerId"))
 				.company(company)
 				.introduced(introduced)
 				.discontinued(discontinued)

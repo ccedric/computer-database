@@ -9,11 +9,11 @@ import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidExc
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
-import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
+import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.Page;
 import com.excilys.formation.java.computerdb.service.Service;
-import com.excilys.formation.java.computerdb.service.TimestampDiscontinuedBeforeIntroducedException;
+import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
 /**
  * @author Cédric Cousseran

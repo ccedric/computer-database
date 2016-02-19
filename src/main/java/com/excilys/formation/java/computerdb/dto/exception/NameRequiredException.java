@@ -8,7 +8,7 @@ package com.excilys.formation.java.computerdb.dto.exception;
  *
  */
 @SuppressWarnings("serial")
-public class NameRequiredException extends Exception {
+public class NameRequiredException extends RuntimeException {
 	public NameRequiredException() { 
 		super(); 
 	}

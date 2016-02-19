@@ -8,7 +8,7 @@ package com.excilys.formation.java.computerdb.dao.exception;
  *
  */
 @SuppressWarnings("serial")
-public class DAOSqlException extends Exception {
+public class DAOSqlException extends RuntimeException {
 	public DAOSqlException() { 
 		super(); 
 	}

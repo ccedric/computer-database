@@ -8,7 +8,7 @@ package com.excilys.formation.java.computerdb.dto.exception;
  *
  */
 @SuppressWarnings("serial")
-public class DateTimeInvalidException extends Exception{
+public class DateTimeInvalidException extends RuntimeException {
 	public DateTimeInvalidException() { 
 		super(); 
 	}

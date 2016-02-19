@@ -33,6 +33,13 @@
 			${updateComputer.getDiscontinued() }
 		</div>
 	</c:if>
+	<c:if test="${null!=computerDelete}">
+		<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
+			${computerDelete } Computer(s) have been deleted successfully
+		</div>
+	</c:if>
 
 	<section id="main">
 		<div class="container">
@@ -74,11 +81,11 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<c:if test="${orderColumn.equals('name') && orderOrder.equals('ASC') }">
-							<th><a href="<t:TagLink url="dashboard" orderColumn="name" orderOrder="DESC"/>">Computer name</a></th>
+						<c:if test="${orderColumn.equals('computerName') && orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="computerName" orderOrder="DESC"/>">Computer name</a></th>
 						</c:if>
-						<c:if test="${!orderColumn.equals('name') ||  !orderOrder.equals('ASC') }">
-							<th><a href="<t:TagLink url="dashboard" orderColumn="name" orderOrder="ASC"/>">Computer name</a></th>
+						<c:if test="${!orderColumn.equals('computerName') ||  !orderOrder.equals('ASC') }">
+							<th><a href="<t:TagLink url="dashboard" orderColumn="computerName" orderOrder="ASC"/>">Computer name</a></th>
 						</c:if>
 						
 						<c:if test="${orderColumn.equals('introduced') && orderOrder.equals('ASC') }">
@@ -109,10 +116,10 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
-							<td><a href="<t:TagLink url="edit-computer?id=${computer.getId()}"/>" onclick="">${computer.name}</a></td>
-							<td>${computer.introduced}</td>
-							<td>${computer.discontinued}</td>
-							<td>${computer.companyName}</td>
+							<td class="col-xs-3"><a href="<t:TagLink url="edit-computer?id=${computer.getId()}"/>" onclick="">${computer.name}</a></td>
+							<td class="col-xs-3">${computer.introduced}</td>
+							<td class="col-xs-3">${computer.discontinued}</td>
+							<td class="col-xs-3">${computer.companyName}</td>
 
 						</tr>
 					</c:forEach>

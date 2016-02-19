@@ -10,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 @SuppressWarnings("unused")
-public class EditComputerIT {
+public class OrderByIt {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -24,28 +24,19 @@ public class EditComputerIT {
   }
 
   @Test
-  public void testEditComputer() throws Exception {
+  public void testOrderByIt() throws Exception {
     driver.get(baseUrl + "/computerDB/dashboard");
-    driver.findElement(By.id("addComputer")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("test");
-    driver.findElement(By.id("introduced")).clear();
-    driver.findElement(By.id("introduced")).sendKeys("1990-10-10");
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("ghnnb");
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("1985-10-10");
-    driver.findElement(By.id("submit")).click();
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("1995-10-10");
-    new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("RCA");
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("");
-    driver.findElement(By.id("submit")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("test");
-    driver.findElement(By.id("submit")).click();
-    driver.findElement(By.xpath("(//button[@name='number-results'])[3]")).click();
+    driver.findElement(By.linkText("Computer name")).click();
+    driver.findElement(By.linkText("Computer name")).click();
+    driver.findElement(By.linkText("Introduced date")).click();
+    driver.findElement(By.linkText("Introduced date")).click();
+    driver.findElement(By.linkText("Discontinued date")).click();
+    driver.findElement(By.linkText("Discontinued date")).click();
+    driver.findElement(By.linkText("Company")).click();
+    driver.findElement(By.linkText("Discontinued date")).click();
+    driver.findElement(By.linkText("2")).click();
+    driver.findElement(By.linkText("3")).click();
+    driver.findElement(By.linkText("Discontinued date")).click();
   }
 
   @After

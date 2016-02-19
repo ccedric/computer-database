@@ -5,8 +5,9 @@ package com.excilys.formation.java.computerdb.service;
 
 import java.util.List;
 
-import com.excilys.formation.java.computerdb.db.DatabaseConnectionException;
+import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.service.Page;
+import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
 /**
  * Service layer between the DAO and the ui

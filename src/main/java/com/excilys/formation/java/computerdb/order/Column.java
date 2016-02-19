@@ -8,8 +8,8 @@ package com.excilys.formation.java.computerdb.order;
  *
  */
 public enum Column {
-	id,
-	name,
+	computerId,
+	computerName,
 	introduced,
 	discontinued,
 	companyName
