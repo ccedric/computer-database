@@ -33,7 +33,7 @@ public interface DAO<T> {
 	 * @return true the object was successfully deleted, false otherwise
 	 * @throws SQLException 
 	 */
-	 void delete(T obj) throws DatabaseConnectionException,ComputerNotFoundException, DAOSqlException;
+	 void delete(T obj) throws DatabaseConnectionException,ComputerNotFoundException, DAOSqlException,CompanyNotFoundException;
 
 	/**
 	 * Update an object in the database

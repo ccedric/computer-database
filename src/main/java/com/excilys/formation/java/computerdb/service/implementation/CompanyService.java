@@ -17,11 +17,11 @@ import com.excilys.formation.java.computerdb.service.Page;
  */
 public class CompanyService implements Service<Company> {
 	private static CompanyDAO companyDAO = null;
-	
+
 	public CompanyService(){
 		companyDAO = new CompanyDAO();
 	}
-	
+
 	/**
 	 * Create a company.Not yet implemented, so return 0
 	 */
@@ -35,8 +35,13 @@ public class CompanyService implements Service<Company> {
 	 * Delete a company. Not yet implemented, so return false
 	 */
 	@Override
-	public boolean delete(Company obj) {
-		return false;
+	public boolean delete(Company obj) throws DatabaseConnectionException {
+		try {
+			companyDAO.delete(obj);
+			return true;
+		} catch ( CompanyNotFoundException | DAOSqlException e) {
+			return false;
+		}
 	}
 
 	/**

@@ -36,7 +36,49 @@ public class CompanyDAO implements DAO<Company> {
 	}
 
 	@Override
-	public void delete(Company obj) throws DatabaseConnectionException {
+	public void delete(Company obj) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
+		Connection connect = ConnectionFactory.getConnection();
+		PreparedStatement statementComputer = null;
+		PreparedStatement statementCompany = null;
+
+		String sqlDelete = "DELETE FROM company WHERE id=?";
+		String sqlDeleteComputer = "DELETE FROM computer where company_id = ?";
+
+		try {
+			connect.setAutoCommit(false);
+
+			statementComputer = connect.prepareStatement(sqlDeleteComputer);
+			statementComputer.setInt(1, obj.getId());
+			statementComputer.executeUpdate();
+
+			statementCompany = connect.prepareStatement(sqlDelete);
+			statementCompany.setInt(1, obj.getId());
+			int rows = statementCompany.executeUpdate();
+			connect.commit();
+
+
+			if (rows>0){
+				LOGGER.info("Company deleted, id {}, name {}", obj.getId(), obj.getName());
+			} else{
+				LOGGER.info("Company couldn't be deleted, check if he exists in the database, id {}, name {}", obj.getId(), obj.getName());
+				throw new CompanyNotFoundException("Error while deleting the company,company not found");			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error("Error while deleting the company, rolling back");
+			try {
+				connect.rollback();
+			} catch (SQLException e1) {
+				LOGGER.error("Error while rolling back, you're doomed boy");
+			}
+			
+			throw new DAOSqlException("SQL error while deleting the company");
+		} finally{
+			DbUtil.close(statementComputer);
+			DbUtil.close(statementCompany);
+			DbUtil.close(connect);
+		}
+
 	}
 
 	@Override

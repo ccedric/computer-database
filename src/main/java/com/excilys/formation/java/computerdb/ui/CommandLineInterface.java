@@ -48,7 +48,8 @@ public class CommandLineInterface {
 		System.out.println("4: Create a computer");
 		System.out.println("5: Update a computer");
 		System.out.println("6: Delete a computer");
-		System.out.println("7: Exit the application");
+		System.out.println("7: Delete a company");
+		System.out.println("8: Exit the application");
 
 		String input = sc.nextLine();
 		switch(input){
@@ -64,7 +65,9 @@ public class CommandLineInterface {
 		break;
 		case "6": deleteComputer();
 		break;
-		case "7": System.out.println("Good bye");
+		case "7": deleteCompany();
+		break;
+		case "8": System.out.println("Good bye");
 		sc.close();
 		System.exit(0);
 		break;
@@ -99,6 +102,34 @@ public class CommandLineInterface {
 			showComputerDetails();
 		}
 	}
+	
+	/**
+	 * CLI to delete a company
+	 * @throws DatabaseConnectionException 
+	 */
+	private static void deleteCompany() throws DatabaseConnectionException {
+		System.out.println("Please enter the id of the company you want to delete, or type q to go back to the menu");
+		String input = sc.nextLine();
+		if(input.equals("q")){
+			showHelp();
+		}
+		try{
+			int id = Integer.parseInt(input);
+			Company company = companyService.find(id);
+			if(company.getId()!=0){
+				companyService.delete(company);
+				System.out.println("Company and associated computers successfully deleted");
+			}else{
+				System.out.println("This company doesn't exist");
+				deleteComputer();
+			}
+			showHelp();
+		}catch(NumberFormatException e){
+			System.out.println("The id you entered is not a number, please type it again");
+			showComputerDetails();
+		}
+	}
+
 
 	/**
 	 * CLI to update the computer
