@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.java.computerdb.dao.DAO;
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
+import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
@@ -33,25 +34,14 @@ public class CompanyDAO implements DAO<Company> {
 
 	@Override
 	public int create(Company obj) throws DatabaseConnectionException {
-		return 0;
+		throw new NotImplementedException("The create method for the dao company has not yet been implemented");
 	}
 
-	@Override
-	public void delete(Company obj) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
-		Connection connect = ConnectionFactory.getConnection();
-		PreparedStatement statementComputer = null;
+	public void delete(Company obj,Connection connect) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
 		PreparedStatement statementCompany = null;
 
 		String sqlDelete = "DELETE FROM company WHERE id=?";
-		String sqlDeleteComputer = "DELETE FROM computer where company_id = ?";
-
 		try {
-			connect.setAutoCommit(false);
-
-			statementComputer = connect.prepareStatement(sqlDeleteComputer);
-			statementComputer.setInt(1, obj.getId());
-			statementComputer.executeUpdate();
-
 			statementCompany = connect.prepareStatement(sqlDelete);
 			statementCompany.setInt(1, obj.getId());
 			int rows = statementCompany.executeUpdate();
@@ -67,23 +57,16 @@ public class CompanyDAO implements DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error("Error while deleting the company, rolling back");
-			try {
-				connect.rollback();
-			} catch (SQLException e1) {
-				LOGGER.error("Error while rolling back, you're doomed boy");
-			}
-			
+
 			throw new DAOSqlException("SQL error while deleting the company");
 		} finally{
-			DbUtil.close(statementComputer);
 			DbUtil.close(statementCompany);
-			DbUtil.close(connect);
 		}
-
 	}
 
 	@Override
 	public void update(Company obj) throws DatabaseConnectionException {
+		throw new NotImplementedException("The update method for the dao company has not yet been implemented");
 	}
 
 	@Override
@@ -146,17 +129,15 @@ public class CompanyDAO implements DAO<Company> {
 		return companies;
 	}
 
-	/**
-	 * Not yet implemented, return null
-	 */
+
 	@Override
 	public List<Company> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException {
-		return null;
+		throw new NotImplementedException("The listPage method for the dao company has not yet been implemented");
 	}
 
 	@Override
 	public List<Company> findByName(String name) throws DatabaseConnectionException {
-		return null;
+		throw new NotImplementedException("The findByName method for the dao company has not yet been implemented");
 	}
 
 	/* (non-Javadoc)
@@ -164,7 +145,7 @@ public class CompanyDAO implements DAO<Company> {
 	 */
 	@Override
 	public int selectCount(String name) throws DatabaseConnectionException {
-		return 0;
+		throw new NotImplementedException("The select method for the dao company has not yet been implemented");
 	}
 
 	/* (non-Javadoc)
@@ -172,7 +153,15 @@ public class CompanyDAO implements DAO<Company> {
 	 */
 	@Override
 	public List<Company> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order) throws DatabaseConnectionException {
-		return null;
+		throw new NotImplementedException("The listPageByName method for the dao company has not yet been implemented");
+	}
+
+	/* (non-Javadoc)
+	 * @see com.excilys.formation.java.computerdb.dao.DAO#delete(java.lang.Object)
+	 */
+	@Override
+	public void delete(Company obj) {
+		throw new NotImplementedException("The delete method without connection for the dao company has not yet been implemented");
 	}
 
 }

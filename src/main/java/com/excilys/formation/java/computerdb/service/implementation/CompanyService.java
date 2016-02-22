@@ -1,11 +1,20 @@
 
 package com.excilys.formation.java.computerdb.service.implementation;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
+import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
 import com.excilys.formation.java.computerdb.dao.implementation.CompanyDAO;
+import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
+import com.excilys.formation.java.computerdb.db.ConnectionFactory;
+import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.service.Service;
@@ -16,6 +25,7 @@ import com.excilys.formation.java.computerdb.service.Page;
  *
  */
 public class CompanyService implements Service<Company> {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
 	private static CompanyDAO companyDAO = null;
 
 	public CompanyService(){
@@ -27,20 +37,37 @@ public class CompanyService implements Service<Company> {
 	 */
 	@Override
 	public int create(Company obj) {
-		return 0;
+		try{
+			return companyDAO.create(obj);
+		} catch (NotImplementedException e){
+			return 0;
+		}
 	}
 
 
 	/**
-	 * Delete a company. Not yet implemented, so return false
+	 * Delete a company, and all his computers
 	 */
 	@Override
 	public boolean delete(Company obj) throws DatabaseConnectionException {
+		ComputerDAO computerDAO = new ComputerDAO();
+		Connection connect = null;
 		try {
-			companyDAO.delete(obj);
+			connect = ConnectionFactory.getConnection();
+			connect.setAutoCommit(false);
+			computerDAO.deleteByCompany(obj,connect);
+			companyDAO.delete(obj,connect);
 			return true;
-		} catch ( CompanyNotFoundException | DAOSqlException e) {
+		} catch ( CompanyNotFoundException | DAOSqlException | SQLException e) {
+			LOGGER.error("Error while deleting the company and his computers");
+			try {
+				connect.rollback();
+			} catch (SQLException e1) {
+				LOGGER.error("Error while rolling back, you're doomed boy");
+			}
 			return false;
+		} finally{
+			DbUtil.close(connect);
 		}
 	}
 
@@ -49,7 +76,13 @@ public class CompanyService implements Service<Company> {
 	 */
 	@Override
 	public boolean update(Company obj) {
-		return false;
+		try{
+			companyDAO.update(obj);
+			return true;
+		} catch (NotImplementedException e){
+			return false;
+		}
+
 	}
 
 	@Override
@@ -83,7 +116,7 @@ public class CompanyService implements Service<Company> {
 	public List<Company> listPage(Page page) throws DatabaseConnectionException {
 		try {
 			return companyDAO.list();
-		} catch (DAOSqlException e) {
+		} catch (DAOSqlException | NotImplementedException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -95,7 +128,11 @@ public class CompanyService implements Service<Company> {
 	 */
 	@Override
 	public List<Company> findByName(String name) throws DatabaseConnectionException {
-		return null;
+		try{
+			return companyDAO.findByName(name);
+		} catch (NotImplementedException e){
+			return null;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -103,7 +140,11 @@ public class CompanyService implements Service<Company> {
 	 */
 	@Override
 	public List<Company> listPageByName(Page page) throws DatabaseConnectionException {
-		return companyDAO.listPageByName(page.getPage()*page.getPageSize(), page.getPageSize(),page.getSearch(), page.getOrderSearch());
+		try{
+			return companyDAO.listPageByName(page.getPage()*page.getPageSize(), page.getPageSize(),page.getSearch(), page.getOrderSearch());
+		} catch (NotImplementedException e){
+			return null;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -111,7 +152,11 @@ public class CompanyService implements Service<Company> {
 	 */
 	@Override
 	public int selectCount(String name) {
-		return companyDAO.selectCount(name);
+		try{
+			return companyDAO.selectCount(name);
+		} catch (NotImplementedException e){
+			return 0;
+		}
 	}
 
 }

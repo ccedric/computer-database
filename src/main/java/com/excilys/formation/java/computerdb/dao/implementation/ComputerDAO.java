@@ -12,12 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdb.dao.DAO;
+import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
+import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.model.exception.ComputerInvalidException;
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
@@ -37,6 +39,23 @@ public class ComputerDAO implements DAO<Computer> {
 
 	public ComputerDAO() {}
 
+	public void deleteByCompany(Company obj,Connection connect) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
+		PreparedStatement statementComputer = null;
+		String sqlDeleteComputer = "DELETE FROM computer where company_id = ?";
+
+		try {
+			statementComputer = connect.prepareStatement(sqlDeleteComputer);
+			statementComputer.setInt(1, obj.getId());
+			statementComputer.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error("Error while deleting the computers of a company, rolling back");
+			throw new DAOSqlException("SQL error while deleting the company");
+		} finally{
+			DbUtil.close(statementComputer);
+		}
+	}
+	
 	@Override
 	public int create(Computer obj) throws DatabaseConnectionException, ComputerDAOInvalidException, DAOSqlException {
 		try {
