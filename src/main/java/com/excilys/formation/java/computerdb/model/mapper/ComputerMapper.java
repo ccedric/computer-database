@@ -12,8 +12,8 @@ import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 
 /**
- * @author Cédric Cousseran
  * Map the model Computer to a DTO or from a ResultSet
+ * @author Cédric Cousseran
  */
 public interface ComputerMapper {
 	/**

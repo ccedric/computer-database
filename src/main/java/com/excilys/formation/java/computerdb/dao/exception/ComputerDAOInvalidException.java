@@ -1,11 +1,8 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.dao.exception;
 
 /**
- * @author Cédric Cousseran
  * This exception can be thrown if the DAO detect that a computer is invalid
+ * @author Cédric Cousseran
  */
 @SuppressWarnings("serial")
 public class ComputerDAOInvalidException extends RuntimeException {

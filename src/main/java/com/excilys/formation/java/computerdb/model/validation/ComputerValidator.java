@@ -1,14 +1,11 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.model.validation;
 
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.model.exception.ComputerInvalidException;
 
 /**
- * @author Cédric Cousseran
  * This class validate a Computer
+ * @author Cédric Cousseran
  */
 public class ComputerValidator {
 

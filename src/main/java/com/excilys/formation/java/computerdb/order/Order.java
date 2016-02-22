@@ -1,11 +1,8 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.order;
 
 /**
- * @author Cédric Cousseran
  * An order by can be ascending or descending
+ * @author Cédric Cousseran
  */
 public enum Order {
 	ASC,

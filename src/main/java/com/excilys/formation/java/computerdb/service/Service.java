@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.service;
 
 import java.util.List;

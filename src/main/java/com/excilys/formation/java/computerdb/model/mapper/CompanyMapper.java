@@ -9,8 +9,8 @@ import com.excilys.formation.java.computerdb.dto.CompanyDTO;
 import com.excilys.formation.java.computerdb.model.Company;
 
 /**
- * @author Cédric Cousseran
  * Map the model Company from a ResultSet or to a DTO
+ * @author Cédric Cousseran
  */
 public interface CompanyMapper {
 	/**

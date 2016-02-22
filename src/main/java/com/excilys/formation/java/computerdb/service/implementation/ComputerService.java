@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.service.implementation;
 
 import java.util.List;
@@ -16,8 +13,8 @@ import com.excilys.formation.java.computerdb.service.Service;
 import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
 /**
- * @author Cédric Cousseran
  * Service layer for the model Computer, call the DAO Computer
+ * @author Cédric Cousseran
  */
 public class ComputerService implements Service<Computer> {
 	private static ComputerDAO computerDAO = null;

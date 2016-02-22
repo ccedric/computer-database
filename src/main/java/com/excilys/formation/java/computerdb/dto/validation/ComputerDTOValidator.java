@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.dto.validation;
 
 import java.time.LocalDate;
@@ -12,8 +9,8 @@ import com.excilys.formation.java.computerdb.dto.exception.DiscontinuedBeforeInt
 import com.excilys.formation.java.computerdb.dto.exception.NameRequiredException;
 
 /**
+ * Class used to validate a ComputerDTO
  * @author Cédric Cousseran
- *
  */
 public class ComputerDTOValidator {
 

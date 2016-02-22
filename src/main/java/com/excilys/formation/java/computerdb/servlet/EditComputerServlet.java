@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.servlet;
 
 import java.io.IOException;
@@ -31,8 +28,8 @@ import com.excilys.formation.java.computerdb.service.implementation.ComputerServ
 
 
 /**
- * @author Cédric Cousseran
  * Servlet for the edit computer page, in the web-ui
+ * @author Cédric Cousseran
  */
 @SuppressWarnings("serial")
 @WebServlet({  "/edit-computer" })

@@ -1,13 +1,10 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.service;
 
 import com.excilys.formation.java.computerdb.order.OrderSearch;
 
 /**
+ * This class represents a Page of computers
  * @author Cédric Cousseran
- *
  */
 public class Page {
 	private int page;

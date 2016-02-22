@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.dto.mapper;
 
 import java.time.LocalDate;
@@ -11,8 +8,8 @@ import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 
 /**
+ * Mapper used to convert a ComputerDTO to or from a Computer
  * @author Cédric Cousseran
- *
  */
 public interface ComputerDTOMapper {
 	/**

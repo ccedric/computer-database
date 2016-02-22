@@ -23,6 +23,8 @@ import com.excilys.formation.java.computerdb.service.Page;
 
 /**
  * Servlet implementation class DashboardServlet, servlet of the jsp dashboard.jsp, main page of the web application, where you can see the list of computers
+ * @author Cédric Cousseran
+ *
  */
 @SuppressWarnings("serial")
 @WebServlet({ "/dashboard-servlet", "/dashboard" })

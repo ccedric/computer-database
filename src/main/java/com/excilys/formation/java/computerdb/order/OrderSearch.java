@@ -1,11 +1,8 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.order;
 
 /**
- * @author Cédric Cousseran
  * Class containing the information concerning the order by in the web ui
+ * @author Cédric Cousseran
  */
 public class OrderSearch {
 	/**

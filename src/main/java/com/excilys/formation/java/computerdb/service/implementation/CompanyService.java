@@ -21,8 +21,8 @@ import com.excilys.formation.java.computerdb.service.Service;
 import com.excilys.formation.java.computerdb.service.Page;
 
 /**
- * @author Cédric Cousseran
  * Service layer for the Company model, call the DAO Company
+ * @author Cédric Cousseran
  */
 public class CompanyService implements Service<Company> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
