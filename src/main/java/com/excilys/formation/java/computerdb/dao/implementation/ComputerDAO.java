@@ -48,9 +48,8 @@ public class ComputerDAO implements DAO<Computer> {
 			statementComputer.setInt(1, obj.getId());
 			statementComputer.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			LOGGER.error("Error while deleting the computers of a company, rolling back");
-			throw new DAOSqlException("SQL error while deleting the company");
+			throw new DAOSqlException("SQL error while deleting the computers of a company");
 		} finally{
 			DbUtil.close(statementComputer);
 		}
@@ -101,7 +100,6 @@ public class ComputerDAO implements DAO<Computer> {
 			return 0;
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			LOGGER.error("Error while creating the computer");
 			throw new DAOSqlException("SQL error while creating the computer");
 		} finally{
@@ -129,7 +127,6 @@ public class ComputerDAO implements DAO<Computer> {
 				throw new ComputerNotFoundException("Error while deleting the computer,computer not found");			
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			LOGGER.error("Error while deleting the computer");
 			throw new DAOSqlException("SQL error while deleting the computer");
 		} finally{
@@ -174,7 +171,6 @@ public class ComputerDAO implements DAO<Computer> {
 				throw new ComputerNotFoundException("Error while updating the computer,computer not found");					
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			LOGGER.error("Error while updating the computer");
 			throw new DAOSqlException("SQL error while updating the computer");
 		} finally{
@@ -208,7 +204,6 @@ public class ComputerDAO implements DAO<Computer> {
 
 		} catch (SQLException e) {
 			LOGGER.error("Error while finding the computer");
-			e.printStackTrace();
 			throw new DAOSqlException("SQL error while finding the computer");
 		} finally{
 			DbUtil.close(result);
@@ -243,7 +238,6 @@ public class ComputerDAO implements DAO<Computer> {
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error sql while retrieving the list of computers");
-			e.printStackTrace();
 			throw new DAOSqlException("SQL error while finding the list of computer");
 		} finally{
 			DbUtil.close(result);
@@ -275,7 +269,6 @@ public class ComputerDAO implements DAO<Computer> {
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error sql while retrieving the list of computers");
-			e.printStackTrace();
 			throw new DAOSqlException("SQL error while finding the list for one page of computer");
 
 		} finally{
@@ -318,7 +311,6 @@ public class ComputerDAO implements DAO<Computer> {
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error sql while retrieving the list of computers");
-			e.printStackTrace();
 			throw new DAOSqlException("SQL error while finding the page of computer with a search by name");
 
 		} finally{
@@ -349,14 +341,12 @@ public class ComputerDAO implements DAO<Computer> {
 				}
 				catch(Exception e){
 					LOGGER.error("Error while finding computers by name");
-					e.printStackTrace();
 				}
 			}
 
 
 		} catch (SQLException e) {
 			LOGGER.error("Error while finding computers by name");
-			e.printStackTrace();
 			throw new DAOSqlException("SQL error while finding a computer by name");
 
 		} finally{
@@ -384,7 +374,6 @@ public class ComputerDAO implements DAO<Computer> {
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error sql while retrieving the number of computers");
-			e.printStackTrace();
 			throw new DAOSqlException("SQL error while getting the number of computers");
 
 		} finally{

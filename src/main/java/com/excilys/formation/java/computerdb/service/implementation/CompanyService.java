@@ -58,7 +58,7 @@ public class CompanyService implements Service<Company> {
 			computerDAO.deleteByCompany(obj,connect);
 			companyDAO.delete(obj,connect);
 			return true;
-		} catch ( CompanyNotFoundException | DAOSqlException | SQLException e) {
+		} catch ( Exception e) {
 			LOGGER.error("Error while deleting the company and his computers");
 			try {
 				connect.rollback();

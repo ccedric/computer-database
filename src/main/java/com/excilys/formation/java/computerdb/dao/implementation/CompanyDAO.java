@@ -55,9 +55,7 @@ public class CompanyDAO implements DAO<Company> {
 				throw new CompanyNotFoundException("Error while deleting the company,company not found");			
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			LOGGER.error("Error while deleting the company, rolling back");
-
 			throw new DAOSqlException("SQL error while deleting the company");
 		} finally{
 			DbUtil.close(statementCompany);
@@ -93,7 +91,6 @@ public class CompanyDAO implements DAO<Company> {
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error while finding the company, id searched: {}",id);
-			e.printStackTrace();
 			throw new DAOSqlException("SQL error while finding the company");
 		} finally{
 			DbUtil.close(result);
@@ -118,7 +115,6 @@ public class CompanyDAO implements DAO<Company> {
 			}
 		} catch (SQLException e){
 			LOGGER.error("Error while retrieving the list of companies");
-			e.printStackTrace();
 			throw new DAOSqlException("SQL error while finding the list of companies");
 		} finally{
 			DbUtil.close(result);
