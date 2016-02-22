@@ -1,8 +1,6 @@
 
 package com.excilys.formation.java.computerdb.service.implementation;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,8 +11,7 @@ import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
 import com.excilys.formation.java.computerdb.dao.implementation.CompanyDAO;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
-import com.excilys.formation.java.computerdb.db.ConnectionFactory;
-import com.excilys.formation.java.computerdb.db.DbUtil;
+import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.service.Service;
@@ -42,6 +39,9 @@ public class CompanyService implements Service<Company> {
 		} catch (NotImplementedException e){
 			return 0;
 		}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 	}
 
 
@@ -51,23 +51,18 @@ public class CompanyService implements Service<Company> {
 	@Override
 	public boolean delete(Company obj) throws DatabaseConnectionException {
 		ComputerDAO computerDAO = new ComputerDAO();
-		Connection connect = null;
+		TransactionManager transactionManager = TransactionManager.getInstance();
 		try {
-			connect = ConnectionFactory.getConnection();
-			connect.setAutoCommit(false);
-			computerDAO.deleteByCompany(obj,connect);
-			companyDAO.delete(obj,connect);
+			transactionManager.setAutoCommit(false);
+			computerDAO.deleteByCompany(obj);
+			companyDAO.delete(obj);
 			return true;
 		} catch ( Exception e) {
 			LOGGER.error("Error while deleting the company and his computers");
-			try {
-				connect.rollback();
-			} catch (SQLException e1) {
-				LOGGER.error("Error while rolling back, you're doomed boy");
-			}
+			transactionManager.rollback();
 			return false;
 		} finally{
-			DbUtil.close(connect);
+			TransactionManager.getInstance().remove();
 		}
 	}
 
@@ -82,7 +77,9 @@ public class CompanyService implements Service<Company> {
 		} catch (NotImplementedException e){
 			return false;
 		}
-
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 	}
 
 	@Override
@@ -90,6 +87,9 @@ public class CompanyService implements Service<Company> {
 		try {
 			return companyDAO.find(id);
 		} catch (DAOSqlException | CompanyNotFoundException e) {} 
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return null;
 	}
 
@@ -99,6 +99,9 @@ public class CompanyService implements Service<Company> {
 		try {
 			return companyDAO.list();
 		} catch (DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return null;
 	}
 
@@ -111,6 +114,9 @@ public class CompanyService implements Service<Company> {
 		try {
 			return companyDAO.list();
 		} catch (DAOSqlException | NotImplementedException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return null;
 	}
 
@@ -125,6 +131,9 @@ public class CompanyService implements Service<Company> {
 		} catch (NotImplementedException e){
 			return null;
 		}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -137,6 +146,9 @@ public class CompanyService implements Service<Company> {
 		} catch (NotImplementedException e){
 			return null;
 		}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -148,6 +160,9 @@ public class CompanyService implements Service<Company> {
 			return companyDAO.selectCount(name);
 		} catch (NotImplementedException e){
 			return 0;
+		}
+		finally{
+			TransactionManager.getInstance().remove();
 		}
 	}
 

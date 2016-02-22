@@ -6,6 +6,7 @@ import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidExc
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDAO;
+import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.Page;
@@ -22,7 +23,7 @@ public class ComputerService implements Service<Computer> {
 	public ComputerService(){
 		computerDAO = new ComputerDAO();
 	}
-	
+
 	@Override
 	public int create(Computer obj) throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
 		if((obj.getIntroduced()!=null)&&(obj.getDiscontinued()!=null)&&(obj.getIntroduced().isAfter(obj.getDiscontinued()))){
@@ -31,6 +32,9 @@ public class ComputerService implements Service<Computer> {
 		try {
 			return computerDAO.create(obj);
 		} catch (ComputerDAOInvalidException | DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return 0;
 	}
 
@@ -41,6 +45,9 @@ public class ComputerService implements Service<Computer> {
 			computerDAO.delete(obj);
 			return true;
 		} catch (ComputerNotFoundException | DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return false;
 	}
 
@@ -53,6 +60,9 @@ public class ComputerService implements Service<Computer> {
 			computerDAO.update(obj);
 			return true;
 		} catch (ComputerNotFoundException | DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return false;
 	}
 
@@ -61,6 +71,9 @@ public class ComputerService implements Service<Computer> {
 		try {
 			return computerDAO.find(id);
 		} catch (DAOSqlException | ComputerNotFoundException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return null;
 	}
 
@@ -70,6 +83,9 @@ public class ComputerService implements Service<Computer> {
 		try {
 			return computerDAO.list();
 		} catch (DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return null;
 	}
 
@@ -79,6 +95,9 @@ public class ComputerService implements Service<Computer> {
 		try {
 			return computerDAO.listPage(page.getStartingIndex(), page.getPageSize());
 		} catch (DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return null;
 	}
 
@@ -87,6 +106,9 @@ public class ComputerService implements Service<Computer> {
 		try {
 			return computerDAO.findByName(name);
 		} catch (DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return null;
 	}
 
@@ -95,6 +117,9 @@ public class ComputerService implements Service<Computer> {
 		try {
 			return computerDAO.listPageByName(page.getStartingIndex(), page.getPageSize(), page.getSearch(), page.getOrderSearch());
 		} catch (DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return null;
 	}
 
@@ -106,6 +131,9 @@ public class ComputerService implements Service<Computer> {
 		try {
 			return computerDAO.selectCount(name);
 		} catch (DatabaseConnectionException | DAOSqlException e) {}
+		finally{
+			TransactionManager.getInstance().remove();
+		}
 		return 0;
 	}
 

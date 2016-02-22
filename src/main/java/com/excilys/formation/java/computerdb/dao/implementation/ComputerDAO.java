@@ -16,8 +16,8 @@ import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundExcept
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDAOInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
-import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DbUtil;
+import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
@@ -25,8 +25,6 @@ import com.excilys.formation.java.computerdb.model.exception.ComputerInvalidExce
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
 import com.excilys.formation.java.computerdb.model.validation.ComputerValidator;
 import com.excilys.formation.java.computerdb.order.OrderSearch;
-
-import java.sql.Connection;
 
 
 /**
@@ -50,11 +48,11 @@ public class ComputerDAO implements DAO<Computer> {
 	
 	public ComputerDAO() {}
 
-	public void deleteByCompany(Company obj,Connection connect) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
+	public void deleteByCompany(Company obj) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
 		PreparedStatement statementComputer = null;
 
 		try {
-			statementComputer = connect.prepareStatement(deleteByCompanyQuery);
+			statementComputer = TransactionManager.getInstance().get().prepareStatement(deleteByCompanyQuery);
 			statementComputer.setInt(1, obj.getId());
 			statementComputer.executeUpdate();
 		} catch (SQLException e) {
@@ -75,13 +73,10 @@ public class ComputerDAO implements DAO<Computer> {
 		}
 
 
-		Connection connect = ConnectionFactory.getConnection();
-
-
 		PreparedStatement statement=null;
 		ResultSet rs = null;
 		try {
-			statement = connect.prepareStatement(createQuery);
+			statement = TransactionManager.getInstance().get().prepareStatement(createQuery);
 			statement.setString(1, obj.getName());
 			if(obj.getIntroduced()==null){
 				statement.setNull(2,Types.TIMESTAMP);
@@ -114,17 +109,15 @@ public class ComputerDAO implements DAO<Computer> {
 		} finally{
 			DbUtil.close(statement);
 			DbUtil.close(rs);
-			DbUtil.close(connect);
 		}
 	}
 
 	@Override
 	public void delete(Computer obj) throws DatabaseConnectionException, ComputerNotFoundException, DAOSqlException {
-		Connection connect = ConnectionFactory.getConnection();
 		PreparedStatement statement = null;
 
 		try {
-			statement = connect.prepareStatement(deleteQuery);
+			statement = TransactionManager.getInstance().get().prepareStatement(deleteQuery);
 
 			statement.setInt(1, obj.getId());
 			int rows = statement.executeUpdate();
@@ -139,17 +132,14 @@ public class ComputerDAO implements DAO<Computer> {
 			throw new DAOSqlException("SQL error while deleting the computer");
 		} finally{
 			DbUtil.close(statement);
-			DbUtil.close(connect);
 		}
 	}
 
 	@Override
 	public void update(Computer obj) throws DatabaseConnectionException, ComputerNotFoundException, DAOSqlException {
-		Connection connect = ConnectionFactory.getConnection();
-
 		PreparedStatement statement = null;
 		try {
-			statement = connect.prepareStatement(updateQuery);
+			statement = TransactionManager.getInstance().get().prepareStatement(updateQuery);
 			statement.setString(1, obj.getName());
 			if(obj.getIntroduced()==null){
 				statement.setNull(2,Types.TIMESTAMP);
@@ -182,20 +172,17 @@ public class ComputerDAO implements DAO<Computer> {
 			throw new DAOSqlException("SQL error while updating the computer");
 		} finally{
 			DbUtil.close(statement);
-			DbUtil.close(connect);
 		}
 
 	}
 
 	@Override
 	public Computer find(int id) throws DatabaseConnectionException, DAOSqlException, ComputerNotFoundException {
-		Connection connect = ConnectionFactory.getConnection();
-
 		ResultSet result = null;
 		PreparedStatement statement = null;
 		Computer computer;
 		try {
-			statement = connect.prepareStatement(findQuery);
+			statement = TransactionManager.getInstance().get().prepareStatement(findQuery);
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
 			if (result.next()){
@@ -214,18 +201,16 @@ public class ComputerDAO implements DAO<Computer> {
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(statement);
-			DbUtil.close(connect);
 		}
 	}
 
 	@Override
 	public List<Computer> list() throws DatabaseConnectionException, DAOSqlException {
-		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
 		try {
-			result = connect.createStatement(
+			result = TransactionManager.getInstance().get().createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE, 
 					ResultSet.CONCUR_READ_ONLY
 					).executeQuery(listQuery);  
@@ -244,7 +229,6 @@ public class ComputerDAO implements DAO<Computer> {
 			throw new DAOSqlException("SQL error while finding the list of computer");
 		} finally{
 			DbUtil.close(result);
-			DbUtil.close(connect);
 		}
 		LOGGER.info("List of computers found, size of the list: {}",computers.size());
 
@@ -254,13 +238,12 @@ public class ComputerDAO implements DAO<Computer> {
 
 	@Override
 	public List<Computer> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException, DAOSqlException  {
-		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		PreparedStatement statement = null;
 		try {
 
-			statement = connect.prepareStatement(listPageQuery);
+			statement = TransactionManager.getInstance().get().prepareStatement(listPageQuery);
 			statement.setInt(1, indexBegin);
 			statement.setInt(2, pageSize);
 			result = statement.executeQuery();    
@@ -274,7 +257,6 @@ public class ComputerDAO implements DAO<Computer> {
 
 		} finally{
 			DbUtil.close(result);
-			DbUtil.close(connect);
 		}
 		LOGGER.info("List of computers found, size of the list: {}",computers.size());
 
@@ -283,7 +265,6 @@ public class ComputerDAO implements DAO<Computer> {
 
 	@Override
 	public List<Computer> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order) throws DatabaseConnectionException, DAOSqlException  {
-		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		PreparedStatement statement = null;
@@ -299,7 +280,7 @@ public class ComputerDAO implements DAO<Computer> {
 		String sql = request.toString();
 		try {
 
-			statement = connect.prepareStatement(sql);
+			statement = TransactionManager.getInstance().get().prepareStatement(sql);
 			statement.setInt(3, indexBegin);
 			statement.setInt(4, pageSize);
 			statement.setString(1, name+'%');
@@ -316,7 +297,6 @@ public class ComputerDAO implements DAO<Computer> {
 
 		} finally{
 			DbUtil.close(result);
-			DbUtil.close(connect);
 		}
 		LOGGER.info("List of computers found, size of the list: {}",computers.size());
 
@@ -325,13 +305,11 @@ public class ComputerDAO implements DAO<Computer> {
 
 	@Override
 	public List<Computer> findByName(String name) throws DatabaseConnectionException, DAOSqlException {
-		Connection connect = ConnectionFactory.getConnection();
-
 		ResultSet result = null;
 		PreparedStatement statement = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		try {
-			statement = connect.prepareStatement(findByNameQuery);
+			statement = TransactionManager.getInstance().get().prepareStatement(findByNameQuery);
 			statement.setString(1, name+'%');
 			result = statement.executeQuery();    
 			while (result.next()){
@@ -352,19 +330,17 @@ public class ComputerDAO implements DAO<Computer> {
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(statement);
-			DbUtil.close(connect);
 		}
 		return computers;
 	}
 
 	@Override
 	public int selectCount(String name) throws DatabaseConnectionException, DAOSqlException {
-		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		PreparedStatement statement = null;
 
 		try {
-			statement = connect.prepareStatement(selectCountQuery);
+			statement = TransactionManager.getInstance().get().prepareStatement(selectCountQuery);
 			statement.setString(1, name+'%');
 			statement.setString(2, name+'%');
 			result = statement.executeQuery();    
@@ -378,7 +354,6 @@ public class ComputerDAO implements DAO<Computer> {
 		} finally{
 			DbUtil.close(result);
 			DbUtil.close(statement);
-			DbUtil.close(connect);
 		}
 
 		return 0;

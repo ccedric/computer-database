@@ -12,14 +12,13 @@ import com.excilys.formation.java.computerdb.dao.DAO;
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DAOSqlException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
-import com.excilys.formation.java.computerdb.db.ConnectionFactory;
 import com.excilys.formation.java.computerdb.db.DbUtil;
+import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
 import com.excilys.formation.java.computerdb.order.OrderSearch;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 /**
@@ -40,13 +39,13 @@ public class CompanyDAO implements DAO<Company> {
 		throw new NotImplementedException("The create method for the dao company has not yet been implemented");
 	}
 
-	public void delete(Company obj,Connection connect) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
+	public void delete(Company obj) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
 		PreparedStatement statementCompany = null;
 		try {
-			statementCompany = connect.prepareStatement(deleteQuery);
+			statementCompany = TransactionManager.getInstance().get().prepareStatement(deleteQuery);
 			statementCompany.setInt(1, obj.getId());
 			int rows = statementCompany.executeUpdate();
-			connect.commit();
+			TransactionManager.getInstance().commit();
 
 
 			if (rows>0){
@@ -71,7 +70,6 @@ public class CompanyDAO implements DAO<Company> {
 	@Override
 	public Company find(int id) throws DatabaseConnectionException, DAOSqlException, CompanyNotFoundException {
 
-		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
 		Company company =  null;
 		PreparedStatement statement = null;
@@ -80,7 +78,7 @@ public class CompanyDAO implements DAO<Company> {
 			return null;
 		}
 		try {
-			statement = connect.prepareStatement(findQuery);
+			statement = TransactionManager.getInstance().get().prepareStatement(findQuery);
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
 			if(result.next()){
@@ -94,7 +92,6 @@ public class CompanyDAO implements DAO<Company> {
 			throw new DAOSqlException("SQL error while finding the company");
 		} finally{
 			DbUtil.close(result);
-			DbUtil.close(connect);
 		}		
 		LOGGER.info("Company found, id: {}, name: {}",company.getId(),company.getName());
 		return company;		
@@ -102,11 +99,10 @@ public class CompanyDAO implements DAO<Company> {
 
 	@Override
 	public List<Company> list() throws DatabaseConnectionException, DAOSqlException {
-		Connection connect = ConnectionFactory.getConnection();
 		List<Company> companies = new ArrayList<Company>();
 		ResultSet result = null;
 		try {
-			result = connect.createStatement(
+			result = TransactionManager.getInstance().get().createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE, 
 					ResultSet.CONCUR_READ_ONLY
 					).executeQuery(listQuery);  
@@ -118,7 +114,6 @@ public class CompanyDAO implements DAO<Company> {
 			throw new DAOSqlException("SQL error while finding the list of companies");
 		} finally{
 			DbUtil.close(result);
-			DbUtil.close(connect);
 		}
 		LOGGER.info("List of companies found, size of the list: {}",companies.size());
 
@@ -150,14 +145,6 @@ public class CompanyDAO implements DAO<Company> {
 	@Override
 	public List<Company> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order) throws DatabaseConnectionException {
 		throw new NotImplementedException("The listPageByName method for the dao company has not yet been implemented");
-	}
-
-	/* (non-Javadoc)
-	 * @see com.excilys.formation.java.computerdb.dao.DAO#delete(java.lang.Object)
-	 */
-	@Override
-	public void delete(Company obj) {
-		throw new NotImplementedException("The delete method without connection for the dao company has not yet been implemented");
 	}
 
 }
