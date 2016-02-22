@@ -29,7 +29,10 @@ import java.sql.PreparedStatement;
  */
 public class CompanyDAO implements DAO<Company> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
-
+	private static final String deleteQuery = "DELETE FROM company WHERE id=?";
+	private static final String findQuery = "SELECT * from company  WHERE id=?";
+	private static final String listQuery = "SELECT * from company";
+	
 	public CompanyDAO() {}
 
 	@Override
@@ -39,10 +42,8 @@ public class CompanyDAO implements DAO<Company> {
 
 	public void delete(Company obj,Connection connect) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
 		PreparedStatement statementCompany = null;
-
-		String sqlDelete = "DELETE FROM company WHERE id=?";
 		try {
-			statementCompany = connect.prepareStatement(sqlDelete);
+			statementCompany = connect.prepareStatement(deleteQuery);
 			statementCompany.setInt(1, obj.getId());
 			int rows = statementCompany.executeUpdate();
 			connect.commit();
@@ -74,13 +75,12 @@ public class CompanyDAO implements DAO<Company> {
 		ResultSet result = null;
 		Company company =  null;
 		PreparedStatement statement = null;
-		String sql = "SELECT * from company  WHERE id=?";
 
 		if (id==0){
 			return null;
 		}
 		try {
-			statement = connect.prepareStatement(sql);
+			statement = connect.prepareStatement(findQuery);
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
 			if(result.next()){
@@ -109,7 +109,7 @@ public class CompanyDAO implements DAO<Company> {
 			result = connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE, 
 					ResultSet.CONCUR_READ_ONLY
-					).executeQuery("SELECT * from company");  
+					).executeQuery(listQuery);  
 			while (result.next()){
 				companies.add(CompanyMapper.fromResultSet(result));
 			}

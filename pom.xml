@@ -134,7 +134,7 @@
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
-		
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -152,8 +152,8 @@
 					<propertyExpansion>basedir=${project.basedir}</propertyExpansion>
 				</configuration>
 			</plugin>
-			
-						<!-- Specify Junit usage -->
+
+			<!-- Specify Junit usage -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -171,8 +171,8 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			
-						<!-- Failsafe plugin for integration tests -->
+
+			<!-- Failsafe plugin for integration tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>

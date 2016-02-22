@@ -36,15 +36,25 @@ import java.sql.Connection;
  */
 public class ComputerDAO implements DAO<Computer> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
-
+	private static final String deleteByCompanyQuery = "DELETE FROM computer where company_id = ?";
+	private static final String createQuery = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES ( ?, ?, ?,?)";
+	private static final String deleteQuery = "DELETE FROM computer WHERE id=?";
+	private static final String updateQuery = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
+	private static final String findQuery = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.id=?";
+	private static final String listQuery = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
+			"LEFT JOIN company ON computer.company_id= company.id";
+	private static final String listPageQuery = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
+			"LEFT JOIN company ON computer.company_id= company.id LIMIT ?, ? ";
+	private static final String findByNameQuery = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.name LIKE ?";
+	private static final String selectCountQuery = "SELECT COUNT(distinct computer.id) as countProduct FROM computer LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? OR company.name LIKE ?";
+	
 	public ComputerDAO() {}
 
 	public void deleteByCompany(Company obj,Connection connect) throws DatabaseConnectionException, CompanyNotFoundException, DAOSqlException {
 		PreparedStatement statementComputer = null;
-		String sqlDeleteComputer = "DELETE FROM computer where company_id = ?";
 
 		try {
-			statementComputer = connect.prepareStatement(sqlDeleteComputer);
+			statementComputer = connect.prepareStatement(deleteByCompanyQuery);
 			statementComputer.setInt(1, obj.getId());
 			statementComputer.executeUpdate();
 		} catch (SQLException e) {
@@ -67,12 +77,11 @@ public class ComputerDAO implements DAO<Computer> {
 
 		Connection connect = ConnectionFactory.getConnection();
 
-		String sql = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES ( ?, ?, ?,?)";
 
 		PreparedStatement statement=null;
 		ResultSet rs = null;
 		try {
-			statement = connect.prepareStatement(sql);
+			statement = connect.prepareStatement(createQuery);
 			statement.setString(1, obj.getName());
 			if(obj.getIntroduced()==null){
 				statement.setNull(2,Types.TIMESTAMP);
@@ -113,10 +122,9 @@ public class ComputerDAO implements DAO<Computer> {
 	public void delete(Computer obj) throws DatabaseConnectionException, ComputerNotFoundException, DAOSqlException {
 		Connection connect = ConnectionFactory.getConnection();
 		PreparedStatement statement = null;
-		String sql = "DELETE FROM computer WHERE id=?";
 
 		try {
-			statement = connect.prepareStatement(sql);
+			statement = connect.prepareStatement(deleteQuery);
 
 			statement.setInt(1, obj.getId());
 			int rows = statement.executeUpdate();
@@ -137,12 +145,11 @@ public class ComputerDAO implements DAO<Computer> {
 
 	@Override
 	public void update(Computer obj) throws DatabaseConnectionException, ComputerNotFoundException, DAOSqlException {
-		String sql = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 		Connection connect = ConnectionFactory.getConnection();
 
 		PreparedStatement statement = null;
 		try {
-			statement = connect.prepareStatement(sql);
+			statement = connect.prepareStatement(updateQuery);
 			statement.setString(1, obj.getName());
 			if(obj.getIntroduced()==null){
 				statement.setNull(2,Types.TIMESTAMP);
@@ -187,9 +194,8 @@ public class ComputerDAO implements DAO<Computer> {
 		ResultSet result = null;
 		PreparedStatement statement = null;
 		Computer computer;
-		String sql = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.id=?";
 		try {
-			statement = connect.prepareStatement(sql);
+			statement = connect.prepareStatement(findQuery);
 			statement.setInt(1, id);
 			result = statement.executeQuery();    
 			if (result.next()){
@@ -222,10 +228,7 @@ public class ComputerDAO implements DAO<Computer> {
 			result = connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE, 
 					ResultSet.CONCUR_READ_ONLY
-					).executeQuery(
-							"SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
-									"LEFT JOIN company ON computer.company_id= company.id"							
-							);  
+					).executeQuery(listQuery);  
 			while (result.next()){
 				if (result.getInt("companyId")==0){
 					Computer computer = ComputerMapper.fromResultSet(result);
@@ -255,11 +258,9 @@ public class ComputerDAO implements DAO<Computer> {
 		ResultSet result = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		PreparedStatement statement = null;
-		String sql = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer "+
-				"LEFT JOIN company ON computer.company_id= company.id LIMIT ?, ? ";
 		try {
 
-			statement = connect.prepareStatement(sql);
+			statement = connect.prepareStatement(listPageQuery);
 			statement.setInt(1, indexBegin);
 			statement.setInt(2, pageSize);
 			result = statement.executeQuery();    
@@ -329,9 +330,8 @@ public class ComputerDAO implements DAO<Computer> {
 		ResultSet result = null;
 		PreparedStatement statement = null;
 		List<Computer> computers = new ArrayList<Computer>();
-		String sql = "SELECT computer.id as computerId, computer.name as computerName, computer.introduced, computer.discontinued, company.id AS companyId, company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id= company.id  WHERE computer.name LIKE ?";
 		try {
-			statement = connect.prepareStatement(sql);
+			statement = connect.prepareStatement(findByNameQuery);
 			statement.setString(1, name+'%');
 			result = statement.executeQuery();    
 			while (result.next()){
@@ -361,11 +361,10 @@ public class ComputerDAO implements DAO<Computer> {
 	public int selectCount(String name) throws DatabaseConnectionException, DAOSqlException {
 		Connection connect = ConnectionFactory.getConnection();
 		ResultSet result = null;
-		String sql = "SELECT COUNT(distinct computer.id) as countProduct FROM computer LEFT JOIN company ON computer.company_id= company.id WHERE computer.name LIKE ? OR company.name LIKE ?";
 		PreparedStatement statement = null;
 
 		try {
-			statement = connect.prepareStatement(sql);
+			statement = connect.prepareStatement(selectCountQuery);
 			statement.setString(1, name+'%');
 			statement.setString(2, name+'%');
 			result = statement.executeQuery();    
