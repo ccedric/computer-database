@@ -17,7 +17,7 @@ import com.excilys.formation.java.computerdb.service.exception.TimestampDisconti
 
 /**
  * @author Cédric Cousseran
- *
+ * Service layer for the model Computer, call the DAO Computer
  */
 public class ComputerService implements Service<Computer> {
 	private static ComputerDAO computerDAO = null;
@@ -33,11 +33,7 @@ public class ComputerService implements Service<Computer> {
 		}
 		try {
 			return computerDAO.create(obj);
-		} catch (ComputerDAOInvalidException e) {
-			e.printStackTrace();
-		} catch (DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (ComputerDAOInvalidException | DAOSqlException e) {}
 		return 0;
 	}
 
@@ -47,11 +43,7 @@ public class ComputerService implements Service<Computer> {
 		try {
 			computerDAO.delete(obj);
 			return true;
-		} catch (ComputerNotFoundException e) {
-			e.printStackTrace();
-		} catch (DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (ComputerNotFoundException | DAOSqlException e) {}
 		return false;
 	}
 
@@ -63,9 +55,7 @@ public class ComputerService implements Service<Computer> {
 		try {
 			computerDAO.update(obj);
 			return true;
-		} catch (ComputerNotFoundException | DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (ComputerNotFoundException | DAOSqlException e) {}
 		return false;
 	}
 
@@ -73,9 +63,7 @@ public class ComputerService implements Service<Computer> {
 	public Computer find(int id) throws DatabaseConnectionException {
 		try {
 			return computerDAO.find(id);
-		} catch (DAOSqlException | ComputerNotFoundException e) {
-			e.printStackTrace();
-		}
+		} catch (DAOSqlException | ComputerNotFoundException e) {}
 		return null;
 	}
 
@@ -84,9 +72,7 @@ public class ComputerService implements Service<Computer> {
 	public List<Computer> list() throws DatabaseConnectionException {
 		try {
 			return computerDAO.list();
-		} catch (DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (DAOSqlException e) {}
 		return null;
 	}
 
@@ -95,9 +81,7 @@ public class ComputerService implements Service<Computer> {
 	public List<Computer> listPage(Page page) throws DatabaseConnectionException {
 		try {
 			return computerDAO.listPage(page.getStartingIndex(), page.getPageSize());
-		} catch (DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (DAOSqlException e) {}
 		return null;
 	}
 
@@ -105,9 +89,7 @@ public class ComputerService implements Service<Computer> {
 	public List<Computer> findByName(String name) throws DatabaseConnectionException {
 		try {
 			return computerDAO.findByName(name);
-		} catch (DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (DAOSqlException e) {}
 		return null;
 	}
 
@@ -115,9 +97,7 @@ public class ComputerService implements Service<Computer> {
 	public List<Computer> listPageByName(Page page) throws DatabaseConnectionException {
 		try {
 			return computerDAO.listPageByName(page.getStartingIndex(), page.getPageSize(), page.getSearch(), page.getOrderSearch());
-		} catch (DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (DAOSqlException e) {}
 		return null;
 	}
 
@@ -128,9 +108,7 @@ public class ComputerService implements Service<Computer> {
 	public int selectCount(String name) {
 		try {
 			return computerDAO.selectCount(name);
-		} catch (DatabaseConnectionException | DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (DatabaseConnectionException | DAOSqlException e) {}
 		return 0;
 	}
 

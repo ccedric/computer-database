@@ -22,7 +22,7 @@ import com.excilys.formation.java.computerdb.service.Page;
 
 /**
  * @author Cédric Cousseran
- *
+ * Service layer for the Company model, call the DAO Company
  */
 public class CompanyService implements Service<Company> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
@@ -89,11 +89,7 @@ public class CompanyService implements Service<Company> {
 	public Company find(int id) throws DatabaseConnectionException {
 		try {
 			return companyDAO.find(id);
-		} catch (DAOSqlException e) {
-			e.printStackTrace();
-		} catch (CompanyNotFoundException e) {
-			e.printStackTrace();
-		}
+		} catch (DAOSqlException | CompanyNotFoundException e) {} 
 		return null;
 	}
 
@@ -102,9 +98,7 @@ public class CompanyService implements Service<Company> {
 	public List<Company> list() throws DatabaseConnectionException {
 		try {
 			return companyDAO.list();
-		} catch (DAOSqlException e) {
-			e.printStackTrace();
-		}
+		} catch (DAOSqlException e) {}
 		return null;
 	}
 
@@ -116,9 +110,7 @@ public class CompanyService implements Service<Company> {
 	public List<Company> listPage(Page page) throws DatabaseConnectionException {
 		try {
 			return companyDAO.list();
-		} catch (DAOSqlException | NotImplementedException e) {
-			e.printStackTrace();
-		}
+		} catch (DAOSqlException | NotImplementedException e) {}
 		return null;
 	}
 
