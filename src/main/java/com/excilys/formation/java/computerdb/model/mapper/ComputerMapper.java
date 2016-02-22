@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.model.mapper;
 
 import java.sql.ResultSet;
@@ -16,7 +13,7 @@ import com.excilys.formation.java.computerdb.model.Computer;
 
 /**
  * @author Cédric Cousseran
- *
+ * Map the model Computer to a DTO or from a ResultSet
  */
 public interface ComputerMapper {
 	/**

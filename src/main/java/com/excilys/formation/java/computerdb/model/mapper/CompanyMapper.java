@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.formation.java.computerdb.model.mapper;
 
 import java.sql.ResultSet;
@@ -13,7 +10,7 @@ import com.excilys.formation.java.computerdb.model.Company;
 
 /**
  * @author Cédric Cousseran
- *
+ * Map the model Company from a ResultSet or to a DTO
  */
 public interface CompanyMapper {
 	/**
