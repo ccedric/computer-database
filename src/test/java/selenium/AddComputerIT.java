@@ -45,6 +45,7 @@ public class AddComputerIT {
     driver.findElement(By.id("computerName")).clear();
     driver.findElement(By.id("computerName")).sendKeys("test");
     driver.findElement(By.id("submit")).click();
+    assertTrue(isElementPresent(By.id("computerCreated")));
     driver.findElement(By.xpath("(//button[@name='number-results'])[3]")).click();
   }
 

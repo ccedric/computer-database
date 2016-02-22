@@ -57,7 +57,7 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="Edit" class="btn btn-primary">
+							<input type="submit" value="Edit" class="btn btn-primary" id="submit">
 							or <a href="<t:TagLink url="dashboard"/>" class="btn btn-default">Cancel</a>
 						</div>
 					</form>

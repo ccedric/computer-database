@@ -30,7 +30,7 @@ public class CommandLineInterface {
 		companyService = new CompanyService();
 
 		System.out.println("------------------------------------------");
-		System.out.println("---Welcome in the computer database app---");
+		System.out.println("---Welcome to the computer database app---");
 		System.out.println("------------------------------------------");
 		showHelp();
 	}

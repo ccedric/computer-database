@@ -14,7 +14,7 @@
 	
 	<!-- Alert if the user just created a new computer -->
 	<c:if test="${null!=newComputer}">
-		<div class="alert alert-success alert-dismissable">
+		<div class="alert alert-success alert-dismissable" id="computerCreated">
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">&times;</button>
 			A new computer has been created. Name of the computer:
@@ -26,7 +26,7 @@
 	
 	<!-- Alert if the user just updated a new computer -->
 	<c:if test="${null!=updateComputer}">
-		<div class="alert alert-success alert-dismissable">
+		<div class="alert alert-success alert-dismissable" id="computerUpdated">
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">&times;</button>
 			A computer has been updated. Name of the computer:

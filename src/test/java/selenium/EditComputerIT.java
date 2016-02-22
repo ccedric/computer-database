@@ -24,28 +24,21 @@ public class EditComputerIT {
   }
 
   @Test
-  public void testEditComputer() throws Exception {
+  public void testEditComputerIT() throws Exception {
     driver.get(baseUrl + "/computerDB/dashboard");
-    driver.findElement(By.id("addComputer")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("test");
+    driver.findElement(By.linkText("Apple IIea")).click();
+    try {
+      assertEquals("id: 7", driver.findElement(By.xpath("//section[@id='main']/div/div/div/div")).getText());
+    } catch (Error e) {
+      verificationErrors.append(e.toString());
+    }
     driver.findElement(By.id("introduced")).clear();
-    driver.findElement(By.id("introduced")).sendKeys("1990-10-10");
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("ghnnb");
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("1985-10-10");
+    driver.findElement(By.id("introduced")).sendKeys("fdsf");
+    driver.findElement(By.id("introduced")).clear();
+    driver.findElement(By.id("introduced")).sendKeys("");
+    new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Amiga Corporation");
     driver.findElement(By.id("submit")).click();
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("1995-10-10");
-    new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("RCA");
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("");
-    driver.findElement(By.id("submit")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("test");
-    driver.findElement(By.id("submit")).click();
-    driver.findElement(By.xpath("(//button[@name='number-results'])[3]")).click();
+    assertTrue(isElementPresent(By.id("computerUpdated")));
   }
 
   @After
