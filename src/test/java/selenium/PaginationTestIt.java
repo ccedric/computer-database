@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
-public class OrderByIt {
+public class PaginationTestIt {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -35,19 +35,11 @@ public class OrderByIt {
   }
 
   @Test
-  public void testOrderByIt() throws Exception {
-    driver.get(baseUrl + "/computerDB/dashboard");
-    driver.findElement(By.linkText("Computer name")).click();
-    driver.findElement(By.linkText("Computer name")).click();
-    driver.findElement(By.linkText("Introduced date")).click();
-    driver.findElement(By.linkText("Introduced date")).click();
-    driver.findElement(By.linkText("Discontinued date")).click();
-    driver.findElement(By.linkText("Discontinued date")).click();
-    driver.findElement(By.linkText("Company")).click();
-    driver.findElement(By.linkText("Discontinued date")).click();
-    driver.findElement(By.linkText("2")).click();
-    driver.findElement(By.linkText("3")).click();
-    driver.findElement(By.linkText("Discontinued date")).click();
+  public void testPagination() throws Exception {
+    driver.get(baseUrl + "/computerDB/dashboard?page=1&numberResults=50&search=");
+    driver.findElement(By.linkText("»")).click();
+    driver.findElement(By.cssSelector("a > span")).click();
+    driver.findElement(By.linkText("5")).click();
   }
 
   /**

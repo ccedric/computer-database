@@ -1,21 +1,33 @@
 package selenium;
 
-import java.util.regex.Pattern;
-import java.util.concurrent.TimeUnit;
-import org.junit.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-import org.openqa.selenium.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+
 @SuppressWarnings("unused")
-public class AddComputerIT {
+public class EditComputerIt {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
 
+  /**
+   * Set up before the test.
+   */
   @Before
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
@@ -24,31 +36,27 @@ public class AddComputerIT {
   }
 
   @Test
-  public void testAddComputer() throws Exception {
+  public void testEditComputerIt() throws Exception {
     driver.get(baseUrl + "/computerDB/dashboard");
-    driver.findElement(By.id("addComputer")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("test");
+    driver.findElement(By.linkText("Apple IIea")).click();
+    try {
+      assertEquals("id: 7", driver.findElement(By.xpath("//section[@id='main']/div/div/div/div"))
+          .getText());
+    } catch (Error e) {
+      verificationErrors.append(e.toString());
+    }
     driver.findElement(By.id("introduced")).clear();
-    driver.findElement(By.id("introduced")).sendKeys("1990-10-10");
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("ghnnb");
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("1985-10-10");
+    driver.findElement(By.id("introduced")).sendKeys("fdsf");
+    driver.findElement(By.id("introduced")).clear();
+    driver.findElement(By.id("introduced")).sendKeys("");
+    new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Amiga Corporation");
     driver.findElement(By.id("submit")).click();
-    driver.findElement(By.id("discontinued")).clear();
-    driver.findElement(By.id("discontinued")).sendKeys("1995-10-10");
-    new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("RCA");
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("");
-    driver.findElement(By.id("submit")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("test");
-    driver.findElement(By.id("submit")).click();
-    assertTrue(isElementPresent(By.id("computerCreated")));
-    driver.findElement(By.xpath("(//button[@name='number-results'])[3]")).click();
+    assertTrue(isElementPresent(By.id("computerUpdated")));
   }
 
+  /**
+   * Tear down after the test.
+   */
   @After
   public void tearDown() throws Exception {
     driver.quit();

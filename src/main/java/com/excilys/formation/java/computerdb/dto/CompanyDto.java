@@ -1,26 +1,19 @@
-package com.excilys.formation.java.computerdb.model;
+package com.excilys.formation.java.computerdb.dto;
 
 /**
- * A company is represented by an id, and a name.
+ * Data Transfer Object for the model Company.
  * 
  * @author Cédric Cousseran
  *
  */
-public class Company {
-  /**
-   * id of the company.
-   */
+public class CompanyDto {
   private int id;
-
-  /**
-   * name of the company.
-   */
   private String name;
 
-  public Company() {
+  public CompanyDto() {
   }
 
-  public Company(int id, String name) {
+  public CompanyDto(int id, String name) {
     this.id = id;
     this.name = name;
   }
@@ -41,11 +34,11 @@ public class Company {
     this.name = name;
   }
 
-  @Override
-  public String toString() {
-    return "Company n°" + this.id + " de nom " + this.name;
-  }
-
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -55,6 +48,11 @@ public class Company {
     return result;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -66,7 +64,7 @@ public class Company {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    Company other = (Company) obj;
+    CompanyDto other = (CompanyDto) obj;
     if (id != other.id) {
       return false;
     }

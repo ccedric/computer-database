@@ -160,7 +160,7 @@
 				<version>2.19.1</version>
 				<configuration>
 					<excludes>
-						<exclude>**/IT*.java</exclude>
+						<exclude>**/*It.java</exclude>
 					</excludes>
 				</configuration>
 				<dependencies>
@@ -179,8 +179,11 @@
 				<version>2.13</version>
 				<configuration>
 					<includes>
-						<include>**/*IT.java</include>
+						<include>**/*It.java</include>
 					</includes>
+					<excludes>
+						<exclude>**/*Test.java</exclude>
+					</excludes>
 				</configuration>
 				<executions>
 					<execution>
