@@ -21,8 +21,8 @@ import java.util.Scanner;
  *
  */
 public class CommandLineInterface {
-  private static ComputerService computerService = null;
-  private static CompanyService companyService = null;
+  private static ComputerService computerService = ComputerService.getInstance();
+  private static CompanyService companyService =  CompanyService.getInstance();
   private static Scanner sc = new Scanner(System.in);
   private static int pageComputerSize = 10;
 
@@ -33,9 +33,6 @@ public class CommandLineInterface {
    *          Currently not used
    */
   public static void main(String[] args) {
-    computerService = new ComputerService();
-    companyService = new CompanyService();
-
     System.out.println("------------------------------------------");
     System.out.println("---Welcome to the computer database app---");
     System.out.println("------------------------------------------");

@@ -17,7 +17,7 @@ import org.junit.Test;
  *
  */
 public class CompanyDaoTest {
-  private CompanyDao dao = new CompanyDao();
+  private CompanyDao dao = CompanyDao.getInstance();
 
   @Test
   public void testFindUnknown() throws DatabaseConnectionException, DaoSqlException {

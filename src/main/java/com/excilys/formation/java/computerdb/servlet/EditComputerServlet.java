@@ -38,8 +38,8 @@ public class EditComputerServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    CompanyService companyService = new CompanyService();
-    ComputerService computerService = new ComputerService();
+    CompanyService companyService = CompanyService.getInstance();
+    ComputerService computerService = ComputerService.getInstance();
 
     List<CompanyDto> companies = CompanyMapper.listToDto(companyService.list());
 
@@ -80,7 +80,7 @@ public class EditComputerServlet extends HttpServlet {
       // Creation of a Computer from a ComputerDTO
       Computer computer = ComputerDtoMapper.toComputer(computerDto);
 
-      ComputerService computerService = new ComputerService();
+      ComputerService computerService = ComputerService.getInstance();
       computerService.update(computer);
       LOGGER.info("update of a new computer : {}", computerDto);
 

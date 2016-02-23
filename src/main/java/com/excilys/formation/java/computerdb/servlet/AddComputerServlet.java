@@ -38,7 +38,7 @@ public class AddComputerServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    CompanyService companyService = new CompanyService();
+    CompanyService companyService = CompanyService.getInstance();
     List<CompanyDto> companies = CompanyMapper.listToDto(companyService.list());
 
     request.setAttribute("companies", companies);
@@ -59,7 +59,7 @@ public class AddComputerServlet extends HttpServlet {
     try {
       ComputerDtoValidator.validate(computerDto);
       Computer computer = ComputerDtoMapper.toComputer(computerDto);
-      ComputerService computerService = new ComputerService();
+      ComputerService computerService = ComputerService.getInstance();
       computerService.create(computer);
       LOGGER.info("creation of a new computer : {}", computerDto);
       request.setAttribute("newComputer", computerDto);

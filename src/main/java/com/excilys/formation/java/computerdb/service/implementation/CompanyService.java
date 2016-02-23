@@ -25,11 +25,15 @@ import java.util.List;
  * @author Cédric Cousseran
  */
 public class CompanyService implements Service<Company> {
+  private static CompanyService INSTANCE = new CompanyService();  
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
-  private static CompanyDao companyDAO = null;
+  private static CompanyDao companyDAO = CompanyDao.getInstance();
 
-  public CompanyService() {
-    companyDAO = new CompanyDao();
+  private CompanyService() {
+  }
+  
+  public static CompanyService getInstance() {
+    return INSTANCE;
   }
 
   /**
@@ -51,7 +55,7 @@ public class CompanyService implements Service<Company> {
    */
   @Override
   public boolean delete(Company obj) throws DatabaseConnectionException {
-    ComputerDao computerDao = new ComputerDao();
+    ComputerDao computerDao = ComputerDao.getInstance();
     TransactionManager transactionManager = TransactionManager.getInstance();
     try {
       transactionManager.setAutoCommit(false);

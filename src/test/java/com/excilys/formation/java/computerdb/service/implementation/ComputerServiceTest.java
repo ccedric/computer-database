@@ -21,7 +21,7 @@ import java.util.List;
  *
  */
 public class ComputerServiceTest {
-  private ComputerService service = new ComputerService();
+  private ComputerService service = ComputerService.getInstance();
 
   @Test
   public void testListPage() {

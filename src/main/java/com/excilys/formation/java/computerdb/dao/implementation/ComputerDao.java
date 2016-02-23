@@ -32,7 +32,9 @@ import java.util.List;
  *
  */
 public class ComputerDao implements Dao<Computer> {
+  private static ComputerDao INSTANCE = new ComputerDao(); 
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
+  
   private static final String deleteByCompanyQuery = "DELETE FROM computer where company_id = ?";
   private static final String createQuery = "INSERT INTO computer (name, introduced, "
       + "discontinued,company_id) VALUES ( ?, ?, ?,?)";
@@ -59,7 +61,11 @@ public class ComputerDao implements Dao<Computer> {
       + "countProduct FROM computer LEFT JOIN company ON computer.company_id= company.id"
       + " WHERE computer.name LIKE ? OR company.name LIKE ?";
 
-  public ComputerDao() {
+  private ComputerDao() {
+  }
+  
+  public static ComputerDao getInstance() {
+    return INSTANCE;
   }
 
   /**

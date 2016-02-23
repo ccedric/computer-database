@@ -23,13 +23,17 @@ import java.util.List;
  * @author Cédric Cousseran
  */
 public class ComputerService implements Service<Computer> {
-  private static ComputerDao computerDAO = null;
+  private static ComputerService INSTANCE = new ComputerService();  
+  private ComputerDao computerDao = ComputerDao.getInstance();
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
 
-  public ComputerService() {
-    computerDAO = new ComputerDao();
+  private ComputerService() {
   }
 
+  public static ComputerService getInstance() {
+    return INSTANCE;
+  }
+  
   @Override
   public int create(Computer obj)
       throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
@@ -39,7 +43,7 @@ public class ComputerService implements Service<Computer> {
           "The discontinued timestamp is before the introduced timestamp");
     }
     try {
-      return computerDAO.create(obj);
+      return computerDao.create(obj);
     } catch (ComputerDaoInvalidException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService creation");
     } finally {
@@ -51,7 +55,7 @@ public class ComputerService implements Service<Computer> {
   @Override
   public boolean delete(Computer obj) throws DatabaseConnectionException {
     try {
-      computerDAO.delete(obj);
+      computerDao.delete(obj);
       return true;
     } catch (ComputerNotFoundException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService delete");
@@ -70,7 +74,7 @@ public class ComputerService implements Service<Computer> {
           "The discontinued timestamp is before the introduced timestamp");
     }
     try {
-      computerDAO.update(obj);
+      computerDao.update(obj);
       return true;
     } catch (ComputerNotFoundException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService update");
@@ -83,7 +87,7 @@ public class ComputerService implements Service<Computer> {
   @Override
   public Computer find(int id) throws DatabaseConnectionException {
     try {
-      return computerDAO.find(id);
+      return computerDao.find(id);
     } catch (DaoSqlException | ComputerNotFoundException e) {
       LOGGER.info("Exception catched in the ComputerService find");
     } finally {
@@ -95,7 +99,7 @@ public class ComputerService implements Service<Computer> {
   @Override
   public List<Computer> list() throws DatabaseConnectionException {
     try {
-      return computerDAO.list();
+      return computerDao.list();
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService list");
     } finally {
@@ -107,7 +111,7 @@ public class ComputerService implements Service<Computer> {
   @Override
   public List<Computer> listPage(Page page) throws DatabaseConnectionException {
     try {
-      return computerDAO.listPage(page.getStartingIndex(), page.getPageSize());
+      return computerDao.listPage(page.getStartingIndex(), page.getPageSize());
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService listPage");
     } finally {
@@ -119,7 +123,7 @@ public class ComputerService implements Service<Computer> {
   @Override
   public List<Computer> findByName(String name) throws DatabaseConnectionException {
     try {
-      return computerDAO.findByName(name);
+      return computerDao.findByName(name);
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService findByName");
     } finally {
@@ -131,7 +135,7 @@ public class ComputerService implements Service<Computer> {
   @Override
   public List<Computer> listPageByName(Page page) throws DatabaseConnectionException {
     try {
-      return computerDAO.listPageByName(page.getStartingIndex(), page.getPageSize(),
+      return computerDao.listPageByName(page.getStartingIndex(), page.getPageSize(),
           page.getSearch(), page.getOrderSearch());
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService listPageByName");
@@ -149,7 +153,7 @@ public class ComputerService implements Service<Computer> {
   @Override
   public int selectCount(String name) {
     try {
-      return computerDAO.selectCount(name);
+      return computerDao.selectCount(name);
     } catch (DatabaseConnectionException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService selectCount");
     } finally {

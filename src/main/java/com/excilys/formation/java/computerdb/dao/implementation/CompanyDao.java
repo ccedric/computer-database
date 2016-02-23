@@ -28,12 +28,17 @@ import java.util.List;
  *
  */
 public class CompanyDao implements Dao<Company> {
+  private static CompanyDao INSTANCE = new CompanyDao();
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
   private static final String deleteQuery = "DELETE FROM company WHERE id=?";
   private static final String findQuery = "SELECT * from company  WHERE id=?";
   private static final String listQuery = "SELECT * from company";
 
-  public CompanyDao() {
+  private CompanyDao() {
+  }
+  
+  public static CompanyDao getInstance() {
+    return INSTANCE;
   }
 
   @Override

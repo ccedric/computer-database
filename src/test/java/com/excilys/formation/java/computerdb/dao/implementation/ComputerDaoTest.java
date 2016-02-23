@@ -24,7 +24,7 @@ import java.util.List;
  *
  */
 public class ComputerDaoTest {
-  private ComputerDao dao = new ComputerDao();
+  private ComputerDao dao = ComputerDao.getInstance();
 
   @Test
   public void testCreateFind() throws DatabaseConnectionException, ComputerDaoInvalidException,

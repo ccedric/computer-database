@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DashboardServlet extends HttpServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
   private Page pageComputer = new Page(1, 50, "");
-  private ComputerService computerService = new ComputerService();
+  private ComputerService computerService = ComputerService.getInstance();
 
 
   public DashboardServlet() {
@@ -106,7 +106,7 @@ public class DashboardServlet extends HttpServlet {
       throws ServletException, IOException {
     if (null != request.getParameter("selection") && !request.getParameter("selection").isEmpty()) {
       String[] idsDelete = request.getParameter("selection").split(",");
-      ComputerService computerService = new ComputerService();
+      ComputerService computerService = ComputerService.getInstance();
       int idDeleteInt;
       boolean resultDelete;
       for (String idDelete : idsDelete) {
