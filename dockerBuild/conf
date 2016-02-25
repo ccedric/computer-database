@@ -1,0 +1,10 @@
+docker pull ccedric/utenv:latest
+
+docker rm utenv
+
+docker create --name utenv ccedric/utenv:latest
+
+docker cp /var/jenkins_home/jobs/computerDB/workspace/ utenv:/local/git/computerDB
+
+docker start -a utenv
+
