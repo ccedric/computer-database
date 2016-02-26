@@ -12,8 +12,12 @@ RUN  \
 # attach volumes
 VOLUME /volume/git
 
+ENV MYSQL_HOST tcp://dind:3306
+
 # create working directory
 RUN mkdir -p /local/git
 WORKDIR /local/git
 
-CMD mvn clean compile -f /local/git/computerDB/pom.xml
+COPY db.properties /
+
+CMD env; ping -c 172.18.0.2 ;rm /local/git/computerDB/src/main/resources/db.properties; mv /db.properties /local/git/computerDB/src/main/resources/db.properties; mvn clean compile test -f /local/git/computerDB/pom.xml

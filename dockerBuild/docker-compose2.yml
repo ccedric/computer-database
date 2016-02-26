@@ -1,3 +1,6 @@
+version: '2'
+
+services:
   dind:
     container_name: dind
     image: jpetazzo/dind

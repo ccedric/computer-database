@@ -1,10 +1,30 @@
 docker pull ccedric/utenv:latest
 
-docker rm utenv
+docker pull ccedric/cdb-mysql:latest
 
-docker create --name utenv ccedric/utenv:latest
+for container_id in $(docker ps --filter="name=mysql" -q -a);
+	do docker rm -f $container_id;
+done
+
+for container_id in $(docker ps --filter="name=utenv" -q -a);
+	do docker rm $container_id;
+done
+
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=''-d ccedric/cdb-mysql &
+
+sleep 10
+
+docker create --name utenv --link mysql ccedric/utenv:latest
 
 docker cp /var/jenkins_home/jobs/computerDB/workspace/ utenv:/local/git/computerDB
 
 docker start -a utenv
 
+
+for container_id in $(docker ps --filter="name=mysql" -q -a);
+	do docker rm -f $container_id;
+done
+
+for container_id in $(docker ps --filter="name=utenv" -q -a);
+	do docker rm $container_id;
+done
