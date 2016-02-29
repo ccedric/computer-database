@@ -20,4 +20,4 @@ WORKDIR /local/git
 
 COPY db.properties /
 
-CMD env; ping -c 172.18.0.2 ;rm /local/git/computerDB/src/main/resources/db.properties; mv /db.properties /local/git/computerDB/src/main/resources/db.properties; mvn clean compile test -f /local/git/computerDB/pom.xml
+CMD rm /local/git/computerDB/src/main/resources/db.properties; cp /db.properties /local/git/computerDB/src/main/resources/db.properties; mvn clean compile test -f /local/git/computerDB/pom.xml

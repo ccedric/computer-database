@@ -7,6 +7,12 @@
       PORT: 4242
     privileged: true
 
+  mysql:
+    container_name: mysql
+    image: ccedric/cdb-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
   glazer:
     container_name: glazer
     image: clementgayvallet/glazer-container-agent
@@ -16,6 +22,8 @@
   webapp:
     container_name: webapp
     image: ccedric/cdb-webapp
+    links:
+      - mysql
     ports:
       - 8888:8080
 
@@ -27,5 +35,3 @@
       - webapp
     ports:
       - 8080:8080
-    volumes:
-      - .dockercfg:/root/.dockercfg
