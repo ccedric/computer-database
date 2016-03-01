@@ -52,7 +52,7 @@ public interface ComputerMapper {
    */
   static ComputerDto toDto(Computer computer) {
     String companyName = null;
-    int companyId = 0;
+    long companyId = 0;
     String introduced = null;
     String discontinued = null;
 
@@ -86,7 +86,7 @@ public interface ComputerMapper {
     for (Computer computer : computers) {
       String introduced = null;
       String discontinued = null;
-      int companyId = 0;
+      long companyId = 0;
       String companyName = null;
       if (null != computer.getIntroduced()) {
         introduced = computer.getIntroduced().format(formatter);

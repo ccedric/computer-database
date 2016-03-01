@@ -32,9 +32,9 @@ import java.util.List;
  *
  */
 public class ComputerDao implements Dao<Computer> {
-  private static ComputerDao INSTANCE = new ComputerDao(); 
+  private static ComputerDao INSTANCE = new ComputerDao();
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
-  
+
   private static final String deleteByCompanyQuery = "DELETE FROM computer where company_id = ?";
   private static final String createQuery = "INSERT INTO computer (name, introduced, "
       + "discontinued,company_id) VALUES ( ?, ?, ?,?)";
@@ -63,7 +63,7 @@ public class ComputerDao implements Dao<Computer> {
 
   private ComputerDao() {
   }
-  
+
   public static ComputerDao getInstance() {
     return INSTANCE;
   }
@@ -80,7 +80,7 @@ public class ComputerDao implements Dao<Computer> {
     try {
       statementComputer = TransactionManager.getInstance().get()
           .prepareStatement(deleteByCompanyQuery);
-      statementComputer.setInt(1, obj.getId());
+      statementComputer.setLong(1, obj.getId());
       statementComputer.executeUpdate();
     } catch (SQLException e) {
       LOGGER.error("Error while deleting the computers of a company, rolling back");
@@ -118,7 +118,7 @@ public class ComputerDao implements Dao<Computer> {
       if (null == obj.getCompany()) {
         statement.setNull(4, Types.BIGINT);
       } else {
-        statement.setInt(4, obj.getCompany().getId());
+        statement.setLong(4, obj.getCompany().getId());
       }
       statement.executeUpdate();
       rs = statement.getGeneratedKeys();
@@ -150,7 +150,7 @@ public class ComputerDao implements Dao<Computer> {
     try {
       statement = TransactionManager.getInstance().get().prepareStatement(deleteQuery);
 
-      statement.setInt(1, obj.getId());
+      statement.setLong(1, obj.getId());
       int rows = statement.executeUpdate();
       if (rows > 0) {
         LOGGER.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
@@ -189,9 +189,9 @@ public class ComputerDao implements Dao<Computer> {
       if (obj.getCompany() == null) {
         statement.setNull(4, Types.BIGINT);
       } else {
-        statement.setInt(4, obj.getCompany().getId());
+        statement.setLong(4, obj.getCompany().getId());
       }
-      statement.setInt(5, obj.getId());
+      statement.setLong(5, obj.getId());
 
       int rowsUpdated = statement.executeUpdate();
 
@@ -216,14 +216,14 @@ public class ComputerDao implements Dao<Computer> {
   }
 
   @Override
-  public Computer find(int id)
+  public Computer find(long id)
       throws DatabaseConnectionException, DaoSqlException, ComputerNotFoundException {
     ResultSet result = null;
     PreparedStatement statement = null;
     Computer computer;
     try {
       statement = TransactionManager.getInstance().get().prepareStatement(findQuery);
-      statement.setInt(1, id);
+      statement.setLong(1, id);
       result = statement.executeQuery();
       if (result.next()) {
         computer = ComputerMapper.fromResultSet(result);

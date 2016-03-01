@@ -50,7 +50,7 @@ public interface Service<T> {
    *          the id of the object
    * @return the object found, null if it was not found
    */
-  T find(int id) throws DatabaseConnectionException;
+  T find(long id) throws DatabaseConnectionException;
 
   /**
    * Call the list method in the dao.

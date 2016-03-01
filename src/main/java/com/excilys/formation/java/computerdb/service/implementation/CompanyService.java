@@ -87,7 +87,7 @@ public class CompanyService implements Service<Company> {
   }
 
   @Override
-  public Company find(int id) throws DatabaseConnectionException {
+  public Company find(long id) throws DatabaseConnectionException {
     try {
       return companyDAO.find(id);
     } catch (DaoSqlException | CompanyNotFoundException e) {

@@ -13,7 +13,7 @@ public class Computer {
   /**
    * id of the computer.
    */
-  private int id;
+  private long id;
   /**
    * name of the computer.
    */
@@ -40,11 +40,11 @@ public class Computer {
     this.discontinued = builder.discontinued;
   }
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -89,7 +89,7 @@ public class Computer {
    *
    */
   public static class ComputerBuilder {
-    private int id;
+    private long id;
     private String name;
     private Company company;
     private LocalDate introduced;
@@ -99,7 +99,7 @@ public class Computer {
       this.name = name;
     }
 
-    public ComputerBuilder id(int id) {
+    public ComputerBuilder id(long id) {
       this.id = id;
       return this;
     }
@@ -137,7 +137,7 @@ public class Computer {
     int result = 1;
     result = prime * result + ((company == null) ? 0 : company.hashCode());
     result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
-    result = prime * result + id;
+    result = prime * result + (int)id;
     result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;

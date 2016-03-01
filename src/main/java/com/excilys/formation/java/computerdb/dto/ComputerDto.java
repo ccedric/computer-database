@@ -7,10 +7,10 @@ package com.excilys.formation.java.computerdb.dto;
  *
  */
 public class ComputerDto {
-  private int id;
+  private long id;
   private String name;
   private String companyName;
-  private int companyId;
+  private long companyId;
   private String introduced;
   private String discontinued;
 
@@ -34,20 +34,20 @@ public class ComputerDto {
   }
 
 
-  public int getCompanyId() {
+  public long getCompanyId() {
     return companyId;
   }
 
 
-  public void setCompanyId(int companyId) {
+  public void setCompanyId(long companyId) {
     this.companyId = companyId;
   }
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -76,9 +76,9 @@ public class ComputerDto {
   }
 
   public static class ComputerDtoBuilder {
-    private int id;
+    private long id;
     private String name;
-    private int companyId;
+    private long companyId;
     private String companyName;
     private String introduced;
     private String discontinued;
@@ -87,13 +87,13 @@ public class ComputerDto {
       this.name = name;
     }
 
-    public ComputerDtoBuilder id(int id) {
+    public ComputerDtoBuilder id(long id) {
       this.id = id;
       return this;
     }
 
-    public ComputerDtoBuilder companyId(int companyId) {
-      this.companyId = companyId;
+    public ComputerDtoBuilder companyId(long companyId2) {
+      this.companyId = companyId2;
       return this;
     }
 
@@ -127,10 +127,10 @@ public class ComputerDto {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + companyId;
+    result = prime * result + (int)companyId;
     result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
     result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
-    result = prime * result + id;
+    result = prime * result + (int)id;
     result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;

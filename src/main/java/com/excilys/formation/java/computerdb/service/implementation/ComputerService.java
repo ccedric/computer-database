@@ -85,7 +85,7 @@ public class ComputerService implements Service<Computer> {
   }
 
   @Override
-  public Computer find(int id) throws DatabaseConnectionException {
+  public Computer find(long id) throws DatabaseConnectionException {
     try {
       return computerDao.find(id);
     } catch (DaoSqlException | ComputerNotFoundException e) {

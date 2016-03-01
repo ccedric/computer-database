@@ -58,7 +58,7 @@ public interface Dao<T> {
    *          the id of the object
    * @return the object found, null if it was not found
    */
-  T find(int id) throws DatabaseConnectionException, DaoSqlException, ComputerNotFoundException,
+  T find(long id) throws DatabaseConnectionException, DaoSqlException, ComputerNotFoundException,
       CompanyNotFoundException;
 
   /**

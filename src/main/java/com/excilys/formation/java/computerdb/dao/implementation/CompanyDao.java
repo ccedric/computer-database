@@ -53,7 +53,7 @@ public class CompanyDao implements Dao<Company> {
     PreparedStatement statementCompany = null;
     try {
       statementCompany = TransactionManager.getInstance().get().prepareStatement(deleteQuery);
-      statementCompany.setInt(1, obj.getId());
+      statementCompany.setLong(1, obj.getId());
       int rows = statementCompany.executeUpdate();
       TransactionManager.getInstance().commit();
 
@@ -80,7 +80,7 @@ public class CompanyDao implements Dao<Company> {
   }
 
   @Override
-  public Company find(int id)
+  public Company find(long id)
       throws DatabaseConnectionException, DaoSqlException, CompanyNotFoundException {
 
     ResultSet result = null;
@@ -92,7 +92,7 @@ public class CompanyDao implements Dao<Company> {
     }
     try {
       statement = TransactionManager.getInstance().get().prepareStatement(findQuery);
-      statement.setInt(1, id);
+      statement.setLong(1, id);
       result = statement.executeQuery();
       if (result.next()) {
         company = CompanyMapper.fromResultSet(result);

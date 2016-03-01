@@ -10,7 +10,7 @@ public class Company {
   /**
    * id of the company.
    */
-  private int id;
+  private long id;
 
   /**
    * name of the company.
@@ -20,16 +20,16 @@ public class Company {
   public Company() {
   }
 
-  public Company(int id, String name) {
+  public Company(long id, String name) {
     this.id = id;
     this.name = name;
   }
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -50,7 +50,7 @@ public class Company {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + id;
+    result = prime * result + (int)id;
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
