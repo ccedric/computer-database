@@ -31,7 +31,7 @@ public interface Service<T> {
    *          the object to delete in the database
    * @return true the object was successfully deleted, false otherwise
    */
-  boolean delete(T obj) throws DatabaseConnectionException;
+  void delete(T obj) throws DatabaseConnectionException;
 
   /**
    * Update an object in the database.
@@ -40,7 +40,7 @@ public interface Service<T> {
    *          the object to update in the database
    * @return true is the object was updated, false otherwise
    */
-  boolean update(T obj)
+  void update(T obj)
       throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException;
 
   /**

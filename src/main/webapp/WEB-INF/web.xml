@@ -28,4 +28,15 @@
 		<exception-type>com.excilys.formation.java.computerdb.db.DatabaseConnectionException</exception-type>
 		<location>/WEB-INF/jsp/500.jsp</location>
 	</error-page>
+ 
+  <context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>/WEB-INF/application-context.xml</param-value>
+ </context-param>
+
+ <listener>
+     <listener-class>
+         org.springframework.web.context.ContextLoaderListener
+     </listener-class>
+ </listener> 
 </web-app>

@@ -15,11 +15,14 @@ import com.excilys.formation.java.computerdb.service.implementation.ComputerServ
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,11 +39,20 @@ import javax.servlet.http.HttpServletResponse;
 public class EditComputerServlet extends HttpServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
+  @Autowired
+  CompanyService companyService;
+  @Autowired
+  ComputerService computerService;
+  
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
+    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+        config.getServletContext());
+  }
+  
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    CompanyService companyService = CompanyService.getInstance();
-    ComputerService computerService = ComputerService.getInstance();
-
     List<CompanyDto> companies = CompanyMapper.listToDto(companyService.list());
 
     try {
@@ -79,8 +91,6 @@ public class EditComputerServlet extends HttpServlet {
 
       // Creation of a Computer from a ComputerDTO
       Computer computer = ComputerDtoMapper.toComputer(computerDto);
-
-      ComputerService computerService = ComputerService.getInstance();
       computerService.update(computer);
       LOGGER.info("update of a new computer : {}", computerDto);
 

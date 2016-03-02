@@ -13,12 +13,17 @@ import com.excilys.formation.java.computerdb.order.OrderSearch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 
 /**
@@ -27,20 +32,20 @@ import java.util.List;
  * @author Cédric Cousseran
  *
  */
+@Repository
 public class CompanyDao implements Dao<Company> {
-  private static CompanyDao INSTANCE = new CompanyDao();
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
+  
+  @Autowired
+  DataSource dataSource;
+  
   private static final String deleteQuery = "DELETE FROM company WHERE id=?";
   private static final String findQuery = "SELECT * from company  WHERE id=?";
   private static final String listQuery = "SELECT * from company";
 
-  private CompanyDao() {
-  }
-  
-  public static CompanyDao getInstance() {
-    return INSTANCE;
-  }
 
+
+  
   @Override
   public int create(Company obj) throws DatabaseConnectionException {
     throw new NotImplementedException(
@@ -86,12 +91,15 @@ public class CompanyDao implements Dao<Company> {
     ResultSet result = null;
     Company company = null;
     PreparedStatement statement = null;
+    Connection conn = null;
 
     if (id == 0) {
       return null;
     }
     try {
-      statement = TransactionManager.getInstance().get().prepareStatement(findQuery);
+      
+      conn = dataSource.getConnection();
+      statement = conn.prepareStatement(findQuery);
       statement.setLong(1, id);
       result = statement.executeQuery();
       if (result.next()) {
@@ -105,6 +113,7 @@ public class CompanyDao implements Dao<Company> {
       throw new DaoSqlException("SQL error while finding the company");
     } finally {
       DbUtil.close(result);
+      DbUtil.close(conn);
     }
     LOGGER.info("Company found, id: {}, name: {}", company.getId(), company.getName());
     return company;

@@ -10,11 +10,14 @@ import com.excilys.formation.java.computerdb.service.implementation.ComputerServ
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,13 +36,20 @@ import javax.servlet.http.HttpServletResponse;
 public class DashboardServlet extends HttpServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
   private Page pageComputer = new Page(1, 50, "");
-  private ComputerService computerService = ComputerService.getInstance();
 
+  @Autowired
+  ComputerService computerService;
+
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
+    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+        config.getServletContext());
+  }
 
   public DashboardServlet() {
     super();
   }
-
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -106,18 +116,13 @@ public class DashboardServlet extends HttpServlet {
       throws ServletException, IOException {
     if (null != request.getParameter("selection") && !request.getParameter("selection").isEmpty()) {
       String[] idsDelete = request.getParameter("selection").split(",");
-      ComputerService computerService = ComputerService.getInstance();
       int idDeleteInt;
-      boolean resultDelete;
       for (String idDelete : idsDelete) {
         try {
           idDeleteInt = Integer.parseInt(idDelete);
-          resultDelete = computerService.delete(computerService.find(idDeleteInt));
-          if (resultDelete) {
-            LOGGER.info("Deletion of the computer with id {} successful", idDelete);
-          } else {
-            LOGGER.info("Deletion of the computer with id {} unsuccessful", idDelete);
-          }
+          computerService.delete(computerService.find(idDeleteInt));
+          LOGGER.info("Deletion of the computer with id {} successful", idDelete);
+
         } catch (Exception e) {
           LOGGER.info("Exception occured during the deletion of the computer {}, stack trace: ",
               idDelete);

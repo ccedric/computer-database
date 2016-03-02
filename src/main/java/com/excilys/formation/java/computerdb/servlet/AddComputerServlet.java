@@ -14,11 +14,14 @@ import com.excilys.formation.java.computerdb.service.implementation.ComputerServ
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,9 +39,20 @@ import javax.servlet.http.HttpServletResponse;
 public class AddComputerServlet extends HttpServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
+  @Autowired
+  CompanyService companyService;
+  @Autowired
+  ComputerService computerService;
+
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
+    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+        config.getServletContext());
+  }
+  
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    CompanyService companyService = CompanyService.getInstance();
     List<CompanyDto> companies = CompanyMapper.listToDto(companyService.list());
 
     request.setAttribute("companies", companies);
@@ -59,7 +73,6 @@ public class AddComputerServlet extends HttpServlet {
     try {
       ComputerDtoValidator.validate(computerDto);
       Computer computer = ComputerDtoMapper.toComputer(computerDto);
-      ComputerService computerService = ComputerService.getInstance();
       computerService.create(computer);
       LOGGER.info("creation of a new computer : {}", computerDto);
       request.setAttribute("newComputer", computerDto);

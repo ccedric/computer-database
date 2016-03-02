@@ -8,6 +8,11 @@ import com.excilys.formation.java.computerdb.service.exception.TimestampDisconti
 import com.excilys.formation.java.computerdb.service.implementation.CompanyService;
 import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -20,9 +25,13 @@ import java.util.Scanner;
  * @author Cédric Cousseran
  *
  */
+@Component
 public class CommandLineInterface {
-  private static ComputerService computerService = ComputerService.getInstance();
-  private static CompanyService companyService =  CompanyService.getInstance();
+  @Autowired
+  private CompanyService companyService;
+  @Autowired
+  private ComputerService computerService;
+
   private static Scanner sc = new Scanner(System.in);
   private static int pageComputerSize = 10;
 
@@ -33,16 +42,27 @@ public class CommandLineInterface {
    *          Currently not used
    */
   public static void main(String[] args) {
+    new CommandLineInterface().init();
+
+  }
+
+  private void init() {
+    @SuppressWarnings("resource")
+    ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+    this.companyService = (CompanyService) context.getBean("companyService");
+    this.computerService = (ComputerService) context.getBean("computerService");
     System.out.println("------------------------------------------");
     System.out.println("---Welcome to the computer database app---");
     System.out.println("------------------------------------------");
+
     showHelp();
+
   }
 
   /**
    * Show the help menu.
    */
-  private static void showHelp() {
+  private void showHelp() {
     System.out.println();
     System.out.println("What do you want to do:");
     System.out.println("1: List computers");
@@ -91,7 +111,7 @@ public class CommandLineInterface {
   /**
    * CLI to delete a computer.
    */
-  private static void deleteComputer() {
+  private void deleteComputer() {
     System.out.println(
         "Please enter the id of the computer you want to delete, or type q to go back to the menu");
     String input = sc.nextLine();
@@ -118,7 +138,7 @@ public class CommandLineInterface {
   /**
    * CLI to delete a company.
    */
-  private static void deleteCompany() throws DatabaseConnectionException {
+  private void deleteCompany() throws DatabaseConnectionException {
     System.out.println(
         "Please enter the id of the company you want to delete, or type q to go back to the menu");
     String input = sc.nextLine();
@@ -145,7 +165,7 @@ public class CommandLineInterface {
   /**
    * CLI to update the computer.
    */
-  private static void updateComputer() throws DatabaseConnectionException {
+  private void updateComputer() throws DatabaseConnectionException {
     System.out.println(
         "Please enter the id of the computer you want to update, or type q to go back to the menu");
     String inputId = sc.nextLine();
@@ -179,7 +199,7 @@ public class CommandLineInterface {
       try {
         System.out.println(
             "Please enter the id of the manufacturer of the computer, type 0 if you don't want to"
-            + " add this value, or type q to go back to the menu");
+                + " add this value, or type q to go back to the menu");
         String input = sc.nextLine();
         if (input.equals("q")) {
           showHelp();
@@ -199,7 +219,7 @@ public class CommandLineInterface {
     while (true) {
       System.out.println(
           "Please enter the introduced timestamp, format: yyyy-MM-dd, type 0 if you don't want to"
-          + " add this value, or type q to go back to the menu");
+              + " add this value, or type q to go back to the menu");
       String input = sc.nextLine();
       if (input.equals("q")) {
         showHelp();
@@ -223,7 +243,7 @@ public class CommandLineInterface {
     while (true) {
       System.out.println(
           "Please enter the discontinued timestamp, format: yyyy-MM-dd, type 0 if you don't want"
-          + " to add this value, or type q to go back to the menu");
+              + " to add this value, or type q to go back to the menu");
       String input = sc.nextLine();
       if (input.equals("q")) {
         showHelp();
@@ -252,20 +272,15 @@ public class CommandLineInterface {
     comp.setCompany(company);
     comp.setIntroduced(timestamp);
     comp.setDiscontinued(timestampEnd);
-    boolean result = false;
     try {
-      result = computerService.update(comp);
+      computerService.update(comp);
     } catch (TimestampDiscontinuedBeforeIntroducedException e) {
       System.out.println(
           "Update not successful, the discontinued timestamp was before the introduced timestamp");
       e.printStackTrace();
     }
-    if (result) {
-      System.out.println("Computer update successfully");
-      System.out.println(computerService.find(comp.getId()));
-    } else {
-      System.out.println("Error while creating the computer");
-    }
+    System.out.println("Computer update successfully");
+    System.out.println(computerService.find(comp.getId()));
     showHelp();
 
   }
@@ -273,9 +288,8 @@ public class CommandLineInterface {
   /**
    * CLI to create a computer.
    */
-  private static void createComputer() {
-    System.out.println(
-        "Please enter the name of the computer you want to create,"
+  private void createComputer() {
+    System.out.println("Please enter the name of the computer you want to create,"
         + " or type q to go back to the menu");
     String name = sc.nextLine();
     if (name.equals("q")) {
@@ -286,7 +300,7 @@ public class CommandLineInterface {
       try {
         System.out.println(
             "Please enter the id of the manufacturer of the computer, type 0 if you don't want"
-            + " to add this value, or type q to go back to the menu");
+                + " to add this value, or type q to go back to the menu");
         String input = sc.nextLine();
         if (input.equals("q")) {
           showHelp();
@@ -308,7 +322,7 @@ public class CommandLineInterface {
     while (true) {
       System.out.println(
           "Please enter the introduced timestamp, format: yyyy-MM-dd, type 0 if you don't want"
-          + " to add this value, or type q to go back to the menu");
+              + " to add this value, or type q to go back to the menu");
       String input = sc.nextLine();
       if (input.equals("q")) {
         showHelp();
@@ -330,7 +344,7 @@ public class CommandLineInterface {
     while (true) {
       System.out.println(
           "Please enter the discontinued timestamp, format: yyyy-MM-dd, or type 0 if you don't"
-          + " want to add this value, or type q to go back to the menu");
+              + " want to add this value, or type q to go back to the menu");
       String input = sc.nextLine();
       if (input.equals("q")) {
         showHelp();
@@ -360,8 +374,7 @@ public class CommandLineInterface {
     try {
       number = computerService.create(comp);
     } catch (TimestampDiscontinuedBeforeIntroducedException e) {
-      System.out.println(
-          "Creation not successful, the discontinued timestamp was before"
+      System.out.println("Creation not successful, the discontinued timestamp was before"
           + " the introduced timestamp");
       e.printStackTrace();
     }
@@ -377,7 +390,7 @@ public class CommandLineInterface {
   /**
    * CLI to show the details of a computer.
    */
-  private static void showComputerDetails() throws DatabaseConnectionException {
+  private void showComputerDetails() throws DatabaseConnectionException {
     System.out.println(
         "Please enter the id of the computer you want to see, or type q to go back to the menu");
     String input = sc.nextLine();
@@ -397,7 +410,7 @@ public class CommandLineInterface {
   /**
    * CLI to list all companies available in the database.
    */
-  private static void listCompanies() throws DatabaseConnectionException {
+  private void listCompanies() throws DatabaseConnectionException {
     List<Company> companies = companyService.list();
     for (Company company : companies) {
       System.out.println(company);
@@ -408,7 +421,7 @@ public class CommandLineInterface {
   /**
    * CLI to list all computers available in the database.
    */
-  private static void listComputer() throws DatabaseConnectionException {
+  private void listComputer() throws DatabaseConnectionException {
     Page pageComputer = new Page(1, pageComputerSize, "");
     List<Computer> computersPage;
     while (true) {
@@ -419,7 +432,7 @@ public class CommandLineInterface {
       System.out.println();
       System.out.println(
           "Type next if you want to see the next 10 computers, prev if you want to see the 10 "
-          + "previous computers, and q if you want to go back to the menu");
+              + "previous computers, and q if you want to go back to the menu");
       String input = sc.nextLine();
       switch (input) {
         case "q":

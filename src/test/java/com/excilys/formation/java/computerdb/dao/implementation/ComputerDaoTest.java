@@ -13,6 +13,10 @@ import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionExce
 import com.excilys.formation.java.computerdb.model.Computer;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
@@ -23,8 +27,11 @@ import java.util.List;
  * @author Cédric Cousseran
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/test-context.xml" })
 public class ComputerDaoTest {
-  private ComputerDao dao = ComputerDao.getInstance();
+  @Autowired
+  ComputerDao dao;
 
   @Test
   public void testCreateFind() throws DatabaseConnectionException, ComputerDaoInvalidException,

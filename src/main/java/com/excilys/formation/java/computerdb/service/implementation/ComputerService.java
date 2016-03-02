@@ -8,33 +8,40 @@ import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.Page;
-import com.excilys.formation.java.computerdb.service.Service;
 import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 
 /**
  * Service layer for the model Computer, call the DAO Computer.
  * 
  * @author Cédric Cousseran
  */
-public class ComputerService implements Service<Computer> {
-  private static ComputerService INSTANCE = new ComputerService();  
-  private ComputerDao computerDao = ComputerDao.getInstance();
+@Service
+@Transactional
+public class ComputerService
+    implements com.excilys.formation.java.computerdb.service.Service<Computer> {
+  @Autowired
+  ComputerDao computerDao;
+  
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
 
-  private ComputerService() {
+  public ComputerDao getComputerDao() {
+    return computerDao;
   }
 
-  public static ComputerService getInstance() {
-    return INSTANCE;
+  public void setComputerDao(ComputerDao computerDao) {
+    this.computerDao = computerDao;
   }
-  
+
   @Override
+  @Transactional(readOnly = false)
   public int create(Computer obj)
       throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
     if ((obj.getIntroduced() != null) && (obj.getDiscontinued() != null)
@@ -53,20 +60,20 @@ public class ComputerService implements Service<Computer> {
   }
 
   @Override
-  public boolean delete(Computer obj) throws DatabaseConnectionException {
+  @Transactional(readOnly = false)
+  public void delete(Computer obj) throws DatabaseConnectionException {
     try {
       computerDao.delete(obj);
-      return true;
     } catch (ComputerNotFoundException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService delete");
     } finally {
       TransactionManager.getInstance().remove();
     }
-    return false;
   }
 
   @Override
-  public boolean update(Computer obj)
+  @Transactional(readOnly = false)
+  public void update(Computer obj)
       throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
     if ((obj.getIntroduced() != null) && (obj.getDiscontinued() != null)
         && (obj.getIntroduced().isAfter(obj.getDiscontinued()))) {
@@ -75,16 +82,15 @@ public class ComputerService implements Service<Computer> {
     }
     try {
       computerDao.update(obj);
-      return true;
     } catch (ComputerNotFoundException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService update");
     } finally {
       TransactionManager.getInstance().remove();
     }
-    return false;
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Computer find(long id) throws DatabaseConnectionException {
     try {
       return computerDao.find(id);
@@ -97,6 +103,7 @@ public class ComputerService implements Service<Computer> {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Computer> list() throws DatabaseConnectionException {
     try {
       return computerDao.list();
@@ -109,6 +116,7 @@ public class ComputerService implements Service<Computer> {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Computer> listPage(Page page) throws DatabaseConnectionException {
     try {
       return computerDao.listPage(page.getStartingIndex(), page.getPageSize());
@@ -121,6 +129,7 @@ public class ComputerService implements Service<Computer> {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Computer> findByName(String name) throws DatabaseConnectionException {
     try {
       return computerDao.findByName(name);
@@ -133,6 +142,7 @@ public class ComputerService implements Service<Computer> {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Computer> listPageByName(Page page) throws DatabaseConnectionException {
     try {
       return computerDao.listPageByName(page.getStartingIndex(), page.getPageSize(),
@@ -145,12 +155,8 @@ public class ComputerService implements Service<Computer> {
     return null;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.excilys.formation.java.computerdb.service.Service#selectCount(java.lang.String)
-   */
   @Override
+  @Transactional(readOnly = true)
   public int selectCount(String name) {
     try {
       return computerDao.selectCount(name);

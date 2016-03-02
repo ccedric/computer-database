@@ -10,6 +10,10 @@ import com.excilys.formation.java.computerdb.service.Page;
 import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,9 +24,12 @@ import java.util.List;
  * @author Cédric Cousseran
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/test-context.xml" })
 public class ComputerServiceTest {
-  private ComputerService service = ComputerService.getInstance();
-
+  @Autowired
+  ComputerService service;
+  
   @Test
   public void testListPage() {
     List<Computer> computers = service.listPage(new Page(1, 20, ""));

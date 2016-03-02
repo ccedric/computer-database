@@ -10,39 +10,55 @@ import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.service.Page;
-import com.excilys.formation.java.computerdb.service.Service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-
 
 /**
  * Service layer for the Company model, call the DAO Company.
  * 
  * @author Cédric Cousseran
  */
-public class CompanyService implements Service<Company> {
-  private static CompanyService INSTANCE = new CompanyService();  
+@Service
+@Transactional
+public class CompanyService
+    implements com.excilys.formation.java.computerdb.service.Service<Company> {
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
-  private static CompanyDao companyDAO = CompanyDao.getInstance();
 
-  private CompanyService() {
+  @Autowired
+  CompanyDao companyDao;
+  @Autowired
+  ComputerDao computerDao;
+  
+  public CompanyDao getCompanyDao() {
+    return companyDao;
+  }
+
+  public void setCompanyDao(CompanyDao companyDao) {
+    this.companyDao = companyDao;
+  }
+
+  public ComputerDao getComputerDao() {
+    return computerDao;
+  }
+
+  public void setComputerDao(ComputerDao computerDao) {
+    this.computerDao = computerDao;
   }
   
-  public static CompanyService getInstance() {
-    return INSTANCE;
-  }
-
   /**
    * Create a company.Not yet implemented, so return 0
    */
   @Override
+  @Transactional(readOnly = false)
   public int create(Company obj) {
     try {
-      return companyDAO.create(obj);
+      return companyDao.create(obj);
     } catch (NotImplementedException e) {
       return 0;
     } finally {
@@ -54,18 +70,17 @@ public class CompanyService implements Service<Company> {
    * Delete a company, and all his computers.
    */
   @Override
-  public boolean delete(Company obj) throws DatabaseConnectionException {
-    ComputerDao computerDao = ComputerDao.getInstance();
+  @Transactional(readOnly = false)
+  public void delete(Company obj) throws DatabaseConnectionException {
     TransactionManager transactionManager = TransactionManager.getInstance();
     try {
       transactionManager.setAutoCommit(false);
       computerDao.deleteByCompany(obj);
-      companyDAO.delete(obj);
-      return true;
+      companyDao.delete(obj);
+      transactionManager.commit();
     } catch (Exception e) {
       LOGGER.error("Error while deleting the company and his computers");
       transactionManager.rollback();
-      return false;
     } finally {
       TransactionManager.getInstance().remove();
     }
@@ -75,21 +90,22 @@ public class CompanyService implements Service<Company> {
    * Not yet implemented, so return false.
    */
   @Override
-  public boolean update(Company obj) {
+  @Transactional(readOnly = false)
+  public void update(Company obj) {
     try {
-      companyDAO.update(obj);
-      return true;
+      companyDao.update(obj);
     } catch (NotImplementedException e) {
-      return false;
+      LOGGER.error("Update company not implemented");
     } finally {
       TransactionManager.getInstance().remove();
     }
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Company find(long id) throws DatabaseConnectionException {
     try {
-      return companyDAO.find(id);
+      return companyDao.find(id);
     } catch (DaoSqlException | CompanyNotFoundException e) {
       LOGGER.info("Exception catched in the CompanyService find");
     } finally {
@@ -99,9 +115,10 @@ public class CompanyService implements Service<Company> {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Company> list() throws DatabaseConnectionException {
     try {
-      return companyDAO.list();
+      return companyDao.list();
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the CompanyService list");
     } finally {
@@ -114,9 +131,10 @@ public class CompanyService implements Service<Company> {
    * Paging not implemented for Company, will return the same result as list().
    */
   @Override
+  @Transactional(readOnly = true)
   public List<Company> listPage(Page page) throws DatabaseConnectionException {
     try {
-      return companyDAO.list();
+      return companyDao.list();
     } catch (DaoSqlException | NotImplementedException e) {
       LOGGER.info("Exception catched in the CompanyService listPage");
     } finally {
@@ -129,9 +147,10 @@ public class CompanyService implements Service<Company> {
    * Not implemented for Company.
    */
   @Override
+  @Transactional(readOnly = true)
   public List<Company> findByName(String name) throws DatabaseConnectionException {
     try {
-      return companyDAO.findByName(name);
+      return companyDao.findByName(name);
     } catch (NotImplementedException e) {
       return null;
     } finally {
@@ -146,9 +165,10 @@ public class CompanyService implements Service<Company> {
    * java.lang.String)
    */
   @Override
+  @Transactional(readOnly = true)
   public List<Company> listPageByName(Page page) throws DatabaseConnectionException {
     try {
-      return companyDAO.listPageByName(page.getPage() * page.getPageSize(), page.getPageSize(),
+      return companyDao.listPageByName(page.getPage() * page.getPageSize(), page.getPageSize(),
           page.getSearch(), page.getOrderSearch());
     } catch (NotImplementedException e) {
       return null;
@@ -163,9 +183,10 @@ public class CompanyService implements Service<Company> {
    * @see com.excilys.formation.java.computerdb.service.Service#selectCount(java.lang.String)
    */
   @Override
+  @Transactional(readOnly = true)
   public int selectCount(String name) {
     try {
-      return companyDAO.selectCount(name);
+      return companyDao.selectCount(name);
     } catch (NotImplementedException e) {
       return 0;
     } finally {
