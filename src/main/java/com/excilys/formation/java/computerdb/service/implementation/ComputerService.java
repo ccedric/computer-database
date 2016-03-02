@@ -4,7 +4,6 @@ import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidExc
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDao;
-import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.Page;
@@ -53,8 +52,6 @@ public class ComputerService
       return computerDao.create(obj);
     } catch (ComputerDaoInvalidException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService creation");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return 0;
   }
@@ -66,8 +63,6 @@ public class ComputerService
       computerDao.delete(obj);
     } catch (ComputerNotFoundException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService delete");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
   }
 
@@ -84,8 +79,6 @@ public class ComputerService
       computerDao.update(obj);
     } catch (ComputerNotFoundException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService update");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
   }
 
@@ -96,8 +89,6 @@ public class ComputerService
       return computerDao.find(id);
     } catch (DaoSqlException | ComputerNotFoundException e) {
       LOGGER.info("Exception catched in the ComputerService find");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return null;
   }
@@ -109,8 +100,6 @@ public class ComputerService
       return computerDao.list();
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService list");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return null;
   }
@@ -122,8 +111,6 @@ public class ComputerService
       return computerDao.listPage(page.getStartingIndex(), page.getPageSize());
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService listPage");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return null;
   }
@@ -135,8 +122,6 @@ public class ComputerService
       return computerDao.findByName(name);
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService findByName");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return null;
   }
@@ -149,8 +134,6 @@ public class ComputerService
           page.getSearch(), page.getOrderSearch());
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService listPageByName");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return null;
   }
@@ -162,8 +145,6 @@ public class ComputerService
       return computerDao.selectCount(name);
     } catch (DatabaseConnectionException | DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService selectCount");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return 0;
   }

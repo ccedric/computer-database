@@ -6,7 +6,6 @@ import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
 import com.excilys.formation.java.computerdb.dao.implementation.CompanyDao;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDao;
-import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.service.Page;
@@ -61,8 +60,6 @@ public class CompanyService
       return companyDao.create(obj);
     } catch (NotImplementedException e) {
       return 0;
-    } finally {
-      TransactionManager.getInstance().remove();
     }
   }
 
@@ -72,18 +69,12 @@ public class CompanyService
   @Override
   @Transactional(readOnly = false)
   public void delete(Company obj) throws DatabaseConnectionException {
-    TransactionManager transactionManager = TransactionManager.getInstance();
     try {
-      transactionManager.setAutoCommit(false);
       computerDao.deleteByCompany(obj);
       companyDao.delete(obj);
-      transactionManager.commit();
     } catch (Exception e) {
       LOGGER.error("Error while deleting the company and his computers");
-      transactionManager.rollback();
-    } finally {
-      TransactionManager.getInstance().remove();
-    }
+    } 
   }
 
   /**
@@ -96,8 +87,6 @@ public class CompanyService
       companyDao.update(obj);
     } catch (NotImplementedException e) {
       LOGGER.error("Update company not implemented");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
   }
 
@@ -108,8 +97,6 @@ public class CompanyService
       return companyDao.find(id);
     } catch (DaoSqlException | CompanyNotFoundException e) {
       LOGGER.info("Exception catched in the CompanyService find");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return null;
   }
@@ -121,8 +108,6 @@ public class CompanyService
       return companyDao.list();
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the CompanyService list");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return null;
   }
@@ -137,8 +122,6 @@ public class CompanyService
       return companyDao.list();
     } catch (DaoSqlException | NotImplementedException e) {
       LOGGER.info("Exception catched in the CompanyService listPage");
-    } finally {
-      TransactionManager.getInstance().remove();
     }
     return null;
   }
@@ -153,8 +136,6 @@ public class CompanyService
       return companyDao.findByName(name);
     } catch (NotImplementedException e) {
       return null;
-    } finally {
-      TransactionManager.getInstance().remove();
     }
   }
 
@@ -172,8 +153,6 @@ public class CompanyService
           page.getSearch(), page.getOrderSearch());
     } catch (NotImplementedException e) {
       return null;
-    } finally {
-      TransactionManager.getInstance().remove();
     }
   }
 
@@ -189,8 +168,6 @@ public class CompanyService
       return companyDao.selectCount(name);
     } catch (NotImplementedException e) {
       return 0;
-    } finally {
-      TransactionManager.getInstance().remove();
     }
   }
 

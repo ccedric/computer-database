@@ -5,7 +5,6 @@ import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundExcept
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
-import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
@@ -56,11 +55,13 @@ public class CompanyDao implements Dao<Company> {
   public void delete(Company obj)
       throws DatabaseConnectionException, CompanyNotFoundException, DaoSqlException {
     PreparedStatement statementCompany = null;
+    Connection conn = null;
     try {
-      statementCompany = TransactionManager.getInstance().get().prepareStatement(deleteQuery);
+      conn = dataSource.getConnection();
+      statementCompany = conn.prepareStatement(deleteQuery);
       statementCompany.setLong(1, obj.getId());
       int rows = statementCompany.executeUpdate();
-      TransactionManager.getInstance().commit();
+      conn.commit();
 
       if (rows > 0) {
         LOGGER.info("Company deleted, id {}, name {}", obj.getId(), obj.getName());
@@ -75,6 +76,7 @@ public class CompanyDao implements Dao<Company> {
       throw new DaoSqlException("SQL error while deleting the company");
     } finally {
       DbUtil.close(statementCompany);
+      DbUtil.close(conn);
     }
   }
 
@@ -97,7 +99,6 @@ public class CompanyDao implements Dao<Company> {
       return null;
     }
     try {
-      
       conn = dataSource.getConnection();
       statement = conn.prepareStatement(findQuery);
       statement.setLong(1, id);
@@ -124,7 +125,7 @@ public class CompanyDao implements Dao<Company> {
     List<Company> companies = new ArrayList<Company>();
     ResultSet result = null;
     try {
-      result = TransactionManager.getInstance().get()
+      result = dataSource.getConnection()
           .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
           .executeQuery(listQuery);
       while (result.next()) {

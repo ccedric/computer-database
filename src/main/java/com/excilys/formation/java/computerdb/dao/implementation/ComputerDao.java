@@ -5,7 +5,6 @@ import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidExc
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
 import com.excilys.formation.java.computerdb.db.DbUtil;
-import com.excilys.formation.java.computerdb.db.TransactionManager;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
@@ -86,10 +85,10 @@ public class ComputerDao implements Dao<Computer> {
    */
   public void deleteByCompany(Company obj) {
     PreparedStatement statementComputer = null;
- 
+    Connection conn = null;
     try {
-      statementComputer = TransactionManager.getInstance().get()
-          .prepareStatement(deleteByCompanyQuery);
+      conn = dataSource.getConnection();
+      statementComputer = conn.prepareStatement(deleteByCompanyQuery);
       statementComputer.setLong(1, obj.getId());
       statementComputer.executeUpdate();
     } catch (SQLException e) {
@@ -97,6 +96,7 @@ public class ComputerDao implements Dao<Computer> {
       throw new DaoSqlException("SQL error while deleting the computers of a company");
     } finally {
       DbUtil.close(statementComputer);
+      DbUtil.close(conn);
     }
   }
 
