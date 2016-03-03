@@ -4,23 +4,25 @@ import com.excilys.formation.java.computerdb.dto.ComputerDto;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 
 /**
  * Mapper used to convert a ComputerDTO to or from a Computer.
  * 
  * @author Cédric Cousseran
  */
-public interface ComputerDtoMapper {
+@Component
+public class ComputerDtoMapper {
   /**
    * Map a ComputerDTo to a Computer.
    * 
    * @param dto the ComputerDTO to map
    * @return the dto as a computer
    */
-  static Computer toComputer(ComputerDto dto) {
+  public Computer toComputer(ComputerDto dto) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDate introduced = null;
     LocalDate discontinued = null;

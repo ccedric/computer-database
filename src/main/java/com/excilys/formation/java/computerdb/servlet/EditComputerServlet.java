@@ -43,6 +43,12 @@ public class EditComputerServlet extends HttpServlet {
   CompanyService companyService;
   @Autowired
   ComputerService computerService;
+  @Autowired
+  CompanyMapper companyMapper;
+  @Autowired
+  ComputerMapper computerMapper;
+  @Autowired
+  ComputerDtoMapper computerDtoMapper;
   
   @Override
   public void init(ServletConfig config) throws ServletException {
@@ -53,11 +59,11 @@ public class EditComputerServlet extends HttpServlet {
   
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    List<CompanyDto> companies = CompanyMapper.listToDto(companyService.list());
+    List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
 
     try {
       int id = Integer.parseInt(request.getParameter("id"));
-      ComputerDto computer = ComputerMapper.toDto(computerService.find(id));
+      ComputerDto computer = computerMapper.toDto(computerService.find(id));
       request.setAttribute("computer", computer);
       request.setAttribute("companies", companies);
       LOGGER.info("Edit page of the computer: {}", computer.toString());
@@ -90,7 +96,7 @@ public class EditComputerServlet extends HttpServlet {
       ComputerDtoValidator.validate(computerDto);
 
       // Creation of a Computer from a ComputerDTO
-      Computer computer = ComputerDtoMapper.toComputer(computerDto);
+      Computer computer = computerDtoMapper.toComputer(computerDto);
       computerService.update(computer);
       LOGGER.info("update of a new computer : {}", computerDto);
 

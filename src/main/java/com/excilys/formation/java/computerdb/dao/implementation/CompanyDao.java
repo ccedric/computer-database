@@ -38,6 +38,9 @@ public class CompanyDao implements Dao<Company> {
   @Autowired
   DataSource dataSource;
   
+  @Autowired
+  CompanyMapper companyMapper;
+  
   private static final String deleteQuery = "DELETE FROM company WHERE id=?";
   private static final String findQuery = "SELECT * from company  WHERE id=?";
   private static final String listQuery = "SELECT * from company";
@@ -104,7 +107,7 @@ public class CompanyDao implements Dao<Company> {
       statement.setLong(1, id);
       result = statement.executeQuery();
       if (result.next()) {
-        company = CompanyMapper.fromResultSet(result);
+        company = companyMapper.fromResultSet(result);
       } else {
         LOGGER.info("No company found with the id: {}", id);
         throw new CompanyNotFoundException("The company couln't be found");
@@ -129,7 +132,7 @@ public class CompanyDao implements Dao<Company> {
           .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
           .executeQuery(listQuery);
       while (result.next()) {
-        companies.add(CompanyMapper.fromResultSet(result));
+        companies.add(companyMapper.fromResultSet(result));
       }
     } catch (SQLException e) {
       LOGGER.error("Error while retrieving the list of companies");
@@ -154,22 +157,12 @@ public class CompanyDao implements Dao<Company> {
         "The findByName method for the dao company has not yet been implemented");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.excilys.formation.java.computerdb.dao.DAO#selectCount()
-   */
   @Override
   public int selectCount(String name) throws DatabaseConnectionException {
     throw new NotImplementedException(
         "The select method for the dao company has not yet been implemented");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.excilys.formation.java.computerdb.dao.DAO#listPageByName(int, int, java.lang.String)
-   */
   @Override
   public List<Company> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order)
       throws DatabaseConnectionException {

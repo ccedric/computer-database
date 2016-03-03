@@ -139,12 +139,6 @@ public class CompanyService
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.excilys.formation.java.computerdb.service.Service#listPageByName(int, int,
-   * java.lang.String)
-   */
   @Override
   @Transactional(readOnly = true)
   public List<Company> listPageByName(Page page) throws DatabaseConnectionException {
@@ -156,11 +150,6 @@ public class CompanyService
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.excilys.formation.java.computerdb.service.Service#selectCount(java.lang.String)
-   */
   @Override
   @Transactional(readOnly = true)
   public int selectCount(String name) {

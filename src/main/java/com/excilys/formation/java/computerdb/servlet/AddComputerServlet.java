@@ -43,6 +43,10 @@ public class AddComputerServlet extends HttpServlet {
   CompanyService companyService;
   @Autowired
   ComputerService computerService;
+  @Autowired
+  CompanyMapper companyMapper;
+  @Autowired
+  ComputerDtoMapper computerDtoMapper;
 
   @Override
   public void init(ServletConfig config) throws ServletException {
@@ -53,7 +57,7 @@ public class AddComputerServlet extends HttpServlet {
   
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    List<CompanyDto> companies = CompanyMapper.listToDto(companyService.list());
+    List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
 
     request.setAttribute("companies", companies);
     RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/addComputer.jsp");
@@ -72,7 +76,7 @@ public class AddComputerServlet extends HttpServlet {
         .discontinued(discontinued).companyId(Integer.parseInt(companyId)).build();
     try {
       ComputerDtoValidator.validate(computerDto);
-      Computer computer = ComputerDtoMapper.toComputer(computerDto);
+      Computer computer = computerDtoMapper.toComputer(computerDto);
       computerService.create(computer);
       LOGGER.info("creation of a new computer : {}", computerDto);
       request.setAttribute("newComputer", computerDto);

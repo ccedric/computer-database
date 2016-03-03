@@ -36,9 +36,13 @@ import javax.sql.DataSource;
  *
  */
 @Repository
-public class ComputerDao implements Dao<Computer> {  
+public class ComputerDao implements Dao<Computer> {
+  
   @Autowired
   DataSource dataSource;
+  
+  @Autowired
+  ComputerMapper computerMapper;
   
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
 
@@ -247,7 +251,7 @@ public class ComputerDao implements Dao<Computer> {
       statement.setLong(1, id);
       result = statement.executeQuery();
       if (result.next()) {
-        computer = ComputerMapper.fromResultSet(result);
+        computer = computerMapper.fromResultSet(result);
         LOGGER.info(
             "Computer found, id {}, name {}, company {}, introduced date {}, discontinued date {}.",
             computer.getId(), computer.getName(), computer.getCompany(), computer.getIntroduced(),
@@ -281,11 +285,11 @@ public class ComputerDao implements Dao<Computer> {
           .executeQuery(listQuery);
       while (result.next()) {
         if (result.getInt("companyId") == 0) {
-          Computer computer = ComputerMapper.fromResultSet(result);
+          Computer computer = computerMapper.fromResultSet(result);
 
           computers.add(computer);
         } else {
-          Computer computer = ComputerMapper.fromResultSet(result);
+          Computer computer = computerMapper.fromResultSet(result);
           computers.add(computer);
         }
       }
@@ -317,7 +321,7 @@ public class ComputerDao implements Dao<Computer> {
       statement.setInt(2, pageSize);
       result = statement.executeQuery();
       while (result.next()) {
-        Computer computer = ComputerMapper.fromResultSet(result);
+        Computer computer = computerMapper.fromResultSet(result);
         computers.add(computer);
       }
     } catch (SQLException e) {
@@ -366,7 +370,7 @@ public class ComputerDao implements Dao<Computer> {
 
       result = statement.executeQuery();
       while (result.next()) {
-        Computer computer = ComputerMapper.fromResultSet(result);
+        Computer computer = computerMapper.fromResultSet(result);
         computers.add(computer);
       }
     } catch (SQLException e) {
@@ -397,7 +401,7 @@ public class ComputerDao implements Dao<Computer> {
       result = statement.executeQuery();
       while (result.next()) {
         try {
-          Computer computer = ComputerMapper.fromResultSet(result);
+          Computer computer = computerMapper.fromResultSet(result);
           computers.add(computer);
         } catch (Exception e) {
           LOGGER.error("Error while finding computers by name");

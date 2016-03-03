@@ -39,7 +39,9 @@ public class DashboardServlet extends HttpServlet {
 
   @Autowired
   ComputerService computerService;
-
+  @Autowired
+  ComputerMapper computerMapper;
+  
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
@@ -90,7 +92,7 @@ public class DashboardServlet extends HttpServlet {
 
     pageComputer.setOrderSearch(order);
 
-    List<ComputerDto> computers = ComputerMapper
+    List<ComputerDto> computers = computerMapper
         .listToDto(computerService.listPageByName(pageComputer));
     int maxPage = (computerService.selectCount(searchByName) + numberResultsPage - 1)
         / numberResultsPage;

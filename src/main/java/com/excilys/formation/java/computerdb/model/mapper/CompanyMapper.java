@@ -4,17 +4,21 @@ package com.excilys.formation.java.computerdb.model.mapper;
 import com.excilys.formation.java.computerdb.dto.CompanyDto;
 import com.excilys.formation.java.computerdb.model.Company;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Map the model Company from a ResultSet or to a DTO.
  * 
  * @author Cédric Cousseran
  */
-public interface CompanyMapper {
+@Component
+public class CompanyMapper {
   /**
    * Map a resultSet in an object.
    * 
@@ -23,7 +27,7 @@ public interface CompanyMapper {
    * @return the company object
    * @throws SQLException TH
    */
-  static Company fromResultSet(ResultSet result) throws SQLException {
+  public Company fromResultSet(ResultSet result) throws SQLException {
     return new Company(result.getInt("id"), result.getString("name"));
   }
 
@@ -33,7 +37,7 @@ public interface CompanyMapper {
    * @param company the company to map
    * @return the company as a dto
    */
-  static CompanyDto toDto(Company company) {
+  public CompanyDto toDto(Company company) {
     return new CompanyDto(company.getId(), company.getName());
   }
 
@@ -43,7 +47,7 @@ public interface CompanyMapper {
    * @param companies the companies to map
    * @return the companies as a dto
    */
-  static List<CompanyDto> listToDto(List<Company> companies) {
+  public List<CompanyDto> listToDto(List<Company> companies) {
     List<CompanyDto> companiesDto = new ArrayList<CompanyDto>();
 
     for (Company company : companies) {

@@ -4,6 +4,8 @@ import com.excilys.formation.java.computerdb.dto.ComputerDto;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -16,7 +18,8 @@ import java.util.List;
  * 
  * @author Cédric Cousseran
  */
-public interface ComputerMapper {
+@Component
+public class ComputerMapper {
   /**
    * Map a computer with his company from a resultset.
    * 
@@ -25,7 +28,7 @@ public interface ComputerMapper {
    * @return Object Computer
    * @throws SQLException Thrown if there is an sql error
    */
-  static Computer fromResultSet(ResultSet result) throws SQLException {
+  public Computer fromResultSet(ResultSet result) throws SQLException {
     LocalDate introduced = null;
     LocalDate discontinued = null;
 
@@ -50,7 +53,7 @@ public interface ComputerMapper {
    * @param computer the computer to map
    * @return the computer as a dto
    */
-  static ComputerDto toDto(Computer computer) {
+  public ComputerDto toDto(Computer computer) {
     String companyName = null;
     long companyId = 0;
     String introduced = null;
@@ -79,7 +82,7 @@ public interface ComputerMapper {
    * @param computers the computers to map
    * @return the computers as dto
    */
-  static List<ComputerDto> listToDto(List<Computer> computers) {
+  public List<ComputerDto> listToDto(List<Computer> computers) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     List<ComputerDto> computersDto = new ArrayList<ComputerDto>();
 

@@ -10,6 +10,10 @@ import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 
@@ -19,8 +23,14 @@ import org.junit.Test;
  * @author Cédric Cousseran
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/test-context.xml" })
 public class ComputerMapperTest {
-
+  @Autowired
+  ComputerMapper computerMapper;
+  @Autowired
+  ComputerDtoMapper computerDtoMapper;
+  
   @Test
   public void testMapComputerToComputerDto() {
     ComputerDto computerDto = new ComputerDto.ComputerDtoBuilder("test").id(666).companyId(999)
@@ -29,7 +39,7 @@ public class ComputerMapperTest {
     Computer computer = new Computer.ComputerBuilder("test").id(666)
         .company(new Company(999, "test company")).build();
 
-    assertEquals(computerDto, ComputerMapper.toDto(computer));
+    assertEquals(computerDto, computerMapper.toDto(computer));
   }
 
   @Test
@@ -40,7 +50,7 @@ public class ComputerMapperTest {
     Computer computer = new Computer.ComputerBuilder("test faux").id(666)
         .company(new Company(999, "test company")).build();
 
-    assertNotEquals(computerDto, ComputerMapper.toDto(computer));
+    assertNotEquals(computerDto, computerMapper.toDto(computer));
   }
 
   @Test
@@ -51,7 +61,7 @@ public class ComputerMapperTest {
     Computer computer = new Computer.ComputerBuilder("test").id(666)
         .company(new Company(999, "test company")).build();
 
-    assertEquals(computer, ComputerDtoMapper.toComputer(computerDto));
+    assertEquals(computer, computerDtoMapper.toComputer(computerDto));
   }
 
   @Test
@@ -62,6 +72,6 @@ public class ComputerMapperTest {
     Computer computer = new Computer.ComputerBuilder("test faux").id(666)
         .company(new Company(999, "test company")).build();
 
-    assertNotEquals(computer, ComputerDtoMapper.toComputer(computerDto));
+    assertNotEquals(computer, computerDtoMapper.toComputer(computerDto));
   }
 }

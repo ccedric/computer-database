@@ -25,6 +25,7 @@
   <guava-version>19.0</guava-version>
   <spring-version>4.2.4.RELEASE</spring-version>
   <jcl.slf4j.version>1.7.16</jcl.slf4j.version>
+  <commons-logging-version>1.2</commons-logging-version>
  </properties>
 
  <dependencies>
@@ -34,108 +35,48 @@
    <groupId>org.springframework</groupId>
    <artifactId>spring-core</artifactId>
    <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
   </dependency>
 
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-web</artifactId>
    <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
-
   </dependency>
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-webmvc</artifactId>
-   <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
 
-  </dependency>
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-tx</artifactId>
    <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
-
   </dependency>
+
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-beans</artifactId>
    <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
   </dependency>
 
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-context</artifactId>
    <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
   </dependency>
 
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-jdbc</artifactId>
    <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
   </dependency>
 
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-test</artifactId>
    <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
   </dependency>
 
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-test</artifactId>
    <version>${spring-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>commons-logging</groupId>
-     <artifactId>commons-logging</artifactId>
-    </exclusion>
-   </exclusions>
   </dependency>
 
   <!--Logging for spring -->
@@ -143,6 +84,11 @@
    <groupId>org.slf4j</groupId>
    <artifactId>jcl-over-slf4j</artifactId>
    <version>${jcl.slf4j.version}</version>
+  </dependency>
+  <dependency>
+   <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
+   <artifactId>commons-logging</artifactId>
+   <version>${commons-logging-version}</version>
   </dependency>
 
   <!-- Servlet -->
