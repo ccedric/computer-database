@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class CompanyDaoTest {
 
   @Autowired (required = true)
-  CompanyDao dao;
+  CompanyDaoImpl dao;
 
   
   @Test

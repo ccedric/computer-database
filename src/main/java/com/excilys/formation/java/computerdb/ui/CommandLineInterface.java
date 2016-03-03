@@ -3,10 +3,10 @@ package com.excilys.formation.java.computerdb.ui;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.service.CompanyService;
+import com.excilys.formation.java.computerdb.service.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
 import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
-import com.excilys.formation.java.computerdb.service.implementation.CompanyService;
-import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -49,8 +49,8 @@ public class CommandLineInterface {
   private void init() {
     @SuppressWarnings("resource")
     ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
-    this.companyService = (CompanyService) context.getBean("companyService");
-    this.computerService = (ComputerService) context.getBean("computerService");
+    this.companyService = (CompanyService) context.getBean("companyServiceImpl");
+    this.computerService = (ComputerService) context.getBean("computerServiceImpl");
     System.out.println("------------------------------------------");
     System.out.println("---Welcome to the computer database app---");
     System.out.println("------------------------------------------");

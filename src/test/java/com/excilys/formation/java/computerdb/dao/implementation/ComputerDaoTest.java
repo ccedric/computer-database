@@ -8,7 +8,7 @@ import static org.junit.Assert.fail;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
-import com.excilys.formation.java.computerdb.dao.implementation.ComputerDao;
+import com.excilys.formation.java.computerdb.dao.implementation.ComputerDaoImpl;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 
@@ -31,7 +31,7 @@ import java.util.List;
 @ContextConfiguration(locations = { "/test-context.xml" })
 public class ComputerDaoTest {
   @Autowired
-  ComputerDao dao;
+  ComputerDaoImpl dao;
 
   @Test
   public void testCreateFind() throws DatabaseConnectionException, ComputerDaoInvalidException,

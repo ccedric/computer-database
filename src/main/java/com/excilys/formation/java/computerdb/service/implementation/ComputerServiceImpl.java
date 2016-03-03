@@ -1,11 +1,12 @@
 package com.excilys.formation.java.computerdb.service.implementation;
 
+import com.excilys.formation.java.computerdb.dao.ComputerDao;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
-import com.excilys.formation.java.computerdb.dao.implementation.ComputerDao;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.service.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
 import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
@@ -24,12 +25,11 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class ComputerService
-    implements com.excilys.formation.java.computerdb.service.Service<Computer> {
+public class ComputerServiceImpl implements ComputerService {
   @Autowired
   ComputerDao computerDao;
-  
-  private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ComputerServiceImpl.class);
 
   public ComputerDao getComputerDao() {
     return computerDao;

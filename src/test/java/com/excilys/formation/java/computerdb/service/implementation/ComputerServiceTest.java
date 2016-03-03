@@ -28,7 +28,7 @@ import java.util.List;
 @ContextConfiguration(locations = { "/test-context.xml" })
 public class ComputerServiceTest {
   @Autowired
-  ComputerService service;
+  ComputerServiceImpl service;
   
   @Test
   public void testListPage() {

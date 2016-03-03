@@ -5,8 +5,8 @@ import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
 import com.excilys.formation.java.computerdb.order.Column;
 import com.excilys.formation.java.computerdb.order.Order;
 import com.excilys.formation.java.computerdb.order.OrderSearch;
+import com.excilys.formation.java.computerdb.service.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
-import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

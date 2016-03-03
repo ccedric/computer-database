@@ -10,8 +10,8 @@ import com.excilys.formation.java.computerdb.dto.validation.ComputerDtoValidator
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
-import com.excilys.formation.java.computerdb.service.implementation.CompanyService;
-import com.excilys.formation.java.computerdb.service.implementation.ComputerService;
+import com.excilys.formation.java.computerdb.service.CompanyService;
+import com.excilys.formation.java.computerdb.service.ComputerService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

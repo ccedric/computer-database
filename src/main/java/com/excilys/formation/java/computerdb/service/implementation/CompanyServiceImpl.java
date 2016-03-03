@@ -1,14 +1,14 @@
 
 package com.excilys.formation.java.computerdb.service.implementation;
 
+import com.excilys.formation.java.computerdb.dao.CompanyDao;
+import com.excilys.formation.java.computerdb.dao.ComputerDao;
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
-import com.excilys.formation.java.computerdb.dao.implementation.CompanyDao;
-import com.excilys.formation.java.computerdb.dao.implementation.ComputerDao;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
-import com.excilys.formation.java.computerdb.service.Page;
+import com.excilys.formation.java.computerdb.service.CompanyService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,15 +25,14 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class CompanyService
-    implements com.excilys.formation.java.computerdb.service.Service<Company> {
-  private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
+public class CompanyServiceImpl implements CompanyService {
+  private static final Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
 
   @Autowired
   CompanyDao companyDao;
   @Autowired
   ComputerDao computerDao;
-  
+
   public CompanyDao getCompanyDao() {
     return companyDao;
   }
@@ -49,7 +48,7 @@ public class CompanyService
   public void setComputerDao(ComputerDao computerDao) {
     this.computerDao = computerDao;
   }
-  
+
   /**
    * Create a company.Not yet implemented, so return 0
    */
@@ -74,7 +73,7 @@ public class CompanyService
       companyDao.delete(obj);
     } catch (Exception e) {
       LOGGER.error("Error while deleting the company and his computers");
-    } 
+    }
   }
 
   /**
@@ -111,53 +110,4 @@ public class CompanyService
     }
     return null;
   }
-
-  /**
-   * Paging not implemented for Company, will return the same result as list().
-   */
-  @Override
-  @Transactional(readOnly = true)
-  public List<Company> listPage(Page page) throws DatabaseConnectionException {
-    try {
-      return companyDao.list();
-    } catch (DaoSqlException | NotImplementedException e) {
-      LOGGER.info("Exception catched in the CompanyService listPage");
-    }
-    return null;
-  }
-
-  /**
-   * Not implemented for Company.
-   */
-  @Override
-  @Transactional(readOnly = true)
-  public List<Company> findByName(String name) throws DatabaseConnectionException {
-    try {
-      return companyDao.findByName(name);
-    } catch (NotImplementedException e) {
-      return null;
-    }
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public List<Company> listPageByName(Page page) throws DatabaseConnectionException {
-    try {
-      return companyDao.listPageByName(page.getPage() * page.getPageSize(), page.getPageSize(),
-          page.getSearch(), page.getOrderSearch());
-    } catch (NotImplementedException e) {
-      return null;
-    }
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public int selectCount(String name) {
-    try {
-      return companyDao.selectCount(name);
-    } catch (NotImplementedException e) {
-      return 0;
-    }
-  }
-
 }

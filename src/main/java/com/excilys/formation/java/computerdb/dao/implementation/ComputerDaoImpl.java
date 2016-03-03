@@ -1,6 +1,6 @@
 package com.excilys.formation.java.computerdb.dao.implementation;
 
-import com.excilys.formation.java.computerdb.dao.Dao;
+import com.excilys.formation.java.computerdb.dao.ComputerDao;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
@@ -36,7 +36,7 @@ import javax.sql.DataSource;
  *
  */
 @Repository
-public class ComputerDao implements Dao<Computer> {
+public class ComputerDaoImpl implements ComputerDao {
   
   @Autowired
   DataSource dataSource;
@@ -44,7 +44,7 @@ public class ComputerDao implements Dao<Computer> {
   @Autowired
   ComputerMapper computerMapper;
   
-  private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
   private static final String deleteByCompanyQuery = "DELETE FROM computer where company_id = ?";
   private static final String createQuery = "INSERT INTO computer (name, introduced, "
@@ -87,6 +87,7 @@ public class ComputerDao implements Dao<Computer> {
    * @param obj
    *          the company
    */
+  @Override
   public void deleteByCompany(Company obj) {
     PreparedStatement statementComputer = null;
     Connection conn = null;

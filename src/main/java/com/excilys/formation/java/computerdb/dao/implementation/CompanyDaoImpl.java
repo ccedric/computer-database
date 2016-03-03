@@ -1,6 +1,6 @@
 package com.excilys.formation.java.computerdb.dao.implementation;
 
-import com.excilys.formation.java.computerdb.dao.Dao;
+import com.excilys.formation.java.computerdb.dao.CompanyDao;
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
@@ -8,7 +8,6 @@ import com.excilys.formation.java.computerdb.db.DbUtil;
 import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
-import com.excilys.formation.java.computerdb.order.OrderSearch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +31,8 @@ import javax.sql.DataSource;
  *
  */
 @Repository
-public class CompanyDao implements Dao<Company> {
-  private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
+public class CompanyDaoImpl implements CompanyDao {
+  private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDaoImpl.class);
   
   @Autowired
   DataSource dataSource;
@@ -144,30 +143,4 @@ public class CompanyDao implements Dao<Company> {
 
     return companies;
   }
-
-  @Override
-  public List<Company> listPage(int indexBegin, int pageSize) throws DatabaseConnectionException {
-    throw new NotImplementedException(
-        "The listPage method for the dao company has not yet been implemented");
-  }
-
-  @Override
-  public List<Company> findByName(String name) throws DatabaseConnectionException {
-    throw new NotImplementedException(
-        "The findByName method for the dao company has not yet been implemented");
-  }
-
-  @Override
-  public int selectCount(String name) throws DatabaseConnectionException {
-    throw new NotImplementedException(
-        "The select method for the dao company has not yet been implemented");
-  }
-
-  @Override
-  public List<Company> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order)
-      throws DatabaseConnectionException {
-    throw new NotImplementedException(
-        "The listPageByName method for the dao company has not yet been implemented");
-  }
-
 }
