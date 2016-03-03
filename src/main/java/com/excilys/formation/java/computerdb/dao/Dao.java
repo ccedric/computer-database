@@ -28,7 +28,7 @@ public interface Dao<T> {
    * @return the id of the element created
    * @throws SQLException Thrown if an sql error occur
    */
-  int create(T obj)
+  long create(T obj)
       throws DatabaseConnectionException, ComputerDaoInvalidException, DaoSqlException;
 
   /**

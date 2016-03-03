@@ -54,7 +54,7 @@ public class CompanyServiceImpl implements CompanyService {
    */
   @Override
   @Transactional(readOnly = false)
-  public int create(Company obj) {
+  public long create(Company obj) {
     try {
       return companyDao.create(obj);
     } catch (NotImplementedException e) {

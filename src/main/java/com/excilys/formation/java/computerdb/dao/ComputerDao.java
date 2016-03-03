@@ -44,14 +44,6 @@ public interface ComputerDao extends Dao<Computer> {
    */
   List<Computer> listPageByName(int indexBegin, int pageSize, String name, OrderSearch order)
       throws DatabaseConnectionException, DaoSqlException;
-
-  /**
-   * Get a page of the list of all objects.
-   * 
-   * @return the list paged
-   */
-  List<Computer> listPage(int indexBegin, int pageSize)
-      throws DatabaseConnectionException, DaoSqlException;
   
   /**
    * Delete all computers associated to the company.

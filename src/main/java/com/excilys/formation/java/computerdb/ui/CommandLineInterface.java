@@ -370,7 +370,7 @@ public class CommandLineInterface {
 
     Computer comp = new Computer.ComputerBuilder(name).company(company).introduced(timestamp)
         .discontinued(timestampEnd).build();
-    int number = 0;
+    long number = 0L;
     try {
       number = computerService.create(comp);
     } catch (TimestampDiscontinuedBeforeIntroducedException e) {
@@ -425,7 +425,7 @@ public class CommandLineInterface {
     Page pageComputer = new Page(1, pageComputerSize, "");
     List<Computer> computersPage;
     while (true) {
-      computersPage = computerService.listPage(pageComputer);
+      computersPage = computerService.listPageByName(pageComputer);
       for (Computer computer : computersPage) {
         System.out.println(computer);
       }

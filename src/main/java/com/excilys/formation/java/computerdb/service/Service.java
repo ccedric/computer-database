@@ -20,7 +20,7 @@ public interface Service<T> {
    *          the object to create in the database
    * @return the id of the element created
    */
-  int create(T obj)
+  long create(T obj)
       throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException;
 
   /**

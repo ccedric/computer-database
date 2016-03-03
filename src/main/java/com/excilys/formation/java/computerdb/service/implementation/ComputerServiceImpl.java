@@ -41,7 +41,7 @@ public class ComputerServiceImpl implements ComputerService {
 
   @Override
   @Transactional(readOnly = false)
-  public int create(Computer obj)
+  public long create(Computer obj)
       throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
     if ((obj.getIntroduced() != null) && (obj.getDiscontinued() != null)
         && (obj.getIntroduced().isAfter(obj.getDiscontinued()))) {
@@ -100,17 +100,6 @@ public class ComputerServiceImpl implements ComputerService {
       return computerDao.list();
     } catch (DaoSqlException e) {
       LOGGER.info("Exception catched in the ComputerService list");
-    }
-    return null;
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public List<Computer> listPage(Page page) throws DatabaseConnectionException {
-    try {
-      return computerDao.listPage(page.getStartingIndex(), page.getPageSize());
-    } catch (DaoSqlException e) {
-      LOGGER.info("Exception catched in the ComputerService listPage");
     }
     return null;
   }

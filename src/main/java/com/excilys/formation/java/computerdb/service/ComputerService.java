@@ -13,17 +13,6 @@ import java.util.List;
 public interface ComputerService extends Service<Computer> {
 
   /**
-   * Get a page of the select * query.
-   * 
-   * @param indexBegin
-   *          beginning index of the page
-   * @param indexEnd
-   *          ending index of the page
-   * @return the page as a list
-   */
-  List<Computer> listPage(Page page) throws DatabaseConnectionException;
-
-  /**
    * Return a list of objects who have a corresponding name, empty list if not found.
    * 
    * @param name the search

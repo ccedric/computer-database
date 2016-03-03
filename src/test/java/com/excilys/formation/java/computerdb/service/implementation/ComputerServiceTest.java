@@ -1,12 +1,10 @@
 package com.excilys.formation.java.computerdb.service.implementation;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.excilys.formation.java.computerdb.model.Computer;
-import com.excilys.formation.java.computerdb.service.Page;
 import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
 import org.junit.Test;
@@ -17,7 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 /**
  * Test the class ComputerService.
@@ -30,12 +27,6 @@ public class ComputerServiceTest {
   @Autowired
   ComputerServiceImpl service;
   
-  @Test
-  public void testListPage() {
-    List<Computer> computers = service.listPage(new Page(1, 20, ""));
-    assertEquals(20, computers.size());
-  }
-
   @Test
   public void testCreate() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

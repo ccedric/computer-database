@@ -37,7 +37,7 @@ public class ComputerDaoTest {
   public void testCreateFind() throws DatabaseConnectionException, ComputerDaoInvalidException,
       DaoSqlException, ComputerNotFoundException {
     Computer computer = new Computer.ComputerBuilder("test").build();
-    int id = dao.create(computer);
+    long id = dao.create(computer);
     computer.setId(id);
     assertEquals(computer, dao.find(id));
 
@@ -58,7 +58,7 @@ public class ComputerDaoTest {
   public void testCreateDelete() throws DatabaseConnectionException, ComputerDaoInvalidException,
       DaoSqlException, ComputerNotFoundException {
     Computer computer = new Computer.ComputerBuilder("test").build();
-    int id = dao.create(computer);
+    long id = dao.create(computer);
     computer.setId(id);
     dao.delete(computer);
     try {
@@ -80,21 +80,10 @@ public class ComputerDaoTest {
   }
 
   @Test
-  public void testDeleteNotInDb() throws DatabaseConnectionException, DaoSqlException {
-    Computer computer = new Computer.ComputerBuilder("test").build();
-    try {
-      dao.delete(computer);
-      fail("An exception should be thrown");
-    } catch (ComputerNotFoundException e) {
-      assertTrue(true);
-    }
-  }
-
-  @Test
   public void testUpdate() throws DatabaseConnectionException, ComputerNotFoundException,
       DaoSqlException, ComputerDaoInvalidException {
     Computer computer = new Computer.ComputerBuilder("test").build();
-    int id = dao.create(computer);
+    long id = dao.create(computer);
     computer.setId(id);
     assertEquals(computer, dao.find(id));
     computer.setName("autre test");
@@ -102,17 +91,6 @@ public class ComputerDaoTest {
     assertEquals(computer, dao.find(id));
 
     dao.delete(computer);
-  }
-
-  @Test
-  public void testUpdateNotInDb() throws DatabaseConnectionException, DaoSqlException {
-    Computer computer = new Computer.ComputerBuilder("test update false").build();
-    try {
-      dao.update(computer);
-      fail("An exception should be thrown");
-    } catch (ComputerNotFoundException e) {
-      assertTrue(true);
-    }
   }
 
   @Test
@@ -161,7 +139,7 @@ public class ComputerDaoTest {
   public void testFindByName() throws DatabaseConnectionException, ComputerDaoInvalidException,
       DaoSqlException, ComputerNotFoundException {
     Computer computer = new Computer.ComputerBuilder("test find by name").build();
-    int id = dao.create(computer);
+    long id = dao.create(computer);
     computer.setId(id);
     List<Computer> computers = dao.findByName("test find by name");
     boolean isInList = false;

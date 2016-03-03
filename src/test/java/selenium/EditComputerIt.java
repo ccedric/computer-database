@@ -40,7 +40,7 @@ public class EditComputerIt {
     driver.get(baseUrl + "/computerDB/dashboard");
     driver.findElement(By.linkText("Apple IIea")).click();
     try {
-      assertEquals("id: 7", driver.findElement(By.xpath("//section[@id='main']/div/div/div/div"))
+      assertEquals("id: 9", driver.findElement(By.xpath("//section[@id='main']/div/div/div/div"))
           .getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());

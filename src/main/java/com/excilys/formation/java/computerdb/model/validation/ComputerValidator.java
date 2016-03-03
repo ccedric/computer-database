@@ -8,7 +8,7 @@ import com.excilys.formation.java.computerdb.model.exception.ComputerInvalidExce
  * 
  * @author Cédric Cousseran
  */
-public class ComputerValidator {
+public interface ComputerValidator {
 
   /**
    * Method to use when validating a computer. Throws an ComputerInvalidException exception if the
@@ -17,7 +17,7 @@ public class ComputerValidator {
    * @param computer
    *          the computer to validate
    */
-  public static void validate(Computer computer) {
+  static void validate(Computer computer) {
     if (null == computer) {
       throw new ComputerInvalidException("The computer can't be null");
     }
@@ -30,7 +30,7 @@ public class ComputerValidator {
    * 
    * @param computer the computer to validate
    */
-  private static void validateNameNotNull(Computer computer) {
+  static void validateNameNotNull(Computer computer) {
     if (null == computer.getName() || computer.getName().equals("")) {
       throw new ComputerInvalidException("The name of the computer can't be null");
     }
@@ -41,7 +41,7 @@ public class ComputerValidator {
    * 
    * @param computer the computer to validate
    */
-  private static void validatePositionDate(Computer computer) {
+  static void validatePositionDate(Computer computer) {
     if (null != computer.getDiscontinued()) {
       if (null == computer.getIntroduced()) {
         throw new ComputerInvalidException(
