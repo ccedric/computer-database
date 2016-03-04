@@ -8,8 +8,8 @@
   http://www.springframework.org/schema/context
   http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
- <context:component-scan base-package="com.excilys" />
-
+ <context:component-scan
+  base-package="com.excilys.formation.java.computerdb.dto.mapper,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.mapper,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.dao.implementation,com.excilys.formation.java.computerdb.service.implementation,com.excilys.formation.java.computerdb.servlet,com.excilys.formation.java.computerdb.ui" />
 
  <bean id="txManager"
   class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

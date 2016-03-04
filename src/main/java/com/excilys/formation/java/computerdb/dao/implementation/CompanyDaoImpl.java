@@ -37,10 +37,6 @@ public class CompanyDaoImpl implements CompanyDao {
   @Autowired
   private CompanyMapper companyMapper;
 
-  private static final String DELETEQUERY = "DELETE FROM company WHERE id=?";
-  private static final String FINDQUERY = "SELECT * from company  WHERE id=?";
-  private static final String LISTQUERY = "SELECT * from company";
-
   @Override
   public long create(Company obj) {
     LOGGER.warn("Call to the method create of CompanyDao, wich is not implemented");
@@ -48,6 +44,8 @@ public class CompanyDaoImpl implements CompanyDao {
         "The create method for the dao company has not yet been implemented");
   }
 
+  private static final String DELETEQUERY = "DELETE FROM company WHERE id=?";
+  
   @Override
   public void delete(Company obj) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -61,6 +59,8 @@ public class CompanyDaoImpl implements CompanyDao {
     throw new NotImplementedException(
         "The update method for the dao company has not yet been implemented");
   }
+
+  private static final String FINDQUERY = "SELECT * from company  WHERE id=?";
 
   @Override
   public Company find(long id) {
@@ -82,6 +82,8 @@ public class CompanyDaoImpl implements CompanyDao {
     }
   }
 
+  private static final String LISTQUERY = "SELECT * from company";
+  
   @Override
   public List<Company> list() {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

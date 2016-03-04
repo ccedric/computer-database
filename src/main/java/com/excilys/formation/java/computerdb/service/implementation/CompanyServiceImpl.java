@@ -1,4 +1,3 @@
-
 package com.excilys.formation.java.computerdb.service.implementation;
 
 import com.excilys.formation.java.computerdb.dao.CompanyDao;
@@ -20,7 +19,6 @@ import java.util.List;
  * @author Cédric Cousseran
  */
 @Service
-@Transactional
 public class CompanyServiceImpl implements CompanyService {
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
 
@@ -29,27 +27,10 @@ public class CompanyServiceImpl implements CompanyService {
   @Autowired
   private ComputerDao computerDao;
 
-  public CompanyDao getCompanyDao() {
-    return companyDao;
-  }
-
-  public void setCompanyDao(CompanyDao companyDao) {
-    this.companyDao = companyDao;
-  }
-
-  public ComputerDao getComputerDao() {
-    return computerDao;
-  }
-
-  public void setComputerDao(ComputerDao computerDao) {
-    this.computerDao = computerDao;
-  }
-
   /**
    * Create a company.Not yet implemented, so return 0
    */
   @Override
-  @Transactional(readOnly = false)
   public long create(Company obj) {
     return companyDao.create(obj);
   }
@@ -69,19 +50,16 @@ public class CompanyServiceImpl implements CompanyService {
    * Not yet implemented, so return false.
    */
   @Override
-  @Transactional(readOnly = false)
   public void update(Company obj) {
     companyDao.update(obj);
   }
 
   @Override
-  @Transactional(readOnly = true)
   public Company find(long id) {
     return companyDao.find(id);
   }
 
   @Override
-  @Transactional(readOnly = true)
   public List<Company> list() {
     return companyDao.list();
   }

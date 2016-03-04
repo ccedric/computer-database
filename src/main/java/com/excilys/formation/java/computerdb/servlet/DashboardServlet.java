@@ -11,16 +11,14 @@ import com.excilys.formation.java.computerdb.service.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,29 +29,22 @@ import javax.servlet.http.HttpServletResponse;
  * @author Cédric Cousseran
  *
  */
-@SuppressWarnings("serial")
-@WebServlet({ "/dashboard-servlet", "/dashboard" })
-public class DashboardServlet extends HttpServlet {
+@Controller
+@RequestMapping({ "/dashboard-servlet", "/dashboard" })
+public class DashboardServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
   private Page pageComputer = new Page(1, 50, "");
 
   @Autowired
-  ComputerService computerService;
+  private ComputerService computerService;
   @Autowired
-  ComputerMapper computerMapper;
-  
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
-        config.getServletContext());
-  }
+  private ComputerMapper computerMapper;
 
-  public DashboardServlet() {
-    super();
-  }
-
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+  /**
+   * List of computers with no specific search.
+   */
+  @RequestMapping(method = RequestMethod.GET)
+  public String doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     String searchByName = request.getParameter("search");
     String orderColumn = request.getParameter("order-column");
@@ -110,11 +101,15 @@ public class DashboardServlet extends HttpServlet {
     request.setAttribute("orderOrder", orderOrder);
 
     LOGGER.info("number of pages of the result: {}", maxPage);
-    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp");
-    dispatcher.forward(request, response);
+    
+    return "dashboard";
   }
 
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+  /**
+   * Search of a computer or company.
+   */
+  @RequestMapping(method = RequestMethod.POST)
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     if (null != request.getParameter("selection") && !request.getParameter("selection").isEmpty()) {
       String[] idsDelete = request.getParameter("selection").split(",");

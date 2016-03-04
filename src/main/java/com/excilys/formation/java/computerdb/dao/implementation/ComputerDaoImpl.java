@@ -53,36 +53,9 @@ public class ComputerDaoImpl implements ComputerDao {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
+
   private static final String DELETEBYCOMPANYQUERY = "DELETE FROM computer where company_id = ?";
-  private static final String CREATEQUERY = "INSERT INTO computer (name, introduced, "
-      + "discontinued,company_id) VALUES ( ?, ?, ?,?)";
-  private static final String DELETEQUERY = "DELETE FROM computer WHERE id=?";
-  private static final String UPDATEQUERY = "UPDATE computer SET name=?, "
-      + "introduced=?, discontinued=?, company_id=? WHERE id=?";
-  private static final String FINDQUERY = "SELECT computer.id as computerId, computer.name "
-      + "as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
-      + " company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id "
-      + "= company.id  WHERE computer.id=?";
-  private static final String LISTQUERY = "SELECT computer.id as computerId, computer.name "
-      + "as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
-      + " company.name AS companyName FROM computer "
-      + "LEFT JOIN company ON computer.company_id= company.id";
-  private static final String FINDBYNAMEQUERY = "SELECT computer.id as computerId, computer.name"
-      + " as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
-      + " company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id ="
-      + " company.id  WHERE computer.name LIKE ?";
-  private static final String SELECTCOUNTQUERY = "SELECT COUNT(distinct computer.id) as "
-      + "countProduct FROM computer LEFT JOIN company ON computer.company_id= company.id"
-      + " WHERE computer.name LIKE ? OR company.name LIKE ?";
-
-  public DataSource getDataSource() {
-    return dataSource;
-  }
-
-  public void setDataSource(DataSource dataSource) {
-    this.dataSource = dataSource;
-  }
-
+  
   /**
    * Delete all computers associated to the company.
    * 
@@ -104,6 +77,9 @@ public class ComputerDaoImpl implements ComputerDao {
     jdbcTemplate.update(preparedStatement, holder);
   }
 
+  private static final String CREATEQUERY = "INSERT INTO computer (name, introduced, "
+      + "discontinued,company_id) VALUES ( ?, ?, ?,?)";
+  
   @Override
   public long create(Computer obj) {
     try {
@@ -145,12 +121,17 @@ public class ComputerDaoImpl implements ComputerDao {
     return holder.getKey().longValue();
   }
 
+  private static final String DELETEQUERY = "DELETE FROM computer WHERE id=?";
+
   @Override
   public void delete(Computer obj) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
     jdbcTemplate.update(DELETEQUERY, obj.getId());
     LOGGER.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
   }
+
+  private static final String UPDATEQUERY = "UPDATE computer SET name=?, "
+      + "introduced=?, discontinued=?, company_id=? WHERE id=?";
 
   @Override
   public void update(Computer obj) {
@@ -190,6 +171,11 @@ public class ComputerDaoImpl implements ComputerDao {
     jdbcTemplate.update(preparedStatement, holder);
   }
 
+  private static final String FINDQUERY = "SELECT computer.id as computerId, computer.name "
+      + "as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
+      + " company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id "
+      + "= company.id  WHERE computer.id=?";
+
   @Override
   public Computer find(long id) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -211,6 +197,11 @@ public class ComputerDaoImpl implements ComputerDao {
     }
 
   }
+
+  private static final String LISTQUERY = "SELECT computer.id as computerId, computer.name "
+      + "as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
+      + " company.name AS companyName FROM computer "
+      + "LEFT JOIN company ON computer.company_id= company.id";
 
   @Override
   public List<Computer> list() {
@@ -278,6 +269,11 @@ public class ComputerDaoImpl implements ComputerDao {
     }
   }
 
+  private static final String FINDBYNAMEQUERY = "SELECT computer.id as computerId, computer.name"
+      + " as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
+      + " company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id ="
+      + " company.id  WHERE computer.name LIKE ?";
+  
   @Override
   public List<Computer> findByName(String name) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -301,6 +297,10 @@ public class ComputerDaoImpl implements ComputerDao {
     }
   }
 
+  private static final String SELECTCOUNTQUERY = "SELECT COUNT(distinct computer.id) as "
+      + "countProduct FROM computer LEFT JOIN company ON computer.company_id= company.id"
+      + " WHERE computer.name LIKE ? OR company.name LIKE ?";
+  
   @Override
   public int selectCount(String name) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
