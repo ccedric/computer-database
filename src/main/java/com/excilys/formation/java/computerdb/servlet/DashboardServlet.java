@@ -109,7 +109,7 @@ public class DashboardServlet {
    * Search of a computer or company.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public void doPost(HttpServletRequest request, HttpServletResponse response)
+  public String doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     if (null != request.getParameter("selection") && !request.getParameter("selection").isEmpty()) {
       String[] idsDelete = request.getParameter("selection").split(",");
@@ -127,9 +127,8 @@ public class DashboardServlet {
         }
       }
       request.setAttribute("computerDelete", idsDelete.length);
-
     }
-    doGet(request, response);
+    return "redirect:/dashboard";
   }
 
 }

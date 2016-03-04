@@ -16,16 +16,14 @@ import com.excilys.formation.java.computerdb.service.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,9 +32,9 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Cédric Cousseran
  */
-@SuppressWarnings("serial")
-@WebServlet({ "/edit-computer" })
-public class EditComputerServlet extends HttpServlet {
+@Controller
+@RequestMapping({ "/edit-computer" })
+public class EditComputerServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
   @Autowired
@@ -49,15 +47,12 @@ public class EditComputerServlet extends HttpServlet {
   private ComputerMapper computerMapper;
   @Autowired
   private ComputerDtoMapper computerDtoMapper;
-  
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
-        config.getServletContext());
-  }
-  
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
+  /**
+   * Show the view editComputer, get request.
+   */
+  @RequestMapping(method = RequestMethod.GET)
+  public String doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
 
@@ -68,20 +63,17 @@ public class EditComputerServlet extends HttpServlet {
       request.setAttribute("companies", companies);
       LOGGER.info("Edit page of the computer: {}", computer.toString());
 
-      RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/editComputer.jsp");
-      dispatcher.forward(request, response);
-
+      return "editComputer";
     } catch (NumberFormatException e) {
-      RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard");
-      dispatcher.forward(request, response);
+      return "dashboard";
     }
   }
 
   /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) Called when
-   *      the user has finished updating the computer.
+   * Confirm the edit of a computer, then redirect to the dashboard.
    */
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+  @RequestMapping(method = RequestMethod.POST)
+  public String doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     String name = request.getParameter("computerName");
     String introduced = request.getParameter("introduced");
@@ -101,14 +93,12 @@ public class EditComputerServlet extends HttpServlet {
       LOGGER.info("update of a new computer : {}", computerDto);
 
       request.setAttribute("updateComputer", computerDto);
-      RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard");
-      dispatcher.forward(request, response);
-
     } catch (DiscontinuedBeforeIntroducedException | NameRequiredException
         | DateTimeInvalidException e) {
       request.setAttribute("errors", e.getMessage());
       doGet(request, response);
     }
+    return "redirect:/dashboard";
 
   }
 

@@ -15,16 +15,14 @@ import com.excilys.formation.java.computerdb.service.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,9 +32,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Cédric Cousseran
  */
 
-@SuppressWarnings("serial")
-@WebServlet({ "/add-computer-servlet", "/add-computer" })
-public class AddComputerServlet extends HttpServlet {
+@Controller
+@RequestMapping({ "/add-computer-servlet", "/add-computer" })
+public class AddComputerServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
   @Autowired
@@ -48,23 +46,23 @@ public class AddComputerServlet extends HttpServlet {
   @Autowired
   private ComputerDtoMapper computerDtoMapper;
 
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
-        config.getServletContext());
-  }
-  
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+  /**
+   * Display the apge dor adding a computer.
+   */
+  @RequestMapping(method = RequestMethod.GET)
+  public String doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
 
     request.setAttribute("companies", companies);
-    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/addComputer.jsp");
-    dispatcher.forward(request, response);
+    return "addComputer";
   }
 
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+  /**
+   * Add a computer and redirect to the dashboard.
+   */
+  @RequestMapping(method = RequestMethod.POST)
+  public String doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     String name = request.getParameter("computerName");
@@ -80,13 +78,12 @@ public class AddComputerServlet extends HttpServlet {
       computerService.create(computer);
       LOGGER.info("creation of a new computer : {}", computerDto);
       request.setAttribute("newComputer", computerDto);
-      RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard");
-      dispatcher.forward(request, response);
     } catch (DiscontinuedBeforeIntroducedException | NameRequiredException
         | DateTimeInvalidException e) {
       request.setAttribute("errors", e.getMessage());
       doGet(request, response);
     }
+    return "redirect:/dashboard";
   }
 
 }
