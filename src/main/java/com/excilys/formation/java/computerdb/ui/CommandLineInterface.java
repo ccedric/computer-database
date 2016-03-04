@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdb.ui;
 
-import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.CompanyService;
@@ -138,7 +137,7 @@ public class CommandLineInterface {
   /**
    * CLI to delete a company.
    */
-  private void deleteCompany() throws DatabaseConnectionException {
+  private void deleteCompany() {
     System.out.println(
         "Please enter the id of the company you want to delete, or type q to go back to the menu");
     String input = sc.nextLine();
@@ -165,7 +164,7 @@ public class CommandLineInterface {
   /**
    * CLI to update the computer.
    */
-  private void updateComputer() throws DatabaseConnectionException {
+  private void updateComputer() {
     System.out.println(
         "Please enter the id of the computer you want to update, or type q to go back to the menu");
     String inputId = sc.nextLine();
@@ -390,7 +389,7 @@ public class CommandLineInterface {
   /**
    * CLI to show the details of a computer.
    */
-  private void showComputerDetails() throws DatabaseConnectionException {
+  private void showComputerDetails() {
     System.out.println(
         "Please enter the id of the computer you want to see, or type q to go back to the menu");
     String input = sc.nextLine();
@@ -410,7 +409,7 @@ public class CommandLineInterface {
   /**
    * CLI to list all companies available in the database.
    */
-  private void listCompanies() throws DatabaseConnectionException {
+  private void listCompanies() {
     List<Company> companies = companyService.list();
     for (Company company : companies) {
       System.out.println(company);
@@ -421,7 +420,7 @@ public class CommandLineInterface {
   /**
    * CLI to list all computers available in the database.
    */
-  private void listComputer() throws DatabaseConnectionException {
+  private void listComputer() {
     Page pageComputer = new Page(1, pageComputerSize, "");
     List<Computer> computersPage;
     while (true) {

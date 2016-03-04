@@ -2,9 +2,7 @@ package com.excilys.formation.java.computerdb.dao.implementation;
 
 import com.excilys.formation.java.computerdb.dao.CompanyDao;
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
-import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
-import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
 
@@ -34,17 +32,18 @@ public class CompanyDaoImpl implements CompanyDao {
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDaoImpl.class);
 
   @Autowired
-  DataSource dataSource;
+  private DataSource dataSource;
 
   @Autowired
-  CompanyMapper companyMapper;
+  private CompanyMapper companyMapper;
 
-  private static final String deleteQuery = "DELETE FROM company WHERE id=?";
-  private static final String findQuery = "SELECT * from company  WHERE id=?";
-  private static final String listQuery = "SELECT * from company";
+  private static final String DELETEQUERY = "DELETE FROM company WHERE id=?";
+  private static final String FINDQUERY = "SELECT * from company  WHERE id=?";
+  private static final String LISTQUERY = "SELECT * from company";
 
   @Override
   public long create(Company obj) {
+    LOGGER.warn("Call to the method create of CompanyDao, wich is not implemented");
     throw new NotImplementedException(
         "The create method for the dao company has not yet been implemented");
   }
@@ -52,12 +51,13 @@ public class CompanyDaoImpl implements CompanyDao {
   @Override
   public void delete(Company obj) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-    jdbcTemplate.update(deleteQuery, obj.getId());
+    jdbcTemplate.update(DELETEQUERY, obj.getId());
     LOGGER.info("Company deleted, id {}, name {}", obj.getId(), obj.getName());
   }
 
   @Override
   public void update(Company obj) {
+    LOGGER.warn("Call to the method update of CompanyDao, wich is not implemented");
     throw new NotImplementedException(
         "The update method for the dao company has not yet been implemented");
   }
@@ -66,7 +66,7 @@ public class CompanyDaoImpl implements CompanyDao {
   public Company find(long id) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
     try {
-      Company company = jdbcTemplate.queryForObject(findQuery, new Object[] { id },
+      Company company = jdbcTemplate.queryForObject(FINDQUERY, new Object[] { id },
           new RowMapper<Company>() {
             public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
               return companyMapper.fromResultSet(rs);
@@ -77,26 +77,33 @@ public class CompanyDaoImpl implements CompanyDao {
 
       return company;
     } catch (EmptyResultDataAccessException e) {
-      throw new CompanyNotFoundException("Company not found with the id " + id);
+      LOGGER.warn("Company not found with the id {}",id);
+      throw new CompanyNotFoundException("Company not found with the id " + id,e);
     }
   }
 
   @Override
-  public List<Company> list() throws DatabaseConnectionException, DaoSqlException {
+  public List<Company> list() {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-    List<Company> companies = jdbcTemplate.queryForObject(listQuery,
-        new RowMapper<List<Company>>() {
-          public List<Company> mapRow(ResultSet rs, int rowNum) throws SQLException {
-            List<Company> companies = new ArrayList<Company>();
-            while (rs.next()) {
-              Company company = companyMapper.fromResultSet(rs);
-              companies.add(company);
+    try {
+      List<Company> companies = jdbcTemplate.queryForObject(LISTQUERY,
+          new RowMapper<List<Company>>() {
+            public List<Company> mapRow(ResultSet rs, int rowNum) throws SQLException {
+              List<Company> companies = new ArrayList<Company>();
+              while (rs.next()) {
+                Company company = companyMapper.fromResultSet(rs);
+                companies.add(company);
 
+              }
+              return companies;
             }
-            return companies;
-          }
-        });
+          });
+      LOGGER.info("List of Companies found, size of the list: {}", companies.size());
 
-    return companies;
+      return companies;
+    } catch (EmptyResultDataAccessException e) {
+      LOGGER.error("No companies found at all");
+      throw new CompanyNotFoundException("No company found in the list",e);
+    }
   }
 }

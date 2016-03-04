@@ -1,7 +1,7 @@
 package com.excilys.formation.java.computerdb.dao.exception;
 
 /**
- * This exception can be thrown if a metod in a dao is not implemented.
+ * This exception can be thrown if a method in a dao is not implemented.
  * 
  * @author Cédric Cousseran
  */

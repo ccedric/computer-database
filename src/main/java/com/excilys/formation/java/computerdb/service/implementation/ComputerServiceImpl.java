@@ -27,7 +27,7 @@ import java.util.List;
 @Transactional
 public class ComputerServiceImpl implements ComputerService {
   @Autowired
-  ComputerDao computerDao;
+  private ComputerDao computerDao;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerServiceImpl.class);
 
@@ -41,8 +41,7 @@ public class ComputerServiceImpl implements ComputerService {
 
   @Override
   @Transactional(readOnly = false)
-  public long create(Computer obj)
-      throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
+  public long create(Computer obj) {
     if ((obj.getIntroduced() != null) && (obj.getDiscontinued() != null)
         && (obj.getIntroduced().isAfter(obj.getDiscontinued()))) {
       throw new TimestampDiscontinuedBeforeIntroducedException(
@@ -58,7 +57,7 @@ public class ComputerServiceImpl implements ComputerService {
 
   @Override
   @Transactional(readOnly = false)
-  public void delete(Computer obj) throws DatabaseConnectionException {
+  public void delete(Computer obj) {
     try {
       computerDao.delete(obj);
     } catch (ComputerNotFoundException | DaoSqlException e) {
@@ -68,8 +67,7 @@ public class ComputerServiceImpl implements ComputerService {
 
   @Override
   @Transactional(readOnly = false)
-  public void update(Computer obj)
-      throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException {
+  public void update(Computer obj) {
     if ((obj.getIntroduced() != null) && (obj.getDiscontinued() != null)
         && (obj.getIntroduced().isAfter(obj.getDiscontinued()))) {
       throw new TimestampDiscontinuedBeforeIntroducedException(
@@ -84,7 +82,7 @@ public class ComputerServiceImpl implements ComputerService {
 
   @Override
   @Transactional(readOnly = true)
-  public Computer find(long id) throws DatabaseConnectionException {
+  public Computer find(long id) {
     try {
       return computerDao.find(id);
     } catch (DaoSqlException | ComputerNotFoundException e) {
@@ -95,7 +93,7 @@ public class ComputerServiceImpl implements ComputerService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<Computer> list() throws DatabaseConnectionException {
+  public List<Computer> list() {
     try {
       return computerDao.list();
     } catch (DaoSqlException e) {
@@ -106,7 +104,7 @@ public class ComputerServiceImpl implements ComputerService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<Computer> findByName(String name) throws DatabaseConnectionException {
+  public List<Computer> findByName(String name) {
     try {
       return computerDao.findByName(name);
     } catch (DaoSqlException e) {
@@ -117,7 +115,7 @@ public class ComputerServiceImpl implements ComputerService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<Computer> listPageByName(Page page) throws DatabaseConnectionException {
+  public List<Computer> listPageByName(Page page) {
     try {
       return computerDao.listPageByName(page.getStartingIndex(), page.getPageSize(),
           page.getSearch(), page.getOrderSearch());

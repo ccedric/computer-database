@@ -6,7 +6,6 @@ import com.excilys.formation.java.computerdb.dao.ComputerDao;
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
-import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.service.CompanyService;
 
@@ -29,9 +28,9 @@ public class CompanyServiceImpl implements CompanyService {
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
 
   @Autowired
-  CompanyDao companyDao;
+  private CompanyDao companyDao;
   @Autowired
-  ComputerDao computerDao;
+  private ComputerDao computerDao;
 
   public CompanyDao getCompanyDao() {
     return companyDao;
@@ -67,7 +66,7 @@ public class CompanyServiceImpl implements CompanyService {
    */
   @Override
   @Transactional(readOnly = false)
-  public void delete(Company obj) throws DatabaseConnectionException {
+  public void delete(Company obj) {
     try {
       computerDao.deleteByCompany(obj);
       companyDao.delete(obj);
@@ -91,7 +90,7 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Override
   @Transactional(readOnly = true)
-  public Company find(long id) throws DatabaseConnectionException {
+  public Company find(long id) {
     try {
       return companyDao.find(id);
     } catch (DaoSqlException | CompanyNotFoundException e) {
@@ -102,7 +101,7 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<Company> list() throws DatabaseConnectionException {
+  public List<Company> list() {
     try {
       return companyDao.list();
     } catch (DaoSqlException e) {

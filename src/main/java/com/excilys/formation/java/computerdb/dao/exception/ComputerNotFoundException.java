@@ -15,4 +15,8 @@ public class ComputerNotFoundException extends RuntimeException {
     super(message);
   }
 
+  public ComputerNotFoundException(String message, Throwable cause) {
+    super(message, cause);
+  }
+  
 }

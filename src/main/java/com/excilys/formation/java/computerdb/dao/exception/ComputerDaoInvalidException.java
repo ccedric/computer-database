@@ -15,4 +15,8 @@ public class ComputerDaoInvalidException extends RuntimeException {
     super(message);
   }
 
+  public ComputerDaoInvalidException(String message, Throwable cause) {
+    super(message, cause);
+  }
+  
 }

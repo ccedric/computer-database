@@ -40,15 +40,15 @@ public class EditComputerServlet extends HttpServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
   @Autowired
-  CompanyService companyService;
+  private CompanyService companyService;
   @Autowired
-  ComputerService computerService;
+  private ComputerService computerService;
   @Autowired
-  CompanyMapper companyMapper;
+  private CompanyMapper companyMapper;
   @Autowired
-  ComputerMapper computerMapper;
+  private ComputerMapper computerMapper;
   @Autowired
-  ComputerDtoMapper computerDtoMapper;
+  private ComputerDtoMapper computerDtoMapper;
   
   @Override
   public void init(ServletConfig config) throws ServletException {

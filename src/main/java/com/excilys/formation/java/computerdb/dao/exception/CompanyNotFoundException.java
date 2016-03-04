@@ -15,4 +15,8 @@ public class CompanyNotFoundException extends RuntimeException {
     super(message);
   }
 
+  public CompanyNotFoundException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
 }

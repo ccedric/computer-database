@@ -1,6 +1,7 @@
 package com.excilys.formation.java.computerdb.dao.implementation;
 
 import com.excilys.formation.java.computerdb.dao.ComputerDao;
+import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.model.Company;
@@ -44,34 +45,33 @@ import javax.sql.DataSource;
  */
 @Repository
 public class ComputerDaoImpl implements ComputerDao {
+  @Autowired
+  private DataSource dataSource;
 
   @Autowired
-  DataSource dataSource;
-
-  @Autowired
-  ComputerMapper computerMapper;
+  private ComputerMapper computerMapper;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
-  private static final String deleteByCompanyQuery = "DELETE FROM computer where company_id = ?";
-  private static final String createQuery = "INSERT INTO computer (name, introduced, "
+  private static final String DELETEBYCOMPANYQUERY = "DELETE FROM computer where company_id = ?";
+  private static final String CREATEQUERY = "INSERT INTO computer (name, introduced, "
       + "discontinued,company_id) VALUES ( ?, ?, ?,?)";
-  private static final String deleteQuery = "DELETE FROM computer WHERE id=?";
-  private static final String updateQuery = "UPDATE computer SET name=?, "
+  private static final String DELETEQUERY = "DELETE FROM computer WHERE id=?";
+  private static final String UPDATEQUERY = "UPDATE computer SET name=?, "
       + "introduced=?, discontinued=?, company_id=? WHERE id=?";
-  private static final String findQuery = "SELECT computer.id as computerId, computer.name "
+  private static final String FINDQUERY = "SELECT computer.id as computerId, computer.name "
       + "as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
       + " company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id "
       + "= company.id  WHERE computer.id=?";
-  private static final String listQuery = "SELECT computer.id as computerId, computer.name "
+  private static final String LISTQUERY = "SELECT computer.id as computerId, computer.name "
       + "as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
       + " company.name AS companyName FROM computer "
       + "LEFT JOIN company ON computer.company_id= company.id";
-  private static final String findByNameQuery = "SELECT computer.id as computerId, computer.name"
+  private static final String FINDBYNAMEQUERY = "SELECT computer.id as computerId, computer.name"
       + " as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
       + " company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id ="
       + " company.id  WHERE computer.name LIKE ?";
-  private static final String selectCountQuery = "SELECT COUNT(distinct computer.id) as "
+  private static final String SELECTCOUNTQUERY = "SELECT COUNT(distinct computer.id) as "
       + "countProduct FROM computer LEFT JOIN company ON computer.company_id= company.id"
       + " WHERE computer.name LIKE ? OR company.name LIKE ?";
 
@@ -95,7 +95,7 @@ public class ComputerDaoImpl implements ComputerDao {
     PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
       @Override
       public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(deleteByCompanyQuery);
+        PreparedStatement statement = connection.prepareStatement(DELETEBYCOMPANYQUERY);
         statement.setLong(1, obj.getId());
         return statement;
       }
@@ -110,14 +110,15 @@ public class ComputerDaoImpl implements ComputerDao {
       ComputerValidator.validate(obj);
     } catch (ComputerInvalidException e) {
       LOGGER.error("Error while creating a new Computer, computer invalid ");
-      throw new ComputerDaoInvalidException("Error while creating the coputer, computer invalid");
+      throw new ComputerDaoInvalidException("Error while creating the coputer, computer invalid",
+          e);
     }
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
     PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
       @Override
       public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(createQuery,
+        PreparedStatement statement = connection.prepareStatement(CREATEQUERY,
             Statement.RETURN_GENERATED_KEYS);
         statement.setString(1, obj.getName());
         if (obj.getIntroduced() == null) {
@@ -147,7 +148,7 @@ public class ComputerDaoImpl implements ComputerDao {
   @Override
   public void delete(Computer obj) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-    jdbcTemplate.update(deleteQuery, obj.getId());
+    jdbcTemplate.update(DELETEQUERY, obj.getId());
     LOGGER.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
   }
 
@@ -157,13 +158,14 @@ public class ComputerDaoImpl implements ComputerDao {
       ComputerValidator.validate(obj);
     } catch (ComputerInvalidException e) {
       LOGGER.error("Error while updating the computer, computer invalid ");
-      throw new ComputerDaoInvalidException("Error while updating the computer, computer invalid");
+      throw new ComputerDaoInvalidException("Error while updating the computer, computer invalid",
+          e);
     }
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
     PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
       @Override
       public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(updateQuery);
+        PreparedStatement statement = connection.prepareStatement(UPDATEQUERY);
         statement.setString(1, obj.getName());
         if (obj.getIntroduced() == null) {
           statement.setNull(2, Types.TIMESTAMP);
@@ -192,7 +194,7 @@ public class ComputerDaoImpl implements ComputerDao {
   public Computer find(long id) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
     try {
-      Computer computer = jdbcTemplate.queryForObject(findQuery, new Object[] { id },
+      Computer computer = jdbcTemplate.queryForObject(FINDQUERY, new Object[] { id },
           new RowMapper<Computer>() {
             public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
               return computerMapper.fromResultSet(rs);
@@ -205,28 +207,34 @@ public class ComputerDaoImpl implements ComputerDao {
           computer.getDiscontinued());
       return computer;
     } catch (EmptyResultDataAccessException e) {
-      throw new ComputerNotFoundException("Computer not found with the id " + id);
+      throw new ComputerNotFoundException("Computer not found with the id " + id, e);
     }
 
   }
 
   @Override
   public List<Computer> list() {
-    JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-    List<Computer> computers = jdbcTemplate.queryForObject(listQuery,
-        new RowMapper<List<Computer>>() {
-          public List<Computer> mapRow(ResultSet rs, int rowNum) throws SQLException {
-            List<Computer> computers = new ArrayList<Computer>();
-            while (rs.next()) {
-              Computer computer = computerMapper.fromResultSet(rs);
-              computers.add(computer);
+    try {
+      JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+      List<Computer> computers = jdbcTemplate.queryForObject(LISTQUERY,
+          new RowMapper<List<Computer>>() {
+            public List<Computer> mapRow(ResultSet rs, int rowNum) throws SQLException {
+              List<Computer> computers = new ArrayList<Computer>();
+              while (rs.next()) {
+                Computer computer = computerMapper.fromResultSet(rs);
+                computers.add(computer);
 
+              }
+              return computers;
             }
-            return computers;
-          }
-        });
+          });
+      LOGGER.info("List of Computer found, size of the list: {}", computers.size());
 
-    return computers;
+      return computers;
+    } catch (EmptyResultDataAccessException e) {
+      LOGGER.error("No computers found at all");
+      throw new CompanyNotFoundException("No computer found in the list", e);
+    }
   }
 
   @Override
@@ -249,27 +257,32 @@ public class ComputerDaoImpl implements ComputerDao {
     namedParameters.put("indexBegin", indexBegin);
     namedParameters.put("pageSize", pageSize);
 
-    List<Computer> computers = (List<Computer>) jdbcTemplate.queryForObject(query, namedParameters,
-        new RowMapper<List<Computer>>() {
-          public List<Computer> mapRow(ResultSet rs, int rowNum) throws SQLException {
-            List<Computer> computers = new ArrayList<Computer>();
-            while (rs.next()) {
-              Computer computer = computerMapper.fromResultSet(rs);
-              computers.add(computer);
+    try {
+      List<Computer> computers = (List<Computer>) jdbcTemplate.queryForObject(query,
+          namedParameters, new RowMapper<List<Computer>>() {
+            public List<Computer> mapRow(ResultSet rs, int rowNum) throws SQLException {
+              List<Computer> computers = new ArrayList<Computer>();
+              while (rs.next()) {
+                Computer computer = computerMapper.fromResultSet(rs);
+                computers.add(computer);
 
+              }
+              return computers;
             }
-            return computers;
-          }
-        });
-    LOGGER.info("List of computers found, size of the list: {}", computers.size());
-    return computers;
+          });
+      LOGGER.info("List of computers found, size of the list: {}", computers.size());
+      return computers;
+    } catch (EmptyResultDataAccessException e) {
+      LOGGER.info("No computers found when finding a page");
+      return new ArrayList<Computer>();
+    }
   }
 
   @Override
   public List<Computer> findByName(String name) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
     try {
-      List<Computer> computers = jdbcTemplate.queryForObject(findByNameQuery, new Object[] { name },
+      List<Computer> computers = jdbcTemplate.queryForObject(FINDBYNAMEQUERY, new Object[] { name },
           new RowMapper<List<Computer>>() {
             public List<Computer> mapRow(ResultSet rs, int rowNum) throws SQLException {
               List<Computer> computers = new ArrayList<Computer>();
@@ -281,10 +294,10 @@ public class ComputerDaoImpl implements ComputerDao {
               return computers;
             }
           });
-
       return computers;
     } catch (EmptyResultDataAccessException e) {
-      throw new ComputerNotFoundException("Computer not found with the name " + name);
+      LOGGER.info("No computer found with the name searched");
+      return new ArrayList<Computer>();
     }
   }
 
@@ -292,7 +305,7 @@ public class ComputerDaoImpl implements ComputerDao {
   public int selectCount(String name) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-    return jdbcTemplate.queryForObject(selectCountQuery, int.class, name + '%', name + '%');
+    return jdbcTemplate.queryForObject(SELECTCOUNTQUERY, int.class, name + '%', name + '%');
   }
 
 }
