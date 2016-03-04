@@ -3,9 +3,6 @@ package com.excilys.formation.java.computerdb.service.implementation;
 
 import com.excilys.formation.java.computerdb.dao.CompanyDao;
 import com.excilys.formation.java.computerdb.dao.ComputerDao;
-import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
-import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
-import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.service.CompanyService;
 
@@ -54,11 +51,7 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @Transactional(readOnly = false)
   public long create(Company obj) {
-    try {
-      return companyDao.create(obj);
-    } catch (NotImplementedException e) {
-      return 0;
-    }
+    return companyDao.create(obj);
   }
 
   /**
@@ -67,12 +60,9 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @Transactional(readOnly = false)
   public void delete(Company obj) {
-    try {
-      computerDao.deleteByCompany(obj);
-      companyDao.delete(obj);
-    } catch (Exception e) {
-      LOGGER.error("Error while deleting the company and his computers");
-    }
+    computerDao.deleteByCompany(obj);
+    companyDao.delete(obj);
+    LOGGER.info("Company and all his computers associated deleted");
   }
 
   /**
@@ -81,32 +71,18 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @Transactional(readOnly = false)
   public void update(Company obj) {
-    try {
-      companyDao.update(obj);
-    } catch (NotImplementedException e) {
-      LOGGER.error("Update company not implemented");
-    }
+    companyDao.update(obj);
   }
 
   @Override
   @Transactional(readOnly = true)
   public Company find(long id) {
-    try {
-      return companyDao.find(id);
-    } catch (DaoSqlException | CompanyNotFoundException e) {
-      LOGGER.info("Exception catched in the CompanyService find");
-    }
-    return null;
+    return companyDao.find(id);
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<Company> list() {
-    try {
-      return companyDao.list();
-    } catch (DaoSqlException e) {
-      LOGGER.info("Exception catched in the CompanyService list");
-    }
-    return null;
+    return companyDao.list();
   }
 }

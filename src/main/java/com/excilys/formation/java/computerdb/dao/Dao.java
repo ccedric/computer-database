@@ -1,12 +1,5 @@
 package com.excilys.formation.java.computerdb.dao;
 
-import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
-import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidException;
-import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
-import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
-import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
-
-import java.sql.SQLException;
 import java.util.List;
 
 
@@ -28,8 +21,7 @@ public interface Dao<T> {
    * @return the id of the element created
    * @throws SQLException Thrown if an sql error occur
    */
-  long create(T obj)
-      throws DatabaseConnectionException, ComputerDaoInvalidException, DaoSqlException;
+  long create(T obj);
 
   /**
    * Delete an object in the database.
@@ -38,8 +30,7 @@ public interface Dao<T> {
    *          the object to delete in the database
    * @return true the object was successfully deleted, false otherwise
    */
-  void delete(T obj) throws DatabaseConnectionException, ComputerNotFoundException, DaoSqlException,
-      CompanyNotFoundException;
+  void delete(T obj);
 
   /**
    * Update an object in the database.
@@ -48,7 +39,7 @@ public interface Dao<T> {
    *          the object to update in the database
    * @return true is the object was updated, false otherwise
    */
-  void update(T obj) throws DatabaseConnectionException, ComputerNotFoundException, DaoSqlException;
+  void update(T obj);
 
   /**
    * Find an object in the database with his id.
@@ -57,14 +48,13 @@ public interface Dao<T> {
    *          the id of the object
    * @return the object found, null if it was not found
    */
-  T find(long id) throws DatabaseConnectionException, DaoSqlException, ComputerNotFoundException,
-      CompanyNotFoundException;
+  T find(long id);
 
   /**
    * Return the list of object available in the database.
    * 
    * @return the list of objects
    */
-  List<T> list() throws DatabaseConnectionException, DaoSqlException;
+  List<T> list();
 
 }

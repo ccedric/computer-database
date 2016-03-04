@@ -5,7 +5,6 @@ import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.CompanyService;
 import com.excilys.formation.java.computerdb.service.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
-import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -271,13 +270,7 @@ public class CommandLineInterface {
     comp.setCompany(company);
     comp.setIntroduced(timestamp);
     comp.setDiscontinued(timestampEnd);
-    try {
-      computerService.update(comp);
-    } catch (TimestampDiscontinuedBeforeIntroducedException e) {
-      System.out.println(
-          "Update not successful, the discontinued timestamp was before the introduced timestamp");
-      e.printStackTrace();
-    }
+    computerService.update(comp);
     System.out.println("Computer update successfully");
     System.out.println(computerService.find(comp.getId()));
     showHelp();
@@ -370,13 +363,7 @@ public class CommandLineInterface {
     Computer comp = new Computer.ComputerBuilder(name).company(company).introduced(timestamp)
         .discontinued(timestampEnd).build();
     long number = 0L;
-    try {
-      number = computerService.create(comp);
-    } catch (TimestampDiscontinuedBeforeIntroducedException e) {
-      System.out.println("Creation not successful, the discontinued timestamp was before"
-          + " the introduced timestamp");
-      e.printStackTrace();
-    }
+    number = computerService.create(comp);
     if (number != 0) {
       System.out.println("Computer created successfully");
       System.out.println(computerService.find(number));

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.excilys.formation.java.computerdb.model.Computer;
-import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
+import com.excilys.formation.java.computerdb.service.exception.ComputerServiceInvalidException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +49,7 @@ public class ComputerServiceTest {
           .discontinued(fin).build();
       service.create(computer);
       fail("An exception should be thrown");
-    } catch (TimestampDiscontinuedBeforeIntroducedException e) {
+    } catch (ComputerServiceInvalidException e) {
       assertTrue(true);
     }
   }
@@ -66,7 +66,7 @@ public class ComputerServiceTest {
       computer.setDiscontinued(fin);
       service.update(computer);
       fail("An exception should be thrown");
-    } catch (TimestampDiscontinuedBeforeIntroducedException e) {
+    } catch (ComputerServiceInvalidException e) {
       assertTrue(true);
     }
 

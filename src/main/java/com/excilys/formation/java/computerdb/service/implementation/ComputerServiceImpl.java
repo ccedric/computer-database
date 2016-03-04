@@ -1,14 +1,14 @@
 package com.excilys.formation.java.computerdb.service.implementation;
 
 import com.excilys.formation.java.computerdb.dao.ComputerDao;
-import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.DaoSqlException;
-import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
+import com.excilys.formation.java.computerdb.model.exception.ComputerInvalidException;
+import com.excilys.formation.java.computerdb.model.validation.ComputerValidator;
 import com.excilys.formation.java.computerdb.service.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
-import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
+import com.excilys.formation.java.computerdb.service.exception.ComputerServiceInvalidException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,37 +42,41 @@ public class ComputerServiceImpl implements ComputerService {
   @Override
   @Transactional(readOnly = false)
   public long create(Computer obj) {
-    if ((obj.getIntroduced() != null) && (obj.getDiscontinued() != null)
-        && (obj.getIntroduced().isAfter(obj.getDiscontinued()))) {
-      throw new TimestampDiscontinuedBeforeIntroducedException(
-          "The discontinued timestamp is before the introduced timestamp");
-    }
     try {
-      return computerDao.create(obj);
-    } catch (ComputerDaoInvalidException | DaoSqlException e) {
-      LOGGER.info("Exception catched in the ComputerService creation");
+      ComputerValidator.validate(obj);
+    } catch (ComputerInvalidException e) {
+      LOGGER.error("Error while creating a new Computer, computer invalid ");
+      throw new ComputerServiceInvalidException(
+          "Error while creating the coputer, computer invalid", e);
     }
-    return 0;
+
+    return computerDao.create(obj);
   }
 
   @Override
   @Transactional(readOnly = false)
   public void delete(Computer obj) {
     try {
-      computerDao.delete(obj);
-    } catch (ComputerNotFoundException | DaoSqlException e) {
-      LOGGER.info("Exception catched in the ComputerService delete");
+      ComputerValidator.validate(obj);
+    } catch (ComputerInvalidException e) {
+      LOGGER.error("Error while creating a new Computer, computer invalid ");
+      throw new ComputerServiceInvalidException(
+          "Error while creating the coputer, computer invalid", e);
     }
+    computerDao.delete(obj);
   }
 
   @Override
   @Transactional(readOnly = false)
   public void update(Computer obj) {
-    if ((obj.getIntroduced() != null) && (obj.getDiscontinued() != null)
-        && (obj.getIntroduced().isAfter(obj.getDiscontinued()))) {
-      throw new TimestampDiscontinuedBeforeIntroducedException(
-          "The discontinued timestamp is before the introduced timestamp");
+    try {
+      ComputerValidator.validate(obj);
+    } catch (ComputerInvalidException e) {
+      LOGGER.error("Error while creating a new Computer, computer invalid ");
+      throw new ComputerServiceInvalidException(
+          "Error while creating the coputer, computer invalid", e);
     }
+
     try {
       computerDao.update(obj);
     } catch (ComputerNotFoundException | DaoSqlException e) {
@@ -83,57 +87,32 @@ public class ComputerServiceImpl implements ComputerService {
   @Override
   @Transactional(readOnly = true)
   public Computer find(long id) {
-    try {
-      return computerDao.find(id);
-    } catch (DaoSqlException | ComputerNotFoundException e) {
-      LOGGER.info("Exception catched in the ComputerService find");
-    }
-    return null;
+    return computerDao.find(id);
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<Computer> list() {
-    try {
-      return computerDao.list();
-    } catch (DaoSqlException e) {
-      LOGGER.info("Exception catched in the ComputerService list");
-    }
-    return null;
+    return computerDao.list();
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<Computer> findByName(String name) {
-    try {
-      return computerDao.findByName(name);
-    } catch (DaoSqlException e) {
-      LOGGER.info("Exception catched in the ComputerService findByName");
-    }
-    return null;
+    return computerDao.findByName(name);
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<Computer> listPageByName(Page page) {
-    try {
-      return computerDao.listPageByName(page.getStartingIndex(), page.getPageSize(),
-          page.getSearch(), page.getOrderSearch());
-    } catch (DaoSqlException e) {
-      LOGGER.info("Exception catched in the ComputerService listPageByName");
-    }
-    return null;
+    return computerDao.listPageByName(page.getStartingIndex(), page.getPageSize(), page.getSearch(),
+        page.getOrderSearch());
   }
 
   @Override
   @Transactional(readOnly = true)
   public int selectCount(String name) {
-    try {
-      return computerDao.selectCount(name);
-    } catch (DatabaseConnectionException | DaoSqlException e) {
-      LOGGER.info("Exception catched in the ComputerService selectCount");
-    }
-    return 0;
+    return computerDao.selectCount(name);
   }
 
 }

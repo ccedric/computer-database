@@ -1,8 +1,5 @@
 package com.excilys.formation.java.computerdb.service;
 
-import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
-import com.excilys.formation.java.computerdb.service.exception.TimestampDiscontinuedBeforeIntroducedException;
-
 import java.util.List;
 
 /**
@@ -20,8 +17,7 @@ public interface Service<T> {
    *          the object to create in the database
    * @return the id of the element created
    */
-  long create(T obj)
-      throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException;
+  long create(T obj);
 
   /**
    * Delete an object in the database.
@@ -30,7 +26,7 @@ public interface Service<T> {
    *          the object to delete in the database
    * @return true the object was successfully deleted, false otherwise
    */
-  void delete(T obj) throws DatabaseConnectionException;
+  void delete(T obj);
 
   /**
    * Update an object in the database.
@@ -39,8 +35,7 @@ public interface Service<T> {
    *          the object to update in the database
    * @return true is the object was updated, false otherwise
    */
-  void update(T obj)
-      throws DatabaseConnectionException, TimestampDiscontinuedBeforeIntroducedException;
+  void update(T obj);
 
   /**
    * Find an object in the database with his id.
@@ -49,13 +44,13 @@ public interface Service<T> {
    *          the id of the object
    * @return the object found, null if it was not found
    */
-  T find(long id) throws DatabaseConnectionException;
+  T find(long id);
 
   /**
    * Call the list method in the dao.
    * 
    * @return the list of objects
    */
-  List<T> list() throws DatabaseConnectionException;
+  List<T> list();
 
 }

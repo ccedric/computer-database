@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdb.service;
 
-import com.excilys.formation.java.computerdb.db.exception.DatabaseConnectionException;
 import com.excilys.formation.java.computerdb.model.Computer;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public interface ComputerService extends Service<Computer> {
    * @param name the search
    * @return the list of results
    */
-  List<Computer> findByName(String name) throws DatabaseConnectionException;
+  List<Computer> findByName(String name);
 
   /**
    * Return a list of objects who have a corresponding name, empty lsit if not found. The list has a
@@ -29,7 +28,7 @@ public interface ComputerService extends Service<Computer> {
    * @param name search
    * @return a list containing the results of a page of the research by name
    */
-  List<Computer> listPageByName(Page page) throws DatabaseConnectionException;
+  List<Computer> listPageByName(Page page);
 
   /**
    * Get the number of results there will be in the sql query.
