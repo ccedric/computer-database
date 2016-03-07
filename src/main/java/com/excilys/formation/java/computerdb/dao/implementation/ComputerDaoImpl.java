@@ -53,9 +53,8 @@ public class ComputerDaoImpl implements ComputerDao {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
-
   private static final String DELETEBYCOMPANYQUERY = "DELETE FROM computer where company_id = ?";
-  
+
   /**
    * Delete all computers associated to the company.
    * 
@@ -79,7 +78,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
   private static final String CREATEQUERY = "INSERT INTO computer (name, introduced, "
       + "discontinued,company_id) VALUES ( ?, ?, ?,?)";
-  
+
   @Override
   public long create(Computer obj) {
     try {
@@ -236,18 +235,18 @@ public class ComputerDaoImpl implements ComputerDao {
 
     String query = "SELECT computer.id AS computerId, computer.name AS computerName,"
         + " computer.introduced, computer.discontinued, company.id AS companyId, company.name AS"
-        + " companyName FROM computer LEFT JOIN company ON computer.company_id= company.id WHERE"
-        + " computer.name LIKE :nameComputer OR company.name LIKE :nameCompany ORDER BY ISNULL( "
-        + ":orderIsNull), :orderColumn " + order.getOrder() + " LIMIT :indexBegin, :pageSize";
+        + " companyName FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE"
+        + " computer.name LIKE :nameComputer OR company.name LIKE :nameCompany ORDER BY ISNULL("
+        + order.getColumn() + ")," + order.getColumn() + " " + order.getOrder()
+        + " LIMIT :indexBegin, :pageSize";
 
     Map namedParameters = new HashMap();
     namedParameters.put("nameComputer", name + '%');
     namedParameters.put("nameCompany", name + '%');
-    namedParameters.put("orderIsNull", order.getColumn());
-    namedParameters.put("orderColumn", order.getColumn());
     namedParameters.put("indexBegin", indexBegin);
     namedParameters.put("pageSize", pageSize);
 
+    System.out.println(namedParameters);
     try {
       List<Computer> computers = (List<Computer>) jdbcTemplate.queryForObject(query,
           namedParameters, new RowMapper<List<Computer>>() {
@@ -273,7 +272,7 @@ public class ComputerDaoImpl implements ComputerDao {
       + " as computerName, computer.introduced, computer.discontinued, company.id AS companyId,"
       + " company.name AS companyName FROM computer LEFT JOIN company ON computer.company_id ="
       + " company.id  WHERE computer.name LIKE ?";
-  
+
   @Override
   public List<Computer> findByName(String name) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -300,7 +299,7 @@ public class ComputerDaoImpl implements ComputerDao {
   private static final String SELECTCOUNTQUERY = "SELECT COUNT(distinct computer.id) as "
       + "countProduct FROM computer LEFT JOIN company ON computer.company_id= company.id"
       + " WHERE computer.name LIKE ? OR company.name LIKE ?";
-  
+
   @Override
   public int selectCount(String name) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

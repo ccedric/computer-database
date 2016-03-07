@@ -38,8 +38,8 @@ public class AddComputerIt {
   public void testAddComputer() throws Exception {
     driver.get(baseUrl + "/computerDB/dashboard");
     driver.findElement(By.id("addComputer")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("test");
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("test");
     driver.findElement(By.id("introduced")).clear();
     driver.findElement(By.id("introduced")).sendKeys("1990-10-10");
     driver.findElement(By.id("discontinued")).clear();
@@ -50,11 +50,11 @@ public class AddComputerIt {
     driver.findElement(By.id("discontinued")).clear();
     driver.findElement(By.id("discontinued")).sendKeys("1995-10-10");
     new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Nokia");
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("");
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("");
     driver.findElement(By.id("submit")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("test");
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("test");
     driver.findElement(By.id("submit")).click();
     // assertTrue(isElementPresent(By.id("computerCreated")));
     // driver.findElement(By.xpath("(//button[@name='number-results'])[3]")).click();

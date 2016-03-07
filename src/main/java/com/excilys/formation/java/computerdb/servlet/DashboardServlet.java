@@ -12,15 +12,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class DashboardServlet, servlet of the jsp dashboard.jsp, main page of the
@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping({ "/dashboard-servlet", "/dashboard" })
 public class DashboardServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
-  private Page pageComputer = new Page(1, 50, "");
+  // private Page pageComputer = new Page(1, 50, "");
 
   @Autowired
   private ComputerService computerService;
@@ -44,75 +44,65 @@ public class DashboardServlet {
    * List of computers with no specific search.
    */
   @RequestMapping(method = RequestMethod.GET)
-  public String doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    String searchByName = request.getParameter("search");
-    String orderColumn = request.getParameter("order-column");
-    String orderOrder = request.getParameter("order-order");
-
-    int numberResultsPage = 50;
-    int page = 1;
-
-    try {
-      page = Integer.parseInt(request.getParameter("page"));
-    } catch (Exception e) {
-      LOGGER.info("page argument in the dashboard servlet was not an int");
+  public String doGet(Page pageComputer, ModelMap modelMap,
+      @RequestParam(value = "column", required = false) Column column,
+      @RequestParam(value = "order", required = false) Order order)
+          throws ServletException, IOException {
+    
+    if (null == pageComputer.getSearch()) {
+      pageComputer.setSearch("");
+    }
+    if (column == null) {
+      column = Column.computerId;
+    }
+    if (order == null) {
+      order = Order.ASC;
     }
 
-    try {
-      numberResultsPage = Integer.parseInt(request.getParameter("number-results"));
-    } catch (Exception e) {
-      LOGGER.info("number-results argument in the dashboard servlet was not an int");
+    OrderSearch orderSearch = new OrderSearch(column, order);
+    pageComputer.setOrderSearch(orderSearch);
+
+    if (pageComputer.getPageSize() == 0) {
+      pageComputer.setPageSize(50);
     }
-
-    if (null == searchByName) {
-      searchByName = "";
+    if (pageComputer.getPage() == 0) {
+      pageComputer.setPage(1);
     }
-    LOGGER.info("New search with the name : {}, page number: {}", searchByName, page);
+    String searchByName = pageComputer.getSearch();
 
-    pageComputer.setSearch(searchByName);
-    pageComputer.setPage(page);
-    pageComputer.setPageSize(numberResultsPage);
+    int page = pageComputer.getPage();
 
-    OrderSearch order = new OrderSearch();
-    try {
-      order = new OrderSearch(Column.valueOf(orderColumn), Order.valueOf(orderOrder));
-    } catch (Exception e) {
-      LOGGER.info("The order arguments in the dashboard servlet were invalid");
-    }
-
-    pageComputer.setOrderSearch(order);
+    int numberResultsPage = pageComputer.getPageSize();
 
     List<ComputerDto> computers = computerMapper
         .listToDto(computerService.listPageByName(pageComputer));
+    
     int maxPage = (computerService.selectCount(searchByName) + numberResultsPage - 1)
         / numberResultsPage;
-    int pageActuelle = pageComputer.getPage();
     int numberResults = computerService.selectCount(searchByName);
+    Column orderColumn = pageComputer.getOrderSearch().getColumn();
+    Order orderOrder = pageComputer.getOrderSearch().getOrder();
 
-    request.setAttribute("maxPage", maxPage);
-    request.setAttribute("pageActuelle", pageActuelle);
-    request.setAttribute("computers", computers);
-    request.setAttribute("nbResults", numberResults);
-    request.setAttribute("searchByName", searchByName);
-    request.setAttribute("numberResults", numberResultsPage);
-    request.setAttribute("page", page);
-    request.setAttribute("orderColumn", orderColumn);
-    request.setAttribute("orderOrder", orderOrder);
-
-    LOGGER.info("number of pages of the result: {}", maxPage);
+    modelMap.addAttribute("maxPage", maxPage);
+    modelMap.addAttribute("pageActuelle", page);
+    modelMap.addAttribute("computers", computers);
+    modelMap.addAttribute("nbResults", numberResults);
+    modelMap.addAttribute("searchByName", searchByName);
+    modelMap.addAttribute("numberResults", numberResultsPage);
+    modelMap.addAttribute("page", page);
+    modelMap.addAttribute("orderColumn", orderColumn.toString());
+    modelMap.addAttribute("orderOrder", orderOrder.toString());
     
     return "dashboard";
   }
 
   /**
-   * Search of a computer or company.
+   * Deletion of computers.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    if (null != request.getParameter("selection") && !request.getParameter("selection").isEmpty()) {
-      String[] idsDelete = request.getParameter("selection").split(",");
+  public String doPost(String selection, ModelMap modelMap) throws ServletException, IOException {
+    if (null != selection && !selection.isEmpty()) {
+      String[] idsDelete = selection.split(",");
       int idDeleteInt;
       for (String idDelete : idsDelete) {
         try {
@@ -126,7 +116,6 @@ public class DashboardServlet {
           e.printStackTrace();
         }
       }
-      request.setAttribute("computerDelete", idsDelete.length);
     }
     return "redirect:/dashboard";
   }

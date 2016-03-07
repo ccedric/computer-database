@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,8 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * Servlet for the jsp page addComputer.jsp
@@ -47,14 +48,13 @@ public class AddComputerServlet {
   private ComputerDtoMapper computerDtoMapper;
 
   /**
-   * Display the apge dor adding a computer.
+   * Display the page for adding a computer.
    */
   @RequestMapping(method = RequestMethod.GET)
-  public String doGet(HttpServletRequest request, HttpServletResponse response)
+  public String doGet(ModelMap modelMap)
       throws ServletException, IOException {
     List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
-
-    request.setAttribute("companies", companies);
+    modelMap.addAttribute("companies", companies);
     return "addComputer";
   }
 
@@ -62,26 +62,16 @@ public class AddComputerServlet {
    * Add a computer and redirect to the dashboard.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-
-    String name = request.getParameter("computerName");
-    String introduced = request.getParameter("introduced");
-    String discontinued = request.getParameter("discontinued");
-    String companyId = request.getParameter("companyId");
-
-    ComputerDto computerDto = new ComputerDto.ComputerDtoBuilder(name).introduced(introduced)
-        .discontinued(discontinued).companyId(Integer.parseInt(companyId)).build();
+  public String doPost(@Valid @ModelAttribute("ComputerDto") ComputerDto computerDto,
+      ModelMap modelMap) throws ServletException, IOException {
     try {
       ComputerDtoValidator.validate(computerDto);
       Computer computer = computerDtoMapper.toComputer(computerDto);
       computerService.create(computer);
       LOGGER.info("creation of a new computer : {}", computerDto);
-      request.setAttribute("newComputer", computerDto);
     } catch (DiscontinuedBeforeIntroducedException | NameRequiredException
         | DateTimeInvalidException e) {
-      request.setAttribute("errors", e.getMessage());
-      doGet(request, response);
+      return "addComputer";
     }
     return "redirect:/dashboard";
   }

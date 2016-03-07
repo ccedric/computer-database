@@ -1,17 +1,27 @@
 package com.excilys.formation.java.computerdb.dto;
 
+import com.excilys.formation.java.computerdb.validator.Date;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Data Transfer Object of the model Computer.
  * 
  * @author Cédric Cousseran
  *
  */
+//@ModelAttribute("ComputerDto")
 public class ComputerDto {
   private long id;
+  @Size(min = 2, max = 50) @NotNull
   private String name;
+  @Size(min = 2, max = 50)
   private String companyName;
   private long companyId;
+  @Date
   private String introduced;
+  @Date
   private String discontinued;
 
   private ComputerDto(ComputerDtoBuilder builder) {
@@ -23,6 +33,7 @@ public class ComputerDto {
     this.discontinued = builder.discontinued;
   }
 
+  public ComputerDto() {}
 
   public String getCompanyName() {
     return companyName;

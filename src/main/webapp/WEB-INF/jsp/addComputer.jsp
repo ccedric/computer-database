@@ -12,7 +12,6 @@
 </head>
 <body>
 	<%@include file="header.html"%>
-
 	<section id="main">
 		<div class="container">
 			<div class="row">
@@ -29,9 +28,9 @@
 					<form action="<t:TagLink url="add-computer"/>" method="POST" id="formAdd">
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
-									placeholder="Computer name" name="computerName">
+								<label for="name">Computer name</label> <input
+									type="text" class="form-control" id="name"
+									placeholder="Computer name" name="name">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input

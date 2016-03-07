@@ -25,6 +25,9 @@ public class Page {
     this.pageSize = pageSize;
     this.search = search;
   }
+  
+  public Page() {
+  }
 
   public int getPage() {
     return page;

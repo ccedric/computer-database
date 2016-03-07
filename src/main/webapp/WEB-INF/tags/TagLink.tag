@@ -13,9 +13,12 @@
 
 
 <c:choose>
+	<c:when test="${url.equals('dashboard') && (page == null)}">
+			<c:url value="${url}" />
+	</c:when>
 	<c:when test="${url.equals('dashboard') }">
 		<c:url
-			value="${url}?page=${page}&number-results=${numberResults}&search=${search}&order-column=${orderColumn}&order-order=${orderOrder}" />
+			value="${url}?page=${page}&pageSize=${numberResults}&search=${search}&column=${orderColumn}&order=${orderOrder}" />
 	</c:when>
 	<c:otherwise>
 		<c:url value="${url}" />

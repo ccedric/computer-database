@@ -11,10 +11,11 @@
 </head>
 <body>
 	<%@include file="header.html"%>
-	
+
 	<!-- Alert if the user just created a new computer -->
 	<c:if test="${null!=newComputer}">
-		<div class="alert alert-success alert-dismissable" id="computerCreated">
+		<div class="alert alert-success alert-dismissable"
+			id="computerCreated">
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">&times;</button>
 			A new computer has been created. Name of the computer:
@@ -23,10 +24,11 @@
 			${newComputer.getDiscontinued() }
 		</div>
 	</c:if>
-	
+
 	<!-- Alert if the user just updated a new computer -->
 	<c:if test="${null!=updateComputer}">
-		<div class="alert alert-success alert-dismissable" id="computerUpdated">
+		<div class="alert alert-success alert-dismissable"
+			id="computerUpdated">
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">&times;</button>
 			A computer has been updated. Name of the computer:
@@ -35,7 +37,7 @@
 			${updateComputer.getDiscontinued() }
 		</div>
 	</c:if>
-	
+
 	<!-- Alert if the user just deleted some computers -->
 	<c:if test="${null!=computerDelete}">
 		<div class="alert alert-success alert-dismissable">
@@ -44,12 +46,12 @@
 			${computerDelete } Computer(s) have been deleted successfully
 		</div>
 	</c:if>
-		
+
 	<section id="main">
-	
+
 		<!-- Search bar and buttons of the webapp -->
 		<div class="container">
-			<h1 id="homeTitle">${nbResults} Computer(s) found</h1>
+			<h1 id="homeTitle">${nbResults}Computer(s) found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" method="GET" class="form-inline"
@@ -90,24 +92,23 @@
 								onclick="$.fn.deleteSelected();"> <i
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
-						</span></th>
-						
+						</span></th> 
+
 						<!-- Header of the column Computer name -->
 						<c:if
 							test="${orderColumn.equals('computerName') && orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="computerName" orderOrder="DESC"/>">Computer
-									name 
-							</a><span class="glyphicon glyphicon-triangle-top"></span></th>
+								href="<t:TagLink url="dashboard" orderColumn="computerName" orderOrder="DESC"/>"> Computer
+									name </a><span class="glyphicon glyphicon-triangle-top"></span></th>
 						</c:if>
 						<c:if
 							test="${!orderColumn.equals('computerName') ||  !orderOrder.equals('ASC') }">
 							<th><a
 								href="<t:TagLink url="dashboard" orderColumn="computerName" orderOrder="ASC"/>">Computer
-									name 
-							</a><c:if test="${orderColumn.equals('computerName')}">
-										<span class="glyphicon glyphicon-triangle-bottom"></span>
-									</c:if></th>
+									name </a>
+							<c:if test="${orderColumn.equals('computerName')}">
+									<span class="glyphicon glyphicon-triangle-bottom"></span>
+								</c:if></th>
 						</c:if>
 
 						<!-- Header of the column Introduced date -->
@@ -115,43 +116,45 @@
 							test="${orderColumn.equals('introduced') && orderOrder.equals('ASC') }">
 							<th><a
 								href="<t:TagLink url="dashboard" orderColumn="introduced" orderOrder="DESC"/>">Introduced
-									date  </a> <span class="glyphicon glyphicon-triangle-top"></span> </th>
+									date </a> <span class="glyphicon glyphicon-triangle-top"></span></th>
 						</c:if>
 						<c:if
 							test="${!orderColumn.equals('introduced') ||  !orderOrder.equals('ASC') }">
 							<th><a
 								href="<t:TagLink url="dashboard" orderColumn="introduced" orderOrder="ASC"/>">Introduced
-									date  </a> <c:if test="${orderColumn.equals('introduced')}">
-										<span class="glyphicon glyphicon-triangle-bottom"></span>
-									</c:if> </th>
+									date </a> <c:if test="${orderColumn.equals('introduced')}">
+									<span class="glyphicon glyphicon-triangle-bottom"></span>
+								</c:if></th>
 						</c:if>
 
 						<c:if
 							test="${orderColumn.equals('discontinued') && orderOrder.equals('ASC') }">
 							<th><a
 								href="<t:TagLink url="dashboard" orderColumn="discontinued" orderOrder="DESC"/>">Discontinued
-									date  </a> <span class="glyphicon glyphicon-triangle-top"></span> </th>
+									date </a> <span class="glyphicon glyphicon-triangle-top"></span></th>
 						</c:if>
 						<c:if
 							test="${!orderColumn.equals('discontinued') ||  !orderOrder.equals('ASC') }">
 							<th><a
 								href="<t:TagLink url="dashboard" orderColumn="discontinued" orderOrder="ASC"/>">Discontinued
 									date</a> <c:if test="${orderColumn.equals('discontinued')}">
-										<span class="glyphicon glyphicon-triangle-bottom"></span>
-									</c:if> </th>
+									<span class="glyphicon glyphicon-triangle-bottom"></span>
+								</c:if></th>
 						</c:if>
 
 						<c:if
 							test="${orderColumn.equals('companyName') && orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="companyName" orderOrder="DESC"/>">Company </a> <span class="glyphicon glyphicon-triangle-top"></span> </th>
+								href="<t:TagLink url="dashboard" orderColumn="companyName" orderOrder="DESC"/>">Company
+							</a> <span class="glyphicon glyphicon-triangle-top"></span></th>
 						</c:if>
 						<c:if
 							test="${!orderColumn.equals('companyName') ||  !orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="companyName" orderOrder="ASC"/>">Company</a> <c:if test="${orderColumn.equals('companyName')}">
-										<span class="glyphicon glyphicon-triangle-bottom"></span>
-									</c:if> </th>
+								href="<t:TagLink url="dashboard" orderColumn="companyName" orderOrder="ASC"/>">Company</a>
+								<c:if test="${orderColumn.equals('companyName')}">
+									<span class="glyphicon glyphicon-triangle-bottom"></span>
+								</c:if></th>
 						</c:if>
 					</tr>
 				</thead>

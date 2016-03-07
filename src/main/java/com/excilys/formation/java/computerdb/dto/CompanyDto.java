@@ -1,5 +1,8 @@
 package com.excilys.formation.java.computerdb.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Data Transfer Object for the model Company.
  * 
@@ -8,6 +11,7 @@ package com.excilys.formation.java.computerdb.dto;
  */
 public class CompanyDto {
   private long id;
+  @Size(min = 2, max = 50) @NotNull
   private String name;
 
   public CompanyDto() {

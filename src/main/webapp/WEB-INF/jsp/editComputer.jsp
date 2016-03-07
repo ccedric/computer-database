@@ -30,9 +30,9 @@
 						<input type="hidden" name="id" value="${computer.getId()}" />
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
-									name="computerName" value="${computer.getName()}">
+								<label for="name">Computer name</label> <input
+									type="text" class="form-control" id="name"
+									name="name" value="${computer.getName()}">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input

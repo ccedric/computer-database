@@ -10,7 +10,7 @@
 
 <div class="container text-center">
 	<form id="numberPage" method="GET" class="col-xs-8" action="<t:TagLink url="dashboard"/>">
-		<ul class="pagination">
+		<ul class=" pagination">
 			<c:if test="${page != 1}">
 				<li><a
 					href="<t:TagLink url="dashboard" page="${page-1}" numberResults="${numberResults}" search="${search}"/>"
@@ -45,17 +45,17 @@
 
 
 	<div class="btn-group btn-group-sm pull-right col-xs-3" role="group">
-		<form id="numberResultsPage" method="GET" action="<t:TagLink url="dashboard"/>">
-			<input type="hidden" name="order-column" value="${orderColumn}"/>
+		<form id="pageSize" method="GET" action="<t:TagLink url="dashboard"/>">
+ 			<input type="hidden" name="order-column" value="${orderColumn}"/>
 			<input type="hidden" name="order-order" value="${orderOrder}"/>
 			
-			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==10 }">active</c:if> " name="number-results"
-				value="10">10</button>
-			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==50 }">active</c:if>" name="number-results"
-				value="50">50</button>
-			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==100 }">active</c:if>" name="number-results"
-				value="100">100</button>
-			<input type="hidden" name="search" value="${search}"/>
+  			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==10 }">active</c:if> " name="pageSize"
+				value=10>10</button>
+			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==50 }">active</c:if>" name="pageSize"
+				value=50>50</button>
+			<button type="submit" class="btn btn-default <c:if test="${Integer.parseInt(numberResults)==100 }">active</c:if>" name="pageSize"
+				value=100>100</button>
+ 			<input type="hidden" name="search" value="${search}"/>
 		</form>
 	</div>
 </div>
