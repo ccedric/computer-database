@@ -18,7 +18,7 @@ public class DateValidator implements ConstraintValidator<Date, String> {
 
   @Override
   public boolean isValid(String date, ConstraintValidatorContext ctx) {
-    if (date == null) {
+    if ((date == null) || (date.equals("")) ) {
       return true;
     }
     if (date.matches("^[1-2][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9]$")) {

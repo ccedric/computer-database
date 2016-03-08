@@ -2,6 +2,10 @@ package com.excilys.formation.java.computerdb.dto;
 
 import com.excilys.formation.java.computerdb.validator.Date;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -11,18 +15,38 @@ import javax.validation.constraints.Size;
  * @author Cédric Cousseran
  *
  */
-//@ModelAttribute("ComputerDto")
 public class ComputerDto {
   private long id;
-  @Size(min = 2, max = 50) @NotNull
-  private String name;
   @Size(min = 2, max = 50)
+  @NotNull
+  private String name;
   private String companyName;
   private long companyId;
   @Date
   private String introduced;
   @Date
   private String discontinued;
+
+  /**
+   * Verify that the discontinued date is after the introduced date.
+   */
+  @AssertTrue
+  public boolean isDiscontinuedAfterIntroduced() {
+    if (introduced.equals("") && !discontinued.equals("")) {
+      return false;
+    }
+
+    if (!introduced.equals("") && !discontinued.equals("")) {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+      LocalDate introducedDate = LocalDate.parse(introduced, formatter);
+      LocalDate discontinuedDate = LocalDate.parse(discontinued, formatter);
+      if (introducedDate.isAfter(discontinuedDate)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   private ComputerDto(ComputerDtoBuilder builder) {
     this.id = builder.id;
@@ -33,22 +57,20 @@ public class ComputerDto {
     this.discontinued = builder.discontinued;
   }
 
-  public ComputerDto() {}
+  public ComputerDto() {
+  }
 
   public String getCompanyName() {
     return companyName;
   }
 
-
   public void setCompanyName(String companyName) {
     this.companyName = companyName;
   }
 
-
   public long getCompanyId() {
     return companyId;
   }
-
 
   public void setCompanyId(long companyId) {
     this.companyId = companyId;
@@ -138,10 +160,10 @@ public class ComputerDto {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int)companyId;
+    result = prime * result + (int) companyId;
     result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
     result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
-    result = prime * result + (int)id;
+    result = prime * result + (int) id;
     result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
@@ -201,11 +223,6 @@ public class ComputerDto {
     return true;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     return "ComputerDTO [id=" + id + ", name=" + name + ", companyName=" + companyName

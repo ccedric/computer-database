@@ -27,6 +27,7 @@
   <jcl.slf4j.version>1.7.16</jcl.slf4j.version>
   <commons-logging-version>1.2</commons-logging-version>
   <javax-validation-version>1.1.0.Final</javax-validation-version>
+  <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
  </properties>
 
  <dependencies>
@@ -84,6 +85,13 @@
    <groupId>org.springframework</groupId>
    <artifactId>spring-webmvc</artifactId>
    <version>${spring-version}</version>
+  </dependency>
+
+  <!-- Validation -->
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-validator</artifactId>
+   <version>${hibernate-validator-version}</version>
   </dependency>
 
   <!--Logging for spring -->

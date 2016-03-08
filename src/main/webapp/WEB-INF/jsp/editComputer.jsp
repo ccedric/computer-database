@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="th"%>
 
 <!DOCTYPE html>
 <html>
@@ -18,32 +19,38 @@
 					<div class="label label-default pull-right">id:
 						${computer.getId()}</div>
 					<h1>Edit Computer</h1>
-					<c:if test="${null!=errors}">
-						<div class="alert alert-danger alert-dismissable">
-							<button type="button" class="close" data-dismiss="alert"
-								aria-hidden="true">&times;</button>
-							${errors}
-						</div>
-					</c:if>
+					<th:errors path="discontinuedAfterIntroduced"
+						cssClass="alert alert-danger alert-dismissable" element="div" value="Discontinued must be after Introduced."/>
 
-					<form action="<t:TagLink url="edit-computer"/>" method="POST" id="formEdit">
+					<th:form modelAttribute="computerDto" action="editComputer"
+						method="POST" id="formEdit">
 						<input type="hidden" name="id" value="${computer.getId()}" />
 						<fieldset>
 							<div class="form-group">
-								<label for="name">Computer name</label> <input
-									type="text" class="form-control" id="name"
-									name="name" value="${computer.getName()}">
+								<label for="name">Computer name</label> <input type="text"
+									class="form-control" id="name" name="name"
+									value="${computer.getName()}">
 							</div>
+							<th:errors path="name"
+								cssClass="alert alert-danger alert-dismissable" element="div" />
+
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									type="date" class="form-control" id="introduced"
 									value="${computer.getIntroduced()}" name="introduced">
 							</div>
+							<th:errors path="introduced"
+								cssClass="alert alert-danger alert-dismissable" element="div" />
+
+
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									type="date" class="form-control" id="discontinued"
 									value="${computer.getDiscontinued()}" name="discontinued">
 							</div>
+							<th:errors path="discontinued"
+								cssClass="alert alert-danger alert-dismissable" element="div" />
+
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
 									class="form-control" id="companyId" name="companyId">
@@ -57,10 +64,11 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="Edit" class="btn btn-primary" id="submit">
-							or <a href="<t:TagLink url="dashboard"/>" class="btn btn-default">Cancel</a>
+							<input type="submit" value="Edit" class="btn btn-primary"
+								id="submit"> or <a href="<t:TagLink url="dashboard"/>"
+								class="btn btn-default">Cancel</a>
 						</div>
-					</form>
+					</th:form>
 				</div>
 			</div>
 		</div>

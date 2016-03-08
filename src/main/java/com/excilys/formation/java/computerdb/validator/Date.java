@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
 /**
  * Annotation for describing a date.
@@ -24,5 +25,15 @@ public @interface Date {
   /**
    * Default message.
    */
-  String message() default "{Date invalid}";
+  String message() default "Date invalid, date format: yyyy-mm-dd";
+
+  /**
+   * Default groups.
+   */
+  Class<?>[] groups() default {};
+
+  /**
+   * Default payload.
+   */
+  Class<? extends Payload>[] payload() default {};
 }

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +32,7 @@ import javax.validation.Valid;
  * @author Cédric Cousseran
  */
 @Controller
-@RequestMapping({ "/edit-computer" })
+@RequestMapping({ "/edit-computer" ,"/editComputer"})
 public class EditComputerServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
@@ -69,15 +70,22 @@ public class EditComputerServlet {
    * Confirm the edit of a computer, then redirect to the dashboard.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String doPost(@Valid @ModelAttribute("ComputerDto") ComputerDto computerDto,
-      ModelMap modelMap) throws ServletException, IOException {
-    // Validation of the ComputerDTO
-    ComputerDtoValidator.validate(computerDto);
+  public String doPost(@Valid @ModelAttribute ComputerDto computerDto,
+      BindingResult result, ModelMap modelMap) throws ServletException, IOException {
+    if (result.hasErrors()) {
+      List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
+      modelMap.addAttribute("companies", companies);
+      modelMap.addAttribute("computer", computerDto);
+      return "editComputer";
+    } else {
+      // Validation of the ComputerDTO
+      ComputerDtoValidator.validate(computerDto);
 
-    // Creation of a Computer from a ComputerDTO
-    Computer computer = computerDtoMapper.toComputer(computerDto);
-    computerService.update(computer);
-    LOGGER.info("update of a new computer : {}", computerDto);
-    return "redirect:/dashboard";
+      // Creation of a Computer from a ComputerDTO
+      Computer computer = computerDtoMapper.toComputer(computerDto);
+      computerService.update(computer);
+      LOGGER.info("update of a new computer : {}", computerDto);
+      return "redirect:/dashboard";
+    }
   }
 }

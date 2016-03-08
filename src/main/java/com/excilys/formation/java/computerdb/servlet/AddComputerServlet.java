@@ -2,11 +2,7 @@ package com.excilys.formation.java.computerdb.servlet;
 
 import com.excilys.formation.java.computerdb.dto.CompanyDto;
 import com.excilys.formation.java.computerdb.dto.ComputerDto;
-import com.excilys.formation.java.computerdb.dto.exception.DateTimeInvalidException;
-import com.excilys.formation.java.computerdb.dto.exception.DiscontinuedBeforeIntroducedException;
-import com.excilys.formation.java.computerdb.dto.exception.NameRequiredException;
 import com.excilys.formation.java.computerdb.dto.mapper.ComputerDtoMapper;
-import com.excilys.formation.java.computerdb.dto.validation.ComputerDtoValidator;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
 import com.excilys.formation.java.computerdb.service.CompanyService;
@@ -17,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,18 +59,20 @@ public class AddComputerServlet {
    * Add a computer and redirect to the dashboard.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String doPost(@Valid @ModelAttribute("ComputerDto") ComputerDto computerDto,
+  public String doPost(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result, 
       ModelMap modelMap) throws ServletException, IOException {
-    try {
-      ComputerDtoValidator.validate(computerDto);
+    if (result.hasErrors()) {
+      List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
+      modelMap.addAttribute("companies", companies);
+      modelMap.addAttribute("computer", computerDto);
+      return "addComputer";
+    } else {
       Computer computer = computerDtoMapper.toComputer(computerDto);
       computerService.create(computer);
       LOGGER.info("creation of a new computer : {}", computerDto);
-    } catch (DiscontinuedBeforeIntroducedException | NameRequiredException
-        | DateTimeInvalidException e) {
-      return "addComputer";
+      return "redirect:/dashboard";
     }
-    return "redirect:/dashboard";
+    
   }
 
 }
