@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="th"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<spring:message code="edit.edit" var="messageEdit"/>
+<spring:message code="edit.edit" var="messageEdit" />
 
 <!DOCTYPE html>
 <html>
@@ -43,7 +43,7 @@
 
 							<div class="form-group">
 								<label for="introduced"><spring:message
-										code="computer.introduced" /></label> <input type="date"
+										code="computer.introduced" /></label> <input type="text"
 									class="form-control" id="introduced"
 									value="${computer.getIntroduced()}" name="introduced">
 							</div>
@@ -53,7 +53,7 @@
 
 							<div class="form-group">
 								<label for="discontinued"><spring:message
-										code="computer.discontinued" /></label> <input type="date"
+										code="computer.discontinued" /></label> <input type="text"
 									class="form-control" id="discontinued"
 									value="${computer.getDiscontinued()}" name="discontinued">
 							</div>
@@ -61,8 +61,9 @@
 								cssClass="alert alert-danger alert-dismissable" element="div" />
 
 							<div class="form-group">
-								<label for="companyId"><spring:message code="computer.company" /></label> <select
-									class="form-control" id="companyId" name="companyId">
+								<label for="companyId"><spring:message
+										code="computer.company" /></label> <select class="form-control"
+									id="companyId" name="companyId">
 									<option value="0">--</option>
 									<c:forEach items="${companies}" var="company">
 										<option value="${company.id}"
@@ -73,9 +74,11 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="${messageEdit }" class="btn btn-primary"
-								id="submit"> <spring:message code="edit.or" /> <a href="<t:TagLink url="dashboard"/>"
-								class="btn btn-default"><spring:message code="edit.cancel" /></a>
+							<input type="submit" value="${messageEdit }"
+								class="btn btn-primary" id="submit">
+							<spring:message code="edit.or" />
+							<a href="<t:TagLink url="dashboard"/>" class="btn btn-default"><spring:message
+									code="edit.cancel" /></a>
 						</div>
 					</th:form>
 				</div>
@@ -83,6 +86,11 @@
 		</div>
 	</section>
 	<footer>
+		<script type="text/javascript">
+			var messageDate = "<spring:message code='error.errorDate'/>";
+			var messageDiscontinuedBeforeIntroduced = "<spring:message code='error.discontinuedBeforeIntroduced'/>";
+		</script>
+
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.validate.min.js"></script>

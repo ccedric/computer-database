@@ -10,7 +10,7 @@ $(document).ready(function() {
 			return false;
 		}
 	},
-	"Please enter a date in the format yyyy-mm-dd hh:mm.");
+	messageDate);
 
 	$.validator.addMethod("datesGreater",
 			function(value, element) {
@@ -23,7 +23,7 @@ $(document).ready(function() {
 		}
 		return ($("#discontinued").val()>$("#introduced").val());
 	},
-	"Discontinued date must be greater than introduced.");
+	messageDiscontinuedBeforeIntroduced);
 	
 	$.validator.setDefaults({
 		highlight: function(element) {

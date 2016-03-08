@@ -3,7 +3,6 @@ package com.excilys.formation.java.computerdb.servlet;
 import com.excilys.formation.java.computerdb.dto.CompanyDto;
 import com.excilys.formation.java.computerdb.dto.ComputerDto;
 import com.excilys.formation.java.computerdb.dto.mapper.ComputerDtoMapper;
-import com.excilys.formation.java.computerdb.dto.validation.ComputerDtoValidator;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.model.mapper.CompanyMapper;
 import com.excilys.formation.java.computerdb.model.mapper.ComputerMapper;
@@ -78,9 +77,6 @@ public class EditComputerServlet {
       modelMap.addAttribute("computer", computerDto);
       return "editComputer";
     } else {
-      // Validation of the ComputerDTO
-      ComputerDtoValidator.validate(computerDto);
-
       // Creation of a Computer from a ComputerDTO
       Computer computer = computerDtoMapper.toComputer(computerDto);
       computerService.update(computer);

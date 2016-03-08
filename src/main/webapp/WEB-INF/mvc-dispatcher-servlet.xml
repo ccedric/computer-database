@@ -18,10 +18,12 @@
   <property name="defaultLocale" value="en" />
  </bean>
 
- <bean id="localeChangeInterceptor"
-  class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-  <property name="paramName" value="language" />
- </bean>
+ <mvc:interceptors>
+  <bean id="localeChangeInterceptor"
+   class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+   <property name="paramName" value="language" />
+  </bean>
+ </mvc:interceptors>
 
  <!-- Register the i18n cdb.properties -->
  <bean id="messageSource"

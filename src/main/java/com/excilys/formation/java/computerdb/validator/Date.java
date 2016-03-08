@@ -21,7 +21,6 @@ import javax.validation.Payload;
 @Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Date {
-
   /**
    * Default message.
    */

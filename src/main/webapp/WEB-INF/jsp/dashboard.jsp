@@ -170,6 +170,7 @@
 	<script type="text/javascript">
 		var messageView = "<spring:message code='dashboard.view'/>";
 		var messageEdit = "<spring:message code='dashboard.edit'/>";
+		var messageDelete = "<spring:message code='dashboard.delete'/>";
 	</script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
