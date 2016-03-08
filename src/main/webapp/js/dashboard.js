@@ -47,11 +47,11 @@ $(function() {
     $.fn.toggleEditMode = function() {
         if($(".editMode").is(":visible")) {
             $(".editMode").hide();
-            $("#editComputer").text("Edit");
+            $("#editComputer").text(messageEdit);
         }
         else {
             $(".editMode").show();
-            $("#editComputer").text("View");
+            $("#editComputer").text(messageView);
         }
         return this;
     };

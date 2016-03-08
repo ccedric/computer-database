@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,13 +10,12 @@
 <%@include file="head.html"%>
 </head>
 <body>
-	<%@include file="header.html"%>
+	<%@include file="header.jsp"%>
 
 	<section id="main">
 		<div class="container">	
 			<div class="alert alert-danger">
-				Error 500: An error has occured!
-				<br/>
+				 <spring:message code="500.message"/><br />
 				<!-- stacktrace -->
 			</div>
 		</div>
