@@ -3,10 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <spring:message code="dashboard.computerOrCompany"
 	var="messageComputerCompany" />
 <spring:message code="dashboard.filter" var="messageFilter" />
+<spring:message code="app.formatDate" var="messageFormat" />
 
 <html>
 
@@ -142,17 +144,28 @@
 						</c:if>
 					</tr>
 				</thead>
+				
 				<!-- Browse attribute computers -->
 				<tbody id="results">
 					<c:forEach items="${computers}" var="computer">
+						<fmt:parseDate value="${computer.introduced}"
+							pattern="${messageFormat}" var="parsedDateIntroduced" type="date" />
+						<fmt:parseDate value="${computer.discontinued}"
+							pattern="${messageFormat}" var="parsedDateDiscontinued"
+							type="date" />
+
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
 							<td class="col-xs-3"><a
 								href="<t:TagLink url="edit-computer?id=${computer.getId()}"/>"
 								onclick="">${computer.name}</a></td>
-							<td class="col-xs-3">${computer.introduced}</td>
-							<td class="col-xs-3">${computer.discontinued}</td>
+							<td class="col-xs-3"><fmt:formatDate
+									value="${parsedDateIntroduced}" type="date"
+									pattern="${messageFormat}" /></td>
+							<td class="col-xs-3"><fmt:formatDate
+									value="${parsedDateDiscontinued}" type="date"
+									pattern="${messageFormat}" /></td>
 							<td class="col-xs-3">${computer.companyName}</td>
 
 						</tr>

@@ -4,10 +4,17 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="th"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <spring:message code="edit.edit" var="messageEdit" />
+<spring:message code="app.formatDate" var="messageFormat" />
 
-<!DOCTYPE html>
+
+<fmt:parseDate value="${computer.introduced}" pattern="yyyy-MM-dd"
+	var="parsedDateIntroduced" type="date" />
+<fmt:parseDate value="${computer.discontinued}" pattern="yyyy-MM-dd"
+	var="parsedDateDiscontinued" type="date" />
+
 <html>
 <head>
 <title><spring:message code="app.title" /></title>
@@ -45,7 +52,10 @@
 								<label for="introduced"><spring:message
 										code="computer.introduced" /></label> <input type="text"
 									class="form-control" id="introduced"
-									value="${computer.getIntroduced()}" name="introduced">
+									value='<fmt:formatDate
+									value="${parsedDateIntroduced}" type="date"
+									pattern="${messageFormat}" />'
+									name="introduced">
 							</div>
 							<th:errors path="introduced"
 								cssClass="alert alert-danger alert-dismissable" element="div" />
@@ -55,7 +65,10 @@
 								<label for="discontinued"><spring:message
 										code="computer.discontinued" /></label> <input type="text"
 									class="form-control" id="discontinued"
-									value="${computer.getDiscontinued()}" name="discontinued">
+									value='<fmt:formatDate
+									value="${parsedDateIntroduced}" type="date"
+									pattern="${messageFormat}" />'
+									name="discontinued">
 							</div>
 							<th:errors path="discontinued"
 								cssClass="alert alert-danger alert-dismissable" element="div" />
@@ -89,9 +102,10 @@
 		<script type="text/javascript">
 			var messageDate = "<spring:message code='error.errorDate'/>";
 			var messageDiscontinuedBeforeIntroduced = "<spring:message code='error.discontinuedBeforeIntroduced'/>";
-			var messageFormatDate = new RegExp("<spring:message code='app.regexDate'/>","g");
+			var messageFormatDate = new RegExp(
+					"<spring:message code='app.regexDate'/>", "g");
 		</script>
-		
+
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.validate.min.js"></script>

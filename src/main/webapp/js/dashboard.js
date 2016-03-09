@@ -27,9 +27,7 @@ $(function() {
 
 // Function setCheckboxValues
 (function ( $ ) {
-
     $.fn.setCheckboxValues = function(formFieldName, checkboxFieldName) {
-
         var str = $('.' + checkboxFieldName + ':checked').map(function() {
             return this.value;
         }).get().join();
