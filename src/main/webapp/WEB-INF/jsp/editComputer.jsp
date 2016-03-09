@@ -89,8 +89,9 @@
 		<script type="text/javascript">
 			var messageDate = "<spring:message code='error.errorDate'/>";
 			var messageDiscontinuedBeforeIntroduced = "<spring:message code='error.discontinuedBeforeIntroduced'/>";
+			var messageFormatDate = new RegExp("<spring:message code='app.regexDate'/>","g");
 		</script>
-
+		
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.validate.min.js"></script>

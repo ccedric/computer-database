@@ -2,7 +2,7 @@
 
 <header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand col-xs-5" href="dashboard"> <spring:message
+		<a class="navbar-brand col-xs-7" href="dashboard"> <spring:message
 				code="app.titleBanner" />
 		</a>
 		<span class="col-xs-5"> 

@@ -4,6 +4,9 @@ import com.excilys.formation.java.computerdb.dto.ComputerDto;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
@@ -20,13 +23,17 @@ import java.util.List;
  */
 @Component
 public class ComputerMapper {
+  @Autowired
+  private MessageSource messageSource;
+
   /**
    * Map a computer with his company from a resultset.
    * 
    * @param result
    *          resultSet of the query, containing the computer
    * @return Object Computer
-   * @throws SQLException Thrown if there is an sql error
+   * @throws SQLException
+   *           Thrown if there is an sql error
    */
   public Computer fromResultSet(ResultSet result) throws SQLException {
     LocalDate introduced = null;
@@ -50,7 +57,8 @@ public class ComputerMapper {
   /**
    * map a computer to a ComputerDTO.
    * 
-   * @param computer the computer to map
+   * @param computer
+   *          the computer to map
    * @return the computer as a dto
    */
   public ComputerDto toDto(Computer computer) {
@@ -79,11 +87,13 @@ public class ComputerMapper {
   /**
    * Map a list of Computer to a list of ComputerDTO.
    * 
-   * @param computers the computers to map
+   * @param computers
+   *          the computers to map
    * @return the computers as dto
    */
   public List<ComputerDto> listToDto(List<Computer> computers) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+        messageSource.getMessage("app.formatDate", null, LocaleContextHolder.getLocale()));
     List<ComputerDto> computersDto = new ArrayList<ComputerDto>();
 
     for (Computer computer : computers) {

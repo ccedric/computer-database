@@ -2,9 +2,6 @@ package com.excilys.formation.java.computerdb.dto;
 
 import com.excilys.formation.java.computerdb.validator.Date;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,16 +33,7 @@ public class ComputerDto {
       return false;
     }
 
-    if (!introduced.equals("") && !discontinued.equals("")) {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-      LocalDate introducedDate = LocalDate.parse(introduced, formatter);
-      LocalDate discontinuedDate = LocalDate.parse(discontinued, formatter);
-      if (introducedDate.isAfter(discontinuedDate)) {
-        return false;
-      }
-    }
-    return true;
+    return (discontinued.compareTo(introduced) > 0);
   }
 
   private ComputerDto(ComputerDtoBuilder builder) {
