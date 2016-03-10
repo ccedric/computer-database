@@ -61,7 +61,6 @@ public class AddComputerServlet {
   @RequestMapping(method = RequestMethod.POST)
   public String doPost(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result, 
       ModelMap modelMap) throws ServletException, IOException {
-    System.out.println(result);
     if (result.hasErrors()) {
       List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
       modelMap.addAttribute("companies", companies);

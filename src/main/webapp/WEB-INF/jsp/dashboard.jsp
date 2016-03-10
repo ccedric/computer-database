@@ -158,7 +158,7 @@
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
 							<td class="col-xs-3"><a
-								href="<t:TagLink url="edit-computer?id=${computer.getId()}"/>"
+								href="<t:TagLink url="edit-computer/${computer.getId()}"/>"
 								onclick="">${computer.name}</a></td>
 							<td class="col-xs-3"><fmt:formatDate
 									value="${parsedDateIntroduced}" type="date"

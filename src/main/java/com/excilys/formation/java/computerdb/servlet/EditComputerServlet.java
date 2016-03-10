@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,7 +32,7 @@ import javax.validation.Valid;
  * @author Cédric Cousseran
  */
 @Controller
-@RequestMapping({ "/edit-computer" ,"/editComputer"})
+@RequestMapping({ "/edit-computer", "/editComputer" })
 public class EditComputerServlet {
   private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
@@ -49,8 +50,10 @@ public class EditComputerServlet {
   /**
    * Show the view editComputer, get request.
    */
-  @RequestMapping(method = RequestMethod.GET)
-  public String doGet(int id, ModelMap modelMap) throws ServletException, IOException {
+  @RequestMapping(path = { "/{id}",
+      "/{id}" }, method = RequestMethod.GET)
+  public String doGet(@PathVariable(value = "id") int id, ModelMap modelMap)
+      throws ServletException, IOException {
     List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
 
     try {
@@ -69,8 +72,8 @@ public class EditComputerServlet {
    * Confirm the edit of a computer, then redirect to the dashboard.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String doPost(@Valid @ModelAttribute ComputerDto computerDto,
-      BindingResult result, ModelMap modelMap) throws ServletException, IOException {
+  public String doPost(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result,
+      ModelMap modelMap) throws ServletException, IOException {
     if (result.hasErrors()) {
       List<CompanyDto> companies = companyMapper.listToDto(companyService.list());
       modelMap.addAttribute("companies", companies);

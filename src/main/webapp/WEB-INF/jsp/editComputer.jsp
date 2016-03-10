@@ -26,6 +26,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
+
 					<div class="label label-default pull-right">id:
 						${computer.getId()}</div>
 					<h1>
@@ -34,9 +35,9 @@
 					<th:errors path="discontinuedAfterIntroduced"
 						cssClass="alert alert-danger alert-dismissable" element="div"
 						value="Discontinued must be after Introduced." />
-
 					<th:form modelAttribute="computerDto" action="editComputer"
 						method="POST" id="formEdit">
+
 						<input type="hidden" name="id" value="${computer.getId()}" />
 						<fieldset>
 							<div class="form-group">
@@ -103,13 +104,13 @@
 			var messageDate = "<spring:message code='error.errorDate'/>";
 			var messageDiscontinuedBeforeIntroduced = "<spring:message code='error.discontinuedBeforeIntroduced'/>";
 			var messageFormatDate = new RegExp(
-					"<spring:message code='app.regexDate'/>", "g");
+					"<spring:message code='app.regexDate'/>", "");
 		</script>
 
-		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/jquery.validate.min.js"></script>
-		<script src="js/editComputer.js"></script>
+		<script src="/computerDB/js/jquery.min.js"></script>
+		<script src="/computerDB/js/bootstrap.min.js"></script>
+		<script src="/computerDB/js/jquery.validate.min.js"></script>
+		<script src="/computerDB/js/editComputer.js"></script>
 	</footer>
 
 </body>

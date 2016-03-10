@@ -14,14 +14,16 @@ $(document).ready(function() {
 
 	$.validator.addMethod("datesGreater",
 			function(value, element) {
-		if ($("#discontinued").val()==""){
+		if ($("#discontinued").val() == ""){
 			return true;
 		} else{
-			if ($("#discontinued").val()==""){
+			if ($("#discontinued").val() == ""){
 				return false;
 			}
 		}
-		return ($("#discontinued").val()>$("#introduced").val());
+		var d1 = new Date($("#discontinued").val());
+		var d2 = new Date($("#introduced").val());
+		return d1 > d2;
 	},
 	messageDiscontinuedBeforeIntroduced);
 	
@@ -45,7 +47,6 @@ $(document).ready(function() {
 			},
 			discontinued : {
 				dateFormat: true,
-				datesGreater : true
 			}
 		}
 	});

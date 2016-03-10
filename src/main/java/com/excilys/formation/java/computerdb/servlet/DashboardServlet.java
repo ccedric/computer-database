@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,11 +43,9 @@ public class DashboardServlet {
    * List of computers with no specific search.
    */
   @RequestMapping(method = RequestMethod.GET)
-  public String doGet(Page pageComputer, ModelMap modelMap,
-      @RequestParam(value = "column", required = false) Column column,
-      @RequestParam(value = "order", required = false) Order order)
-          throws ServletException, IOException {
-    
+  public String doGet(Page pageComputer, ModelMap modelMap, Column column, Order order)
+      throws ServletException, IOException {
+
     if (null == pageComputer.getSearch()) {
       pageComputer.setSearch("");
     }
@@ -76,7 +73,7 @@ public class DashboardServlet {
 
     List<ComputerDto> computers = computerMapper
         .listToDto(computerService.listPageByName(pageComputer));
-    
+
     int maxPage = (computerService.selectCount(searchByName) + numberResultsPage - 1)
         / numberResultsPage;
     int numberResults = computerService.selectCount(searchByName);
@@ -92,7 +89,7 @@ public class DashboardServlet {
     modelMap.addAttribute("page", page);
     modelMap.addAttribute("orderColumn", orderColumn.toString());
     modelMap.addAttribute("orderOrder", orderOrder.toString());
-    
+
     return "dashboard";
   }
 
