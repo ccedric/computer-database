@@ -11,7 +11,7 @@
  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
  <context:component-scan
-  base-package="com.excilys.formation.java.computerdb.validation,com.excilys.formation.java.computerdb.dto,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.dto.validation,com.excilys.formation.java.computerdb.dto.mapper,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.mapper,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.dao.implementation,com.excilys.formation.java.computerdb.service.implementation,com.excilys.formation.java.computerdb.servlet,com.excilys.formation.java.computerdb.ui" />
+  base-package="com.excilys.formation.java.computerdb.dto,com.excilys.formation.java.computerdb.validator,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.dto.validation,com.excilys.formation.java.computerdb.dto.mapper,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.mapper,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.dao.implementation,com.excilys.formation.java.computerdb.service.implementation,com.excilys.formation.java.computerdb.servlet,com.excilys.formation.java.computerdb.ui" />
 
  <bean id="txManager"
   class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -33,6 +33,22 @@
  <bean id="localeResolver"
   class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
   <property name="defaultLocale" value="en" />
+ </bean>
+
+ <bean id="sessionFactory"
+  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+  <property name="dataSource" ref="mainDataSource" />
+  <property name="annotatedClasses">
+   <list>
+    <value>com.excilys.formation.java.computerdb.model.Computer</value>
+    <value>com.excilys.formation.java.computerdb.model.Company</value>
+   </list>
+  </property>
+  <property name="hibernateProperties">
+   <props>
+    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+   </props>
+  </property>
  </bean>
 
  <!-- Register the i18n cdb.properties -->

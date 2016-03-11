@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class ComputerServiceImpl implements ComputerService {
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerServiceImpl.class);
   
   @Override
+  @Transactional
   public long create(Computer obj) {
     try {
       ComputerValidator.validate(obj);
@@ -42,6 +44,7 @@ public class ComputerServiceImpl implements ComputerService {
   }
 
   @Override
+  @Transactional
   public void delete(Computer obj) {
     try {
       ComputerValidator.validate(obj);
@@ -54,6 +57,7 @@ public class ComputerServiceImpl implements ComputerService {
   }
 
   @Override
+  @Transactional
   public void update(Computer obj) {
     try {
       ComputerValidator.validate(obj);
@@ -71,27 +75,26 @@ public class ComputerServiceImpl implements ComputerService {
   }
 
   @Override
+  @Transactional
   public Computer find(long id) {
     return computerDao.find(id);
   }
 
   @Override
+  @Transactional
   public List<Computer> list() {
     return computerDao.list();
   }
 
   @Override
-  public List<Computer> findByName(String name) {
-    return computerDao.findByName(name);
-  }
-
-  @Override
+  @Transactional
   public List<Computer> listPageByName(Page page) {
     return computerDao.listPageByName(page.getStartingIndex(), page.getPageSize(), page.getSearch(),
         page.getOrderSearch());
   }
 
   @Override
+  @Transactional
   public int selectCount(String name) {
     return computerDao.selectCount(name);
   }

@@ -1,6 +1,14 @@
 package com.excilys.formation.java.computerdb.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * A computer is represented by an id, a name, a company (manufacturer), an introduced date and
@@ -9,23 +17,35 @@ import java.time.LocalDate;
  * @author Cédric Cousseran
  *
  */
-public class Computer {
+@Entity
+@Table(name = "computer")
+public class Computer implements Serializable {
+
+  private static final long serialVersionUID = -3393416871015905274L;
+
   /**
    * id of the computer.
    */
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
+
   /**
    * name of the computer.
    */
   private String name;
+
   /**
    * manufacturer of the computer.
    */
+  @ManyToOne(fetch = FetchType.LAZY)
   private Company company;
+
   /**
    * date when the computer was introduced.
    */
   private LocalDate introduced;
+
   /**
    * date when the computer was discontinued.
    */
@@ -38,6 +58,9 @@ public class Computer {
     this.company = builder.company;
     this.introduced = builder.introduced;
     this.discontinued = builder.discontinued;
+  }
+
+  public Computer() {
   }
 
   public long getId() {
@@ -137,7 +160,7 @@ public class Computer {
     int result = 1;
     result = prime * result + ((company == null) ? 0 : company.hashCode());
     result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
-    result = prime * result + (int)id;
+    result = prime * result + (int) id;
     result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;

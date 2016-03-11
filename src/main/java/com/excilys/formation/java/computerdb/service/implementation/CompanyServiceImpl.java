@@ -19,6 +19,7 @@ import java.util.List;
  * @author Cédric Cousseran
  */
 @Service
+@Transactional
 public class CompanyServiceImpl implements CompanyService {
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
 

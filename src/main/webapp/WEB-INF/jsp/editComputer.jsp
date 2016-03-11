@@ -35,7 +35,7 @@
 					<th:errors path="discontinuedAfterIntroduced"
 						cssClass="alert alert-danger alert-dismissable" element="div"
 						value="Discontinued must be after Introduced." />
-					<th:form modelAttribute="computerDto" action="editComputer"
+					<th:form modelAttribute="computerDto" action="/computerDB/editComputer"
 						method="POST" id="formEdit">
 
 						<input type="hidden" name="id" value="${computer.getId()}" />

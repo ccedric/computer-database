@@ -35,6 +35,23 @@
   <property name="defaultLocale" value="en" />
  </bean>
 
+ <bean id="sessionFactory"
+  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+  <property name="dataSource" ref="mainDataSource" />
+  <property name="annotatedClasses">
+   <list>
+    <value>com.excilys.formation.java.computerdb.model.Computer</value>
+    <value>com.excilys.formation.java.computerdb.model.Company</value>
+   </list>
+  </property>
+  <property name="hibernateProperties">
+   <props>
+    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+    <prop key="hibernate.id.new_generator_mappings">false</prop>
+   </props>
+  </property>
+ </bean>
+
  <!-- Register the i18n cdb.properties -->
  <bean id="messageSource"
   class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

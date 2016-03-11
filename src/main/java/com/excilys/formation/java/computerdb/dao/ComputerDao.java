@@ -15,15 +15,6 @@ import java.util.List;
 public interface ComputerDao extends Dao<Computer> {
 
   /**
-   * Return a list of objects who have a corresponding name.
-   * 
-   * @param name
-   *          search criteria
-   * @return list of objects
-   */
-  List<Computer> findByName(String name);
-
-  /**
    * Get the number of results of the search query on the name attribute Return the number of
    * elements in the table.
    * 

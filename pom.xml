@@ -28,9 +28,24 @@
   <commons-logging-version>1.2</commons-logging-version>
   <javax-validation-version>1.1.0.Final</javax-validation-version>
   <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
+  <hibernate-version>5.1.0.Final</hibernate-version>
  </properties>
 
  <dependencies>
+
+  <!-- Validation -->
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-validator</artifactId>
+   <version>${hibernate-validator-version}</version>
+  </dependency>
+
+  <dependency>
+   <groupId>javax.validation</groupId>
+   <artifactId>validation-api</artifactId>
+   <version>${javax-validation-version}</version>
+  </dependency>
+
 
   <!-- Spring -->
   <dependency>
@@ -74,7 +89,6 @@
    <artifactId>spring-test</artifactId>
    <version>${spring-version}</version>
    <scope>test</scope>
-
   </dependency>
 
   <dependency>
@@ -84,19 +98,12 @@
    <scope>runtime</scope>
   </dependency>
 
-  <!-- Validation -->
   <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-validator</artifactId>
-   <version>${hibernate-validator-version}</version>
-   <scope>runtime</scope>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-orm</artifactId>
+   <version>${spring-version}</version>
   </dependency>
 
-  <dependency>
-   <groupId>javax.validation</groupId>
-   <artifactId>validation-api</artifactId>
-   <version>${javax-validation-version}</version>
-  </dependency>
 
 
   <!--Logging for spring -->
@@ -106,7 +113,7 @@
    <version>${jcl.slf4j.version}</version>
    <scope>runtime</scope>
   </dependency>
-  
+
   <dependency>
    <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
    <artifactId>commons-logging</artifactId>
@@ -121,14 +128,14 @@
    <version>${java-servlet-jsp-version}</version>
    <scope>provided</scope>
   </dependency>
-  
+
   <dependency>
    <groupId>javax.servlet</groupId>
    <artifactId>jstl</artifactId>
    <version>${javax-servlet-jstl-version}</version>
    <scope>runtime</scope>
   </dependency>
-  
+
   <dependency>
    <groupId>javax.servlet</groupId>
    <artifactId>javax.servlet-api</artifactId>
@@ -144,7 +151,7 @@
    <version>${selenium-version}</version>
    <scope>test</scope>
   </dependency>
-  
+
   <dependency>
    <groupId>junit</groupId>
    <artifactId>junit</artifactId>
@@ -160,14 +167,14 @@
    <version>${mysql-version}</version>
    <scope>compile</scope>
   </dependency>
-  
+
   <dependency>
    <groupId>com.jolbox</groupId>
    <artifactId>bonecp</artifactId>
    <version>${bonecp-version}</version>
    <scope>compile</scope>
   </dependency>
-  
+
   <dependency>
    <groupId>com.google.guava</groupId>
    <artifactId>guava</artifactId>
@@ -183,22 +190,46 @@
    <version>${logback-classic-version}</version>
    <scope>runtime</scope>
   </dependency>
-  
+
   <dependency>
    <groupId>org.slf4j</groupId>
    <artifactId>slf4j-api</artifactId>
    <version>${slf4j-version}</version>
    <scope>compile</scope>
   </dependency>
-  
+
   <dependency>
    <groupId>ch.qos.logback</groupId>
    <artifactId>logback-core</artifactId>
    <version>${logback-core-version}</version>
    <scope>runtime</scope>
   </dependency>
- </dependencies>
 
+
+  <!-- Hibernate -->
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-core</artifactId>
+   <version>${hibernate-version}</version>
+   <exclusions>
+    <exclusion>
+     <groupId>xml-apis</groupId>
+     <artifactId>xml-apis</artifactId>
+    </exclusion>
+   </exclusions>
+  </dependency>
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-entitymanager</artifactId>
+   <version>${hibernate-version}</version>
+  </dependency>
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-java8</artifactId>
+   <version>${hibernate-version}</version>
+  </dependency>
+
+ </dependencies>
 
  <build>
   <finalName>computerDB</finalName>

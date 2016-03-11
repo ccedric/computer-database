@@ -12,14 +12,6 @@ import java.util.List;
 public interface ComputerService extends Service<Computer> {
 
   /**
-   * Return a list of objects who have a corresponding name, empty list if not found.
-   * 
-   * @param name the search
-   * @return the list of results
-   */
-  List<Computer> findByName(String name);
-
-  /**
    * Return a list of objects who have a corresponding name, empty lsit if not found. The list has a
    * limited size by pagSize
    * 
