@@ -18,7 +18,7 @@
 <html>
 <head>
 <title><spring:message code="app.title" /></title>
-<%@include file="head.html"%>
+<%@include file="head.jsp"%>
 </head>
 <body>
 	<%@include file="header.jsp"%>
@@ -35,7 +35,7 @@
 					<th:errors path="discontinuedAfterIntroduced"
 						cssClass="alert alert-danger alert-dismissable" element="div"
 						value="Discontinued must be after Introduced." />
-					<th:form modelAttribute="computerDto" action="/computerDB/editComputer"
+					<th:form modelAttribute="computerDto" action="editComputer"
 						method="POST" id="formEdit">
 
 						<input type="hidden" name="id" value="${computer.getId()}" />
@@ -107,10 +107,10 @@
 					"<spring:message code='app.regexDate'/>", "");
 		</script>
 
-		<script src="/computerDB/js/jquery.min.js"></script>
-		<script src="/computerDB/js/bootstrap.min.js"></script>
-		<script src="/computerDB/js/jquery.validate.min.js"></script>
-		<script src="/computerDB/js/editComputer.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/editComputer.js"></script>
 	</footer>
 
 </body>

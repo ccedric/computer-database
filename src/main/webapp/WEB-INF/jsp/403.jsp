@@ -7,7 +7,7 @@
 	<title>Computer Database</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Bootstrap -->
-<%@include file="head.html"%>
+<%@include file="head.jsp"%>
 </head>
 <body>
 	<%@include file="header.jsp"%>
@@ -22,9 +22,9 @@
 		</div>
 	</section>
 
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/dashboard.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
 
 </body>
 </html>

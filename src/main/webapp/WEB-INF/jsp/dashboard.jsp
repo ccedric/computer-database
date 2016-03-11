@@ -14,7 +14,7 @@
 
 <head>
 <title><spring:message code="app.title" /></title>
-<%@include file="head.html"%>
+<%@include file="head.jsp"%>
 </head>
 <body>
 	<%@include file="header.jsp"%>
@@ -22,8 +22,8 @@
 
 		<!-- Search bar and buttons of the webapp -->
 		<div class="container">
-			<h1 id="homeTitle">${nbResults}<spring:message
-					code="dashboard.found" />
+			<h1 id="homeTitle">${nbResults}
+				<spring:message code="dashboard.found" />
 			</h1>
 
 			<div id="actions" class="form-horizontal">
@@ -52,7 +52,8 @@
 			</div>
 		</div>
 
-		<form id="deleteForm" action="<t:TagLink url="dashboard"/>"
+		<form id="deleteForm"
+			action="<t:TagLink url="${pageContext.request.contextPath}/dashboard"/>"
 			method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
@@ -144,7 +145,7 @@
 						</c:if>
 					</tr>
 				</thead>
-				
+
 				<!-- Browse attribute computers -->
 				<tbody id="results">
 					<c:forEach items="${computers}" var="computer">
@@ -185,9 +186,9 @@
 		var messageEdit = "<spring:message code='dashboard.edit'/>";
 		var messageDelete = "<spring:message code='dashboard.delete'/>";
 	</script>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/dashboard.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
 
 
 </body>

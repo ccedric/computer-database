@@ -14,7 +14,7 @@
 <html>
 <head>
 <title><spring:message code="app.title" /></title>
-<%@include file="head.html"%>
+<%@include file="head.jsp"%>
 </head>
 <body>
 	<%@include file="header.jsp"%>
@@ -97,10 +97,10 @@
 			var messageDiscontinuedBeforeIntroduced = "<spring:message code='error.discontinuedBeforeIntroduced'/>";
 		</script>
 
-		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/jquery.validate.min.js"></script>
- 		<script src="js/addComputer.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script>
+ 		<script src="${pageContext.request.contextPath}/js/addComputer.js"></script>
 	</footer>
 
 </body>

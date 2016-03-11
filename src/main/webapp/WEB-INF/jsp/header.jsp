@@ -7,10 +7,10 @@
 		</a>
 		<span class="col-xs-5"> 
 		<a href="?language=en" class="col-xs-2"><img
-				src="/computerDB/fonts/uk.png" alt="uk flag" style="width: 25px; height: 20px"
+				src="${pageContext.request.contextPath}/fonts/uk.png" alt="uk flag" style="width: 25px; height: 20px"
 				> English</a> 
 				<a href="?language=fr" class="col-xs-2"><img
-				src="/computerDB/fonts/fr.png" alt="fr flag" style="width: 25px; height: 20px">
+				src="${pageContext.request.contextPath}/fonts/fr.png" alt="fr flag" style="width: 25px; height: 20px">
 				Français</a>
 		</span>
 		
