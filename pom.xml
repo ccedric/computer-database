@@ -3,10 +3,20 @@
  <modelVersion>4.0.0</modelVersion>
  <groupId>com.excilys.formation.java.computerdb</groupId>
  <artifactId>computerDB</artifactId>
- <packaging>war</packaging>
+ <packaging>pom</packaging> 
  <version>0.6.0-SNAPSHOT</version>
 
- <properties>
+ <modules>
+  <module>core</module>
+  <module>persistence</module>
+  <module>service</module>
+  <module>binding</module>
+  <module>console</module>
+  <module>webapp</module>
+</modules>
+
+<properties>
+  <computerdb-version>0.6.0-SNAPSHOT</computerdb-version>
   <java-source-version>1.8</java-source-version>
   <java-target-version>1.8</java-target-version>
   <java-servlet-jsp-version>2.0</java-servlet-jsp-version>
@@ -29,228 +39,234 @@
   <javax-validation-version>1.1.0.Final</javax-validation-version>
   <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
   <hibernate-version>5.1.0.Final</hibernate-version>
- </properties>
+</properties>
 
- <dependencies>
+<dependencyManagement>
+  <dependencies>
+    <!-- computerDB -->
+    <dependency>
+      <groupId>com.excilys.formation.java.computerdb</groupId>
+      <artifactId>computerDB-core</artifactId>
+      <version>${computerdb-version}</version>
+    </dependency>
 
-  <!-- Validation -->
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-validator</artifactId>
-   <version>${hibernate-validator-version}</version>
-  </dependency>
+    <dependency>
+      <groupId>com.excilys.formation.java.computerdb</groupId>
+      <artifactId>computerDB-persistence</artifactId>
+      <version>${computerdb-version}</version>
+    </dependency>
 
-  <dependency>
-   <groupId>javax.validation</groupId>
-   <artifactId>validation-api</artifactId>
-   <version>${javax-validation-version}</version>
-  </dependency>
+    <dependency>
+      <groupId>com.excilys.formation.java.computerdb</groupId>
+      <artifactId>computerDB-service</artifactId>
+      <version>${computerdb-version}</version>
+    </dependency>
 
+    <dependency>
+      <groupId>com.excilys.formation.java.computerdb</groupId>
+      <artifactId>computerDB-binding</artifactId>
+      <version>${computerdb-version}</version>
+    </dependency>
 
-  <!-- Spring -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-core</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
+    <!-- Validation -->
+    <dependency>
+     <groupId>org.hibernate</groupId>
+     <artifactId>hibernate-validator</artifactId>
+     <version>${hibernate-validator-version}</version>
+   </dependency>
 
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-web</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-tx</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-beans</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-context</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-jdbc</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-test</artifactId>
-   <version>${spring-version}</version>
-   <scope>test</scope>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-webmvc</artifactId>
-   <version>${spring-version}</version>
-   <scope>runtime</scope>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-orm</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
+   <dependency>
+     <groupId>javax.validation</groupId>
+     <artifactId>validation-api</artifactId>
+     <version>${javax-validation-version}</version>
+   </dependency>
 
 
+   <!-- Spring -->
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-core</artifactId>
+     <version>${spring-version}</version>
+   </dependency>
 
-  <!--Logging for spring -->
-  <dependency>
-   <groupId>org.slf4j</groupId>
-   <artifactId>jcl-over-slf4j</artifactId>
-   <version>${jcl.slf4j.version}</version>
-   <scope>runtime</scope>
-  </dependency>
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-web</artifactId>
+     <version>${spring-version}</version>
+   </dependency>
 
-  <dependency>
-   <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
-   <artifactId>commons-logging</artifactId>
-   <version>${commons-logging-version}</version>
-   <scope>runtime</scope>
-  </dependency>
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-tx</artifactId>
+     <version>${spring-version}</version>
+   </dependency>
 
-  <!-- Servlet -->
-  <dependency>
-   <groupId>javax.servlet.jsp</groupId>
-   <artifactId>jsp-api</artifactId>
-   <version>${java-servlet-jsp-version}</version>
-   <scope>provided</scope>
-  </dependency>
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-beans</artifactId>
+     <version>${spring-version}</version>
+   </dependency>
 
-  <dependency>
-   <groupId>javax.servlet</groupId>
-   <artifactId>jstl</artifactId>
-   <version>${javax-servlet-jstl-version}</version>
-   <scope>runtime</scope>
-  </dependency>
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-context</artifactId>
+     <version>${spring-version}</version>
+   </dependency>
 
-  <dependency>
-   <groupId>javax.servlet</groupId>
-   <artifactId>javax.servlet-api</artifactId>
-   <version>${javax-servlet-api}</version>
-   <scope>provided</scope>
-  </dependency>
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-jdbc</artifactId>
+     <version>${spring-version}</version>
+   </dependency>
 
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-test</artifactId>
+     <version>${spring-version}</version>
+     <scope>test</scope>
+   </dependency>
 
-  <!-- Tests -->
-  <dependency>
-   <groupId>org.seleniumhq.selenium</groupId>
-   <artifactId>selenium-java</artifactId>
-   <version>${selenium-version}</version>
-   <scope>test</scope>
-  </dependency>
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-webmvc</artifactId>
+     <version>${spring-version}</version>
+     <scope>runtime</scope>
+   </dependency>
 
-  <dependency>
-   <groupId>junit</groupId>
-   <artifactId>junit</artifactId>
-   <version>${junit-version}</version>
-   <scope>test</scope>
-  </dependency>
-
-
-  <!-- DataBase -->
-  <dependency>
-   <groupId>mysql</groupId>
-   <artifactId>mysql-connector-java</artifactId>
-   <version>${mysql-version}</version>
-   <scope>compile</scope>
-  </dependency>
-
-  <dependency>
-   <groupId>com.jolbox</groupId>
-   <artifactId>bonecp</artifactId>
-   <version>${bonecp-version}</version>
-   <scope>compile</scope>
-  </dependency>
-
-  <dependency>
-   <groupId>com.google.guava</groupId>
-   <artifactId>guava</artifactId>
-   <version>${guava-version}</version>
-   <scope>compile</scope>
-  </dependency>
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-orm</artifactId>
+     <version>${spring-version}</version>
+   </dependency>
 
 
-  <!-- Log -->
-  <dependency>
-   <groupId>ch.qos.logback</groupId>
-   <artifactId>logback-classic</artifactId>
-   <version>${logback-classic-version}</version>
-   <scope>runtime</scope>
-  </dependency>
 
-  <dependency>
-   <groupId>org.slf4j</groupId>
-   <artifactId>slf4j-api</artifactId>
-   <version>${slf4j-version}</version>
-   <scope>compile</scope>
-  </dependency>
+   <!--Logging for spring -->
+   <dependency>
+     <groupId>org.slf4j</groupId>
+     <artifactId>jcl-over-slf4j</artifactId>
+     <version>${jcl.slf4j.version}</version>
+     <scope>runtime</scope>
+   </dependency>
 
-  <dependency>
-   <groupId>ch.qos.logback</groupId>
-   <artifactId>logback-core</artifactId>
-   <version>${logback-core-version}</version>
-   <scope>runtime</scope>
-  </dependency>
+   <dependency>
+     <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
+     <artifactId>commons-logging</artifactId>
+     <version>${commons-logging-version}</version>
+     <scope>runtime</scope>
+   </dependency>
+
+   <!-- Servlet -->
+   <dependency>
+     <groupId>javax.servlet.jsp</groupId>
+     <artifactId>jsp-api</artifactId>
+     <version>${java-servlet-jsp-version}</version>
+     <scope>provided</scope>
+   </dependency>
+
+   <dependency>
+     <groupId>javax.servlet</groupId>
+     <artifactId>jstl</artifactId>
+     <version>${javax-servlet-jstl-version}</version>
+     <scope>runtime</scope>
+   </dependency>
+
+   <dependency>
+     <groupId>javax.servlet</groupId>
+     <artifactId>javax.servlet-api</artifactId>
+     <version>${javax-servlet-api}</version>
+     <scope>provided</scope>
+   </dependency>
 
 
-  <!-- Hibernate -->
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-core</artifactId>
-   <version>${hibernate-version}</version>
-   <exclusions>
-    <exclusion>
-     <groupId>xml-apis</groupId>
-     <artifactId>xml-apis</artifactId>
-    </exclusion>
+   <!-- Tests -->
+   <dependency>
+     <groupId>org.seleniumhq.selenium</groupId>
+     <artifactId>selenium-java</artifactId>
+     <version>${selenium-version}</version>
+     <scope>test</scope>
+   </dependency>
+
+   <dependency>
+     <groupId>junit</groupId>
+     <artifactId>junit</artifactId>
+     <version>${junit-version}</version>
+     <scope>test</scope>
+   </dependency>
+
+
+   <!-- DataBase -->
+   <dependency>
+     <groupId>mysql</groupId>
+     <artifactId>mysql-connector-java</artifactId>
+     <version>${mysql-version}</version>
+     <scope>compile</scope>
+   </dependency>
+
+   <dependency>
+     <groupId>com.jolbox</groupId>
+     <artifactId>bonecp</artifactId>
+     <version>${bonecp-version}</version>
+     <scope>compile</scope>
+   </dependency>
+
+   <dependency>
+     <groupId>com.google.guava</groupId>
+     <artifactId>guava</artifactId>
+     <version>${guava-version}</version>
+     <scope>compile</scope>
+   </dependency>
+
+
+   <!-- Log -->
+   <dependency>
+     <groupId>ch.qos.logback</groupId>
+     <artifactId>logback-classic</artifactId>
+     <version>${logback-classic-version}</version>
+     <scope>runtime</scope>
+   </dependency>
+
+   <dependency>
+     <groupId>org.slf4j</groupId>
+     <artifactId>slf4j-api</artifactId>
+     <version>${slf4j-version}</version>
+     <scope>compile</scope>
+   </dependency>
+
+   <dependency>
+     <groupId>ch.qos.logback</groupId>
+     <artifactId>logback-core</artifactId>
+     <version>${logback-core-version}</version>
+     <scope>runtime</scope>
+   </dependency>
+
+
+   <!-- Hibernate -->
+   <dependency>
+     <groupId>org.hibernate</groupId>
+     <artifactId>hibernate-core</artifactId>
+     <version>${hibernate-version}</version>
+     <exclusions>
+      <exclusion>
+       <groupId>xml-apis</groupId>
+       <artifactId>xml-apis</artifactId>
+     </exclusion>
    </exclusions>
-  </dependency>
-  <dependency>
+ </dependency>
+ <dependency>
    <groupId>org.hibernate</groupId>
    <artifactId>hibernate-entitymanager</artifactId>
    <version>${hibernate-version}</version>
-  </dependency>
-  <dependency>
+ </dependency>
+ <dependency>
    <groupId>org.hibernate</groupId>
    <artifactId>hibernate-java8</artifactId>
    <version>${hibernate-version}</version>
-  </dependency>
+ </dependency>
 
- </dependencies>
-
- <build>
-  <finalName>computerDB</finalName>
-  <sourceDirectory>src/main/java</sourceDirectory>
-
-  <resources>
-   <resource>
-    <directory>src/main/resources</directory>
-    <excludes>
-     <exclude>**/*.java</exclude>
-    </excludes>
-   </resource>
-  </resources>
-  <!-- To specify the test resources -->
-  <testResources>
-   <testResource>
-    <directory>src/test/resources</directory>
-    <filtering>true</filtering>
-   </testResource>
-  </testResources>
-
+</dependencies>
+</dependencyManagement>
+<build>
   <plugins>
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -259,60 +275,9 @@
     <configuration>
      <source>${java-source-version}</source>
      <target>${java-target-version}</target>
-    </configuration>
-   </plugin>
-   <plugin>
-    <artifactId>maven-checkstyle-plugin</artifactId>
-    <configuration>
-     <propertiesLocation>/checkstyle.properties</propertiesLocation>
-     <propertyExpansion>basedir=${project.basedir}</propertyExpansion>
-    </configuration>
-   </plugin>
-
-   <!-- Specify Junit usage -->
-   <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>2.19.1</version>
-    <configuration>
-     <excludes>
-      <exclude>**/*It.java</exclude>
-     </excludes>
-    </configuration>
-    <dependencies>
-     <dependency>
-      <groupId>org.apache.maven.surefire</groupId>
-      <artifactId>surefire-junit47</artifactId>
-      <version>2.19.1</version>
-     </dependency>
-    </dependencies>
-   </plugin>
-
-   <!-- Failsafe plugin for integration tests -->
-   <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-failsafe-plugin</artifactId>
-    <version>2.13</version>
-    <configuration>
-     <includes>
-      <include>**/*It.java</include>
-     </includes>
-     <excludes>
-      <exclude>**/*Test.java</exclude>
-     </excludes>
-    </configuration>
-    <executions>
-     <execution>
-      <id>failsafe-integration-tests</id>
-      <phase>integration-test</phase>
-      <goals>
-       <goal>integration-test</goal>
-       <goal>verify</goal>
-      </goals>
-     </execution>
-    </executions>
-   </plugin>
-  </plugins>
- </build>
+   </configuration>
+ </plugin>
+</plugins>
+</build>
 
 </project>

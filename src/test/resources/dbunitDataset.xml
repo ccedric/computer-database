@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
-<dataset>
-    <computer id="1" name="Apple 1" company_id="1" />
-    <computer id="2" name="Apple 2" company_id="1" />
-    <computer id="3" name="Asus" />
-    
-    <company id="1" name="Asus" />
-</dataset>
