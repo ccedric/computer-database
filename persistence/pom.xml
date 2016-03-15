@@ -6,123 +6,108 @@
   <groupId>com.excilys.formation.java.computerdb</groupId>
   <artifactId>computerDB</artifactId>
   <version>0.6.0-SNAPSHOT</version>
-</parent>
+ </parent>
 
-<artifactId>computerDB-persistence</artifactId>
-<packaging>jar</packaging>
-<name>computerDB-persistence</name>
+ <artifactId>computerDB-persistence</artifactId>
+ <packaging>jar</packaging>
+ <name>computerDB-persistence</name>
 
-<dependencies>
+ <dependencies>
 
   <!-- ComputerDB -->
   <dependency>
-    <groupId>com.excilys.formation.java.computerdb</groupId>
-    <artifactId>computerDB-core</artifactId>
+   <groupId>com.excilys.formation.java.computerdb</groupId>
+   <artifactId>computerDB-core</artifactId>
   </dependency>
 
   <!-- Spring -->
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-core</artifactId>
- </dependency>
+  </dependency>
 
- <dependency>
+  <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-context</artifactId>
- </dependency>
+  </dependency>
 
- <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-jdbc</artifactId>
- </dependency>
-
- <dependency>
+  <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-test</artifactId>
- </dependency>
+  </dependency>
 
- <dependency>
+  <dependency>
    <groupId>org.springframework</groupId>
-   <artifactId>spring-orm</artifactId>
- </dependency>
-
-   <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-web</artifactId>
-   </dependency>
+   <artifactId>spring-web</artifactId>
+  </dependency>
 
 
- <!--Logging for spring -->
- <dependency>
+  <!--Logging for spring -->
+  <dependency>
    <groupId>org.slf4j</groupId>
    <artifactId>jcl-over-slf4j</artifactId>
- </dependency>
+  </dependency>
 
- <dependency>
+  <dependency>
    <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
    <artifactId>commons-logging</artifactId>
- </dependency>
+  </dependency>
 
- <!-- Tests -->
- <dependency>
+  <!-- Tests -->
+  <dependency>
    <groupId>junit</groupId>
    <artifactId>junit</artifactId>
- </dependency>
+  </dependency>
 
 
- <!-- DataBase -->
- <dependency>
+  <!-- DataBase -->
+  <dependency>
    <groupId>mysql</groupId>
    <artifactId>mysql-connector-java</artifactId>
- </dependency>
+  </dependency>
 
- <dependency>
-   <groupId>com.google.guava</groupId>
-   <artifactId>guava</artifactId>
- </dependency>
-
- <!-- Log -->
- <dependency>
+  <!-- Log -->
+  <dependency>
    <groupId>ch.qos.logback</groupId>
    <artifactId>logback-classic</artifactId>
- </dependency>
+  </dependency>
 
- <dependency>
+  <dependency>
    <groupId>org.slf4j</groupId>
    <artifactId>slf4j-api</artifactId>
- </dependency>
+  </dependency>
 
- <dependency>
+  <dependency>
    <groupId>ch.qos.logback</groupId>
    <artifactId>logback-core</artifactId>
- </dependency>
+  </dependency>
 
 
- <!-- Hibernate -->
- <dependency>
+  <!-- Hibernate -->
+  <dependency>
    <groupId>org.hibernate</groupId>
    <artifactId>hibernate-core</artifactId>
    <exclusions>
     <exclusion>
      <groupId>xml-apis</groupId>
      <artifactId>xml-apis</artifactId>
-   </exclusion>
- </exclusions>
-</dependency>
+    </exclusion>
+   </exclusions>
+  </dependency>
 
-<dependency>
- <groupId>org.hibernate</groupId>
- <artifactId>hibernate-entitymanager</artifactId>
-</dependency>
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-entitymanager</artifactId>
+  </dependency>
 
-<dependency>
- <groupId>org.hibernate</groupId>
- <artifactId>hibernate-java8</artifactId>
-</dependency>
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-java8</artifactId>
+  </dependency>
 
-</dependencies>
+ </dependencies>
 
-<build>
+ <build>
   <sourceDirectory>src/main/java</sourceDirectory>
 
   <resources>
@@ -130,21 +115,21 @@
     <directory>src/main/resources</directory>
     <excludes>
      <exclude>**/*.java</exclude>
-   </excludes>
- </resource>
-</resources>
-<!-- To specify the test resources -->
-<testResources>
- <testResource>
-  <directory>src/test/resources</directory>
-  <filtering>true</filtering>
-</testResource>
-</testResources>
+    </excludes>
+   </resource>
+  </resources>
+  <!-- To specify the test resources -->
+  <testResources>
+   <testResource>
+    <directory>src/test/resources</directory>
+    <filtering>true</filtering>
+   </testResource>
+  </testResources>
 
-<plugins>
+  <plugins>
 
-  <!-- Specify Junit usage -->
-  <plugin>
+   <!-- Specify Junit usage -->
+   <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-surefire-plugin</artifactId>
     <version>2.19.1</version>
@@ -152,19 +137,19 @@
 
      <includes>
       <include>**/*Test.java</include>
-    </includes>
+     </includes>
 
-  </configuration>
-  <dependencies>
-   <dependency>
-    <groupId>org.apache.maven.surefire</groupId>
-    <artifactId>surefire-junit47</artifactId>
-    <version>2.19.1</version>
-  </dependency>
-</dependencies>
-</plugin>
+    </configuration>
+    <dependencies>
+     <dependency>
+      <groupId>org.apache.maven.surefire</groupId>
+      <artifactId>surefire-junit47</artifactId>
+      <version>2.19.1</version>
+     </dependency>
+    </dependencies>
+   </plugin>
 
-</plugins>
-</build>
+  </plugins>
+ </build>
 
 </project>
