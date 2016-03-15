@@ -4,6 +4,7 @@ import com.excilys.formation.java.computerdb.dto.CompanyDto;
 import com.excilys.formation.java.computerdb.model.Company;
 
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 

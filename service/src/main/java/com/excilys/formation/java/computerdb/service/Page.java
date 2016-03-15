@@ -1,8 +1,9 @@
 package com.excilys.formation.java.computerdb.service;
 
-import com.excilys.formation.java.computerdb.order.OrderSearch;
 import com.excilys.formation.java.computerdb.order.Column;
 import com.excilys.formation.java.computerdb.order.Order;
+import com.excilys.formation.java.computerdb.order.OrderSearch;
+
 /**
  * This class represents a Page of computers.
  * 

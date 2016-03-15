@@ -3,7 +3,7 @@
  <modelVersion>4.0.0</modelVersion>
  <groupId>com.excilys.formation.java.computerdb</groupId>
  <artifactId>computerDB</artifactId>
- <packaging>pom</packaging> 
+ <packaging>pom</packaging>
  <version>0.6.0-SNAPSHOT</version>
 
  <modules>
@@ -13,260 +13,242 @@
   <module>binding</module>
   <module>console</module>
   <module>webapp</module>
-</modules>
+ </modules>
 
-<properties>
+ <properties>
   <computerdb-version>0.6.0-SNAPSHOT</computerdb-version>
+
+  <commons-logging-version>1.2</commons-logging-version>
+  <dbunit-version>2.5.1</dbunit-version>
+  <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
+  <hibernate-version>5.1.0.Final</hibernate-version>
   <java-source-version>1.8</java-source-version>
   <java-target-version>1.8</java-target-version>
   <java-servlet-jsp-version>2.0</java-servlet-jsp-version>
-  <javax-servlet-jstl-version>1.2</javax-servlet-jstl-version>
   <javax-servlet-api>3.1.0</javax-servlet-api>
-  <selenium-version>2.52.0</selenium-version>
+  <javax-servlet-jstl-version>1.2</javax-servlet-jstl-version>
+  <javax-validation-version>1.1.0.Final</javax-validation-version>
+  <jcl.slf4j.version>1.7.16</jcl.slf4j.version>
   <junit-version>4.12</junit-version>
+  <logback-classic-version>1.1.3</logback-classic-version>
+  <logback-core-version>1.1.3</logback-core-version>
+  <maven-compiler-version>3.5.1</maven-compiler-version>
   <mockito-version>1.10.19</mockito-version>
   <mysql-version>5.1.6</mysql-version>
-  <logback-classic-version>1.1.3</logback-classic-version>
+  <selenium-version>2.52.0</selenium-version>
   <slf4j-version>1.7.14</slf4j-version>
-  <logback-core-version>1.1.3</logback-core-version>
-  <dbunit-version>2.5.1</dbunit-version>
-  <maven-compiler-version>3.5.1</maven-compiler-version>
-  <bonecp-version>0.8.0.RELEASE</bonecp-version>
-  <guava-version>19.0</guava-version>
   <spring-version>4.2.4.RELEASE</spring-version>
-  <jcl.slf4j.version>1.7.16</jcl.slf4j.version>
-  <commons-logging-version>1.2</commons-logging-version>
-  <javax-validation-version>1.1.0.Final</javax-validation-version>
-  <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
-  <hibernate-version>5.1.0.Final</hibernate-version>
-</properties>
+ </properties>
 
-<dependencyManagement>
+ <dependencyManagement>
   <dependencies>
-    <!-- computerDB -->
-    <dependency>
-      <groupId>com.excilys.formation.java.computerdb</groupId>
-      <artifactId>computerDB-core</artifactId>
-      <version>${computerdb-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.excilys.formation.java.computerdb</groupId>
-      <artifactId>computerDB-persistence</artifactId>
-      <version>${computerdb-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.excilys.formation.java.computerdb</groupId>
-      <artifactId>computerDB-service</artifactId>
-      <version>${computerdb-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.excilys.formation.java.computerdb</groupId>
-      <artifactId>computerDB-binding</artifactId>
-      <version>${computerdb-version}</version>
-    </dependency>
-
-    <!-- Validation -->
-    <dependency>
-     <groupId>org.hibernate</groupId>
-     <artifactId>hibernate-validator</artifactId>
-     <version>${hibernate-validator-version}</version>
+   <!-- computerDB -->
+   <dependency>
+    <groupId>com.excilys.formation.java.computerdb</groupId>
+    <artifactId>computerDB-core</artifactId>
+    <version>${computerdb-version}</version>
    </dependency>
 
    <dependency>
-     <groupId>javax.validation</groupId>
-     <artifactId>validation-api</artifactId>
-     <version>${javax-validation-version}</version>
+    <groupId>com.excilys.formation.java.computerdb</groupId>
+    <artifactId>computerDB-persistence</artifactId>
+    <version>${computerdb-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>com.excilys.formation.java.computerdb</groupId>
+    <artifactId>computerDB-service</artifactId>
+    <version>${computerdb-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>com.excilys.formation.java.computerdb</groupId>
+    <artifactId>computerDB-binding</artifactId>
+    <version>${computerdb-version}</version>
+   </dependency>
+
+   <!-- Validation -->
+   <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>${hibernate-validator-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>javax.validation</groupId>
+    <artifactId>validation-api</artifactId>
+    <version>${javax-validation-version}</version>
    </dependency>
 
 
    <!-- Spring -->
    <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-core</artifactId>
-     <version>${spring-version}</version>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>${spring-version}</version>
    </dependency>
 
    <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-web</artifactId>
-     <version>${spring-version}</version>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>${spring-version}</version>
    </dependency>
 
    <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-tx</artifactId>
-     <version>${spring-version}</version>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-tx</artifactId>
+    <version>${spring-version}</version>
    </dependency>
 
    <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-beans</artifactId>
-     <version>${spring-version}</version>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-beans</artifactId>
+    <version>${spring-version}</version>
    </dependency>
 
    <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-context</artifactId>
-     <version>${spring-version}</version>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>${spring-version}</version>
    </dependency>
 
    <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-jdbc</artifactId>
-     <version>${spring-version}</version>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>${spring-version}</version>
+    <scope>test</scope>
    </dependency>
 
    <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-test</artifactId>
-     <version>${spring-version}</version>
-     <scope>test</scope>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>${spring-version}</version>
+    <scope>runtime</scope>
    </dependency>
 
    <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-webmvc</artifactId>
-     <version>${spring-version}</version>
-     <scope>runtime</scope>
-   </dependency>
-
-   <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-orm</artifactId>
-     <version>${spring-version}</version>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-orm</artifactId>
+    <version>${spring-version}</version>
    </dependency>
 
 
 
    <!--Logging for spring -->
    <dependency>
-     <groupId>org.slf4j</groupId>
-     <artifactId>jcl-over-slf4j</artifactId>
-     <version>${jcl.slf4j.version}</version>
-     <scope>runtime</scope>
+    <groupId>org.slf4j</groupId>
+    <artifactId>jcl-over-slf4j</artifactId>
+    <version>${jcl.slf4j.version}</version>
+    <scope>runtime</scope>
    </dependency>
 
    <dependency>
-     <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
-     <artifactId>commons-logging</artifactId>
-     <version>${commons-logging-version}</version>
-     <scope>runtime</scope>
+    <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
+    <artifactId>commons-logging</artifactId>
+    <version>${commons-logging-version}</version>
+    <scope>runtime</scope>
    </dependency>
 
    <!-- Servlet -->
    <dependency>
-     <groupId>javax.servlet.jsp</groupId>
-     <artifactId>jsp-api</artifactId>
-     <version>${java-servlet-jsp-version}</version>
-     <scope>provided</scope>
+    <groupId>javax.servlet.jsp</groupId>
+    <artifactId>jsp-api</artifactId>
+    <version>${java-servlet-jsp-version}</version>
+    <scope>provided</scope>
    </dependency>
 
    <dependency>
-     <groupId>javax.servlet</groupId>
-     <artifactId>jstl</artifactId>
-     <version>${javax-servlet-jstl-version}</version>
-     <scope>runtime</scope>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>${javax-servlet-jstl-version}</version>
+    <scope>runtime</scope>
    </dependency>
 
    <dependency>
-     <groupId>javax.servlet</groupId>
-     <artifactId>javax.servlet-api</artifactId>
-     <version>${javax-servlet-api}</version>
-     <scope>provided</scope>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>${javax-servlet-api}</version>
+    <scope>provided</scope>
    </dependency>
 
 
    <!-- Tests -->
    <dependency>
-     <groupId>org.seleniumhq.selenium</groupId>
-     <artifactId>selenium-java</artifactId>
-     <version>${selenium-version}</version>
-     <scope>test</scope>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>${selenium-version}</version>
+    <scope>test</scope>
    </dependency>
 
    <dependency>
-     <groupId>junit</groupId>
-     <artifactId>junit</artifactId>
-     <version>${junit-version}</version>
-     <scope>test</scope>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>${junit-version}</version>
+    <scope>test</scope>
    </dependency>
 
 
    <!-- DataBase -->
    <dependency>
-     <groupId>mysql</groupId>
-     <artifactId>mysql-connector-java</artifactId>
-     <version>${mysql-version}</version>
-     <scope>compile</scope>
-   </dependency>
-
-   <dependency>
-     <groupId>com.jolbox</groupId>
-     <artifactId>bonecp</artifactId>
-     <version>${bonecp-version}</version>
-     <scope>compile</scope>
-   </dependency>
-
-   <dependency>
-     <groupId>com.google.guava</groupId>
-     <artifactId>guava</artifactId>
-     <version>${guava-version}</version>
-     <scope>compile</scope>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>${mysql-version}</version>
+    <scope>compile</scope>
    </dependency>
 
 
    <!-- Log -->
    <dependency>
-     <groupId>ch.qos.logback</groupId>
-     <artifactId>logback-classic</artifactId>
-     <version>${logback-classic-version}</version>
-     <scope>runtime</scope>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+    <version>${logback-classic-version}</version>
+    <scope>runtime</scope>
    </dependency>
 
    <dependency>
-     <groupId>org.slf4j</groupId>
-     <artifactId>slf4j-api</artifactId>
-     <version>${slf4j-version}</version>
-     <scope>compile</scope>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>${slf4j-version}</version>
+    <scope>compile</scope>
    </dependency>
 
    <dependency>
-     <groupId>ch.qos.logback</groupId>
-     <artifactId>logback-core</artifactId>
-     <version>${logback-core-version}</version>
-     <scope>runtime</scope>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-core</artifactId>
+    <version>${logback-core-version}</version>
+    <scope>runtime</scope>
    </dependency>
 
 
    <!-- Hibernate -->
    <dependency>
-     <groupId>org.hibernate</groupId>
-     <artifactId>hibernate-core</artifactId>
-     <version>${hibernate-version}</version>
-     <exclusions>
-      <exclusion>
-       <groupId>xml-apis</groupId>
-       <artifactId>xml-apis</artifactId>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>${hibernate-version}</version>
+    <exclusions>
+     <exclusion>
+      <groupId>xml-apis</groupId>
+      <artifactId>xml-apis</artifactId>
      </exclusion>
-   </exclusions>
- </dependency>
- <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-entitymanager</artifactId>
-   <version>${hibernate-version}</version>
- </dependency>
- <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-java8</artifactId>
-   <version>${hibernate-version}</version>
- </dependency>
+    </exclusions>
+   </dependency>
+   
+   <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+    <version>${hibernate-version}</version>
+   </dependency>
+   
+   <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-java8</artifactId>
+    <version>${hibernate-version}</version>
+   </dependency>
 
-</dependencies>
-</dependencyManagement>
-<build>
+  </dependencies>
+ </dependencyManagement>
+ 
+ <build>
   <plugins>
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -275,9 +257,9 @@
     <configuration>
      <source>${java-source-version}</source>
      <target>${java-target-version}</target>
-   </configuration>
- </plugin>
-</plugins>
-</build>
+    </configuration>
+   </plugin>
+  </plugins>
+ </build>
 
 </project>

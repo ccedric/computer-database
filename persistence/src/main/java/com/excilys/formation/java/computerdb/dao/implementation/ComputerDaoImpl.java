@@ -75,9 +75,17 @@ public class ComputerDaoImpl implements ComputerDao {
 
   @Override
   public void delete(Computer obj) {
+    try {
+      ComputerValidator.validate(obj);
+    } catch (ComputerInvalidException e) {
+      LOGGER.error("Error while deleting the computer, computer invalid ");
+      throw new ComputerDaoInvalidException("Error while deleting the computer, computer invalid",
+          e);
+    }
     Session session = sessionFactory.getCurrentSession();
     session.delete(obj);
     LOGGER.info("Computer deleted, id {}, name {}", obj.getId(), obj.getName());
+
   }
 
   @Override
@@ -97,9 +105,9 @@ public class ComputerDaoImpl implements ComputerDao {
   public Computer find(long id) {
     Session session = sessionFactory.getCurrentSession();
     Computer computer = (Computer) session.get(Computer.class, id);
-    
-    if (computer == null ) {
-      LOGGER.warn("Computer not found with the id {}",id);
+
+    if (computer == null) {
+      LOGGER.warn("Computer not found with the id {}", id);
       throw new ComputerNotFoundException("Computer not found with the id ");
     } else {
       LOGGER.info(

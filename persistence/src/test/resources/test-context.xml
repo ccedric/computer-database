@@ -30,11 +30,6 @@
   <property name="password" value="qwerty1234" />
  </bean>
 
- <bean id="localeResolver"
-  class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-  <property name="defaultLocale" value="en" />
- </bean>
-
  <bean id="sessionFactory"
   class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
   <property name="dataSource" ref="mainDataSource" />
@@ -48,17 +43,6 @@
    <props>
     <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
    </props>
-  </property>
- </bean>
-
- <!-- Register the i18n cdb.properties -->
- <bean id="messageSource"
-  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-  <property name="defaultEncoding" value="UTF-8" />
-  <property name="basenames">
-   <list>
-    <value>classpath:/i18n/cdb</value>
-   </list>
   </property>
  </bean>
 
