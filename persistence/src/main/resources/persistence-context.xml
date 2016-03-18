@@ -11,7 +11,9 @@
  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
  <context:component-scan
-  base-package="com.excilys.formation.java.computerdb.dto,com.excilys.formation.java.computerdb.validator,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.dto.validation,com.excilys.formation.java.computerdb.dto.mapper,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.mapper,com.excilys.formation.java.computerdb.model.mapper,com.excilys.formation.java.computerdb.dao.implementation,com.excilys.formation.java.computerdb.service.implementation,com.excilys.formation.java.computerdb.servlet,com.excilys.formation.java.computerdb.ui" />
+  base-package="com.excilys.formation.java.computerdb.dao.implementation" />
+
+ <import resource="classpath:/core-context.xml" />
 
  <bean id="txManager"
   class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -30,11 +32,6 @@
   <property name="password" value="qwerty1234" />
  </bean>
 
- <bean id="localeResolver"
-  class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-  <property name="defaultLocale" value="en" />
- </bean>
-
  <bean id="sessionFactory"
   class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
   <property name="dataSource" ref="mainDataSource" />
@@ -51,17 +48,6 @@
     <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
     <prop key="hibernate.id.new_generator_mappings">false</prop>
    </props>
-  </property>
- </bean>
-
- <!-- Register the i18n cdb.properties -->
- <bean id="messageSource"
-  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-  <property name="defaultEncoding" value="UTF-8" />
-  <property name="basenames">
-   <list>
-    <value>classpath:/i18n/cdb</value>
-   </list>
   </property>
  </bean>
 

@@ -12,22 +12,7 @@
 
  <context:component-scan
   base-package="com.excilys.formation.java.computerdb.dto,com.excilys.formation.java.computerdb.validator" />
-
-
- <bean id="localeResolver"
-  class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-  <property name="defaultLocale" value="en" />
- </bean>
-
- <!-- Register the i18n cdb.properties -->
- <bean id="messageSource"
-  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-  <property name="defaultEncoding" value="UTF-8" />
-  <property name="basenames">
-   <list>
-    <value>classpath:/i18n/cdb</value>
-   </list>
-  </property>
- </bean>
+  
+ <import resource="classpath:/test-service-context.xml"/>
 
 </beans>

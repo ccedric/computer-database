@@ -45,7 +45,7 @@ public class CommandLineInterface {
 
   private void init() {
     @SuppressWarnings("resource")
-    ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+    ApplicationContext context = new ClassPathXmlApplicationContext("console-context.xml");
     this.companyService = (CompanyService) context.getBean("companyServiceImpl");
     this.computerService = (ComputerService) context.getBean("computerServiceImpl");
     

@@ -11,8 +11,9 @@
  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
  <context:component-scan
-  base-package="com.excilys.formation.java.computerdb.dto,com.excilys.formation.java.computerdb.validator" />
+  base-package="com.excilys.formation.java.computerdb.service.implementation" />
 
+ <import resource="classpath:/test-persistence-context.xml" />
 
  <bean id="localeResolver"
   class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
