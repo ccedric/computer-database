@@ -5,26 +5,34 @@
  http://www.springframework.org/schema/security
  http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
+
  <!-- enable use-expressions -->
- <http auto-config="true" use-expressions="true">
-  <intercept-url pattern="/dashboard**" access="hasAnyRole('ROLE_ADMIN,ROLE_USER')" />
+ <http use-expressions="true">
+  <intercept-url pattern="/dashboard**"
+   access="hasAnyRole('ROLE_ADMIN,ROLE_USER')" />
+  <intercept-url pattern="/dashboard**" access="hasRole('ROLE_ADMIN')"
+   method="POST" />
   <intercept-url pattern="/computer**" access="hasRole('ROLE_ADMIN')" />
   <intercept-url pattern="/add**" access="hasRole('ROLE_ADMIN')" />
   <intercept-url pattern="/edit**" access="hasRole('ROLE_ADMIN')" />
 
+
   <!-- access denied page -->
   <access-denied-handler error-page="/403" />
+
   <form-login login-page="/login" default-target-url="/dashboard"
    login-processing-url="/j_spring_security_check"
    authentication-failure-url="/login?error" username-parameter="username"
    password-parameter="password" />
+
   <!-- enable csrf protection -->
   <csrf />
+
  </http>
 
  <authentication-manager>
-  <authentication-provider user-service-ref="myUserDetailsService">
-   <password-encoder hash="plaintext" />
+  <authentication-provider user-service-ref="userDetailsService">
+   <password-encoder hash="bcrypt" />
   </authentication-provider>
  </authentication-manager>
 

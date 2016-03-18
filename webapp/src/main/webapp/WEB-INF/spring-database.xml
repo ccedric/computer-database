@@ -6,52 +6,11 @@
  http://www.springframework.org/schema/aop 
  http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
  http://www.springframework.org/schema/tx
-    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+ http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
+ <import resource="classpath:/webapp-context.xml" />
 
- <bean id="dataSource"
-  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-  <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-  <property name="url"
-   value="jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
-  <property name="username" value="admincdb" />
-  <property name="password" value="qwerty1234" />
- </bean>
-
- <bean id="sessionFactory"
-  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-  <property name="dataSource" ref="dataSource" />
-  <property name="annotatedClasses">
-   <list>
-    <value>com.excilys.formation.java.computerdb.model.User</value>
-    <value>com.excilys.formation.java.computerdb.model.UserRole</value>
-   </list>
-  </property>
-  <property name="hibernateProperties">
-   <props>
-    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-    <prop key="hibernate.id.new_generator_mappings">false</prop>
-   </props>
-  </property>
- </bean>
-
-
- <bean id="userDao"
-  class="com.excilys.formation.java.computerdb.dao.implementation.UserDaoImpl">
-  <property name="sessionFactory" ref="sessionFactory" />
- </bean>
-
- <bean id="myUserDetailsService"
-  class="com.excilys.formation.java.computerdb.service.implementation.UserServiceImpl">
-  <property name="userDao" ref="userDao" />
- </bean>
-
- <bean id="transactionManager"
-  class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-  <property name="sessionFactory" ref="sessionFactory"></property>
- </bean>
-
- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+ <tx:advice id="txAdvice" transaction-manager="txManager">
   <tx:attributes>
    <tx:method name="get*" read-only="true" />
    <tx:method name="find*" read-only="true" />

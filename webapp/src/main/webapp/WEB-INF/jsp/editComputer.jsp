@@ -107,9 +107,7 @@
 					"<spring:message code='app.regexDate'/>", "");
 		</script>
 
-		<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script>
+		<%@include file="script.jsp"%>
 		<script src="${pageContext.request.contextPath}/js/editComputer.js"></script>
 	</footer>
 

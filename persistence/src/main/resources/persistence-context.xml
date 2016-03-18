@@ -10,6 +10,9 @@
   http://www.springframework.org/schema/mvc
  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
+ <!-- Retrieve database properties -->
+ <context:property-placeholder location="classpath:database.properties"/>
+
  <context:component-scan
   base-package="com.excilys.formation.java.computerdb.dao.implementation" />
 
@@ -25,11 +28,11 @@
 
  <bean id="mainDataSource"
   class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-  <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+  <property name="driverClassName" value="${database.driver}" />
   <property name="url"
-   value="jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
-  <property name="username" value="admincdb" />
-  <property name="password" value="qwerty1234" />
+   value="${database.url}" />
+  <property name="username" value="${database.username}" />
+  <property name="password" value="${database.password}" />
  </bean>
 
  <bean id="sessionFactory"

@@ -4,6 +4,7 @@ import com.excilys.formation.java.computerdb.dao.implementation.UserDaoImpl;
 import com.excilys.formation.java.computerdb.model.UserRole;
 import com.excilys.formation.java.computerdb.service.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -24,13 +25,14 @@ import java.util.Set;
  * @author Cédric Cousseran
  *
  */
-@Service
+@Service("userDetailsService")
 public class UserServiceImpl implements UserDetailsService, UserService {
 
+  @Autowired
   private UserDaoImpl userDao;
 
   /**
-   * return a UserDetails for the coresponding. 
+   * return a UserDetails for the coresponding username. 
    */
   @Override
   @Transactional(readOnly = true)
@@ -62,14 +64,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     return result;
   }
   
-  public UserDaoImpl getUserDao() {
-    return userDao;
-  }
-
-  public void setUserDao(UserDaoImpl userDao) {
-    this.userDao = userDao;
-  }
-
   /* (non-Javadoc)
    * @see com.excilys.formation.java.computerdb.service.Service#create(java.lang.Object)
    */

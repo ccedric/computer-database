@@ -168,7 +168,7 @@
 									href="<t:TagLink url="edit-computer/${computer.getId()}"/>"
 									onclick="">${computer.name}</a></td>
 							</sec:authorize>
-							
+
 							<sec:authorize access="hasRole('ROLE_USER')">
 								<td class="col-xs-3">${computer.name}</td>
 							</sec:authorize>
@@ -198,8 +198,7 @@
 		var messageEdit = "<spring:message code='dashboard.edit'/>";
 		var messageDelete = "<spring:message code='dashboard.delete'/>";
 	</script>
-	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<%@include file="script.jsp"%>
 	<script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
 
 
