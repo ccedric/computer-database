@@ -37,7 +37,12 @@ public class EditComputerIt {
 
   @Test
   public void testEditComputerIt() throws Exception {
-    driver.get(baseUrl + "/computerDB/dashboard");
+    driver.get(baseUrl + "/computerDB/login");
+    driver.findElement(By.name("username")).clear();
+    driver.findElement(By.name("username")).sendKeys("admin");
+    driver.findElement(By.name("password")).clear();
+    driver.findElement(By.name("password")).sendKeys("admin");
+    driver.findElement(By.name("submit")).click();
     driver.findElement(By.linkText("Apple IIea")).click();
     try {
       assertEquals("id: 9",

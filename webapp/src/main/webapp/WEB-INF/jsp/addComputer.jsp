@@ -93,14 +93,16 @@
 	<footer>
 		<script type="text/javascript">
 			var messageDate = "<spring:message code='error.errorDate'/>";
-			var messageFormatDate = new RegExp("<spring:message code='app.regexDate'/>","");
+			var messageFormatDate = new RegExp(
+					"<spring:message code='app.regexDate'/>", "");
 			var messageDiscontinuedBeforeIntroduced = "<spring:message code='error.discontinuedBeforeIntroduced'/>";
 		</script>
 
 		<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script>
- 		<script src="${pageContext.request.contextPath}/js/addComputer.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/addComputer.js"></script>
 	</footer>
 
 </body>

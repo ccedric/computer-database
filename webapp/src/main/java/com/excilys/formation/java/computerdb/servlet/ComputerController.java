@@ -40,10 +40,10 @@ public class ComputerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerController.class);
 
   @Autowired
-  private CompanyService companyService;
-  @Autowired
   private ComputerService computerService;
-    
+  @Autowired
+  private CompanyService companyService;
+
   @Autowired
   private ComputerDtoMapper computerDtoMapper;
   @Autowired
@@ -127,13 +127,12 @@ public class ComputerController {
     }
     return "redirect:/dashboard";
   }
-  
+
   /**
    * Display the page for adding a computer.
    */
   @RequestMapping(path = "add-computer", method = RequestMethod.GET)
-  public String addPage(ModelMap modelMap)
-      throws ServletException, IOException {
+  public String addPage(ModelMap modelMap) throws ServletException, IOException {
     List<CompanyDto> companies = companyDtoMapper.listFromModel(companyService.list());
     modelMap.addAttribute("companies", companies);
     return "addComputer";
@@ -143,7 +142,7 @@ public class ComputerController {
    * Add a computer and redirect to the dashboard.
    */
   @RequestMapping(path = "add-computer", method = RequestMethod.POST)
-  public String addComputer(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result, 
+  public String addComputer(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result,
       ModelMap modelMap) throws ServletException, IOException {
     if (result.hasErrors()) {
       List<CompanyDto> companies = companyDtoMapper.listFromModel(companyService.list());
@@ -156,7 +155,7 @@ public class ComputerController {
       LOGGER.info("creation of a new computer : {}", computerDto);
       return "redirect:/dashboard";
     }
-    
+
   }
 
   /**
@@ -199,5 +198,4 @@ public class ComputerController {
       return "redirect:/dashboard";
     }
   }
-
 }

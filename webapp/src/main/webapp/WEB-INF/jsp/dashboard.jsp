@@ -4,6 +4,8 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <spring:message code="dashboard.computerOrCompany"
 	var="messageComputerCompany" />
@@ -39,15 +41,17 @@
 					</form>
 				</div>
 
-				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer"
-						href="<t:TagLink url="add-computer"/>"> <spring:message
-							code="dashboard.add" />
-					</a> <a class="btn btn-default" id="editComputer"
-						href="<t:TagLink url="#"/>" onclick="$.fn.toggleEditMode();">
-						<spring:message code="dashboard.edit" />
-					</a>
-				</div>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<div class="pull-right">
+						<a class="btn btn-success" id="addComputer"
+							href="<t:TagLink url="add-computer"/>"> <spring:message
+								code="dashboard.add" />
+						</a> <a class="btn btn-default" id="editComputer"
+							href="<t:TagLink url="#"/>" onclick="$.fn.toggleEditMode();">
+							<spring:message code="dashboard.edit" />
+						</a>
+					</div>
+				</sec:authorize>
 
 			</div>
 		</div>
@@ -158,9 +162,17 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
-							<td class="col-xs-3"><a
-								href="<t:TagLink url="edit-computer/${computer.getId()}"/>"
-								onclick="">${computer.name}</a></td>
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+
+								<td class="col-xs-3"><a
+									href="<t:TagLink url="edit-computer/${computer.getId()}"/>"
+									onclick="">${computer.name}</a></td>
+							</sec:authorize>
+							
+							<sec:authorize access="hasRole('ROLE_USER')">
+								<td class="col-xs-3">${computer.name}</td>
+							</sec:authorize>
+
 							<td class="col-xs-3"><fmt:formatDate
 									value="${parsedDateIntroduced}" type="date"
 									pattern="${messageFormat}" /></td>

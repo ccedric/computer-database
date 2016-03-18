@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+ xmlns:tx="http://www.springframework.org/schema/tx"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+ http://www.springframework.org/schema/aop 
+ http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+ http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+
+ <bean id="dataSource"
+  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+  <property name="url"
+   value="jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
+  <property name="username" value="admincdb" />
+  <property name="password" value="qwerty1234" />
+ </bean>
+
+ <bean id="sessionFactory"
+  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+  <property name="dataSource" ref="dataSource" />
+  <property name="annotatedClasses">
+   <list>
+    <value>com.excilys.formation.java.computerdb.model.User</value>
+    <value>com.excilys.formation.java.computerdb.model.UserRole</value>
+   </list>
+  </property>
+  <property name="hibernateProperties">
+   <props>
+    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+    <prop key="hibernate.id.new_generator_mappings">false</prop>
+   </props>
+  </property>
+ </bean>
+
+
+ <bean id="userDao"
+  class="com.excilys.formation.java.computerdb.dao.implementation.UserDaoImpl">
+  <property name="sessionFactory" ref="sessionFactory" />
+ </bean>
+
+ <bean id="myUserDetailsService"
+  class="com.excilys.formation.java.computerdb.service.implementation.UserServiceImpl">
+  <property name="userDao" ref="userDao" />
+ </bean>
+
+ <bean id="transactionManager"
+  class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+  <property name="sessionFactory" ref="sessionFactory"></property>
+ </bean>
+
+ <tx:advice id="txAdvice" transaction-manager="transactionManager">
+  <tx:attributes>
+   <tx:method name="get*" read-only="true" />
+   <tx:method name="find*" read-only="true" />
+   <tx:method name="*" />
+  </tx:attributes>
+ </tx:advice>
+
+ <aop:config>
+  <aop:pointcut id="userServicePointCut"
+   expression="execution(* com.excilys.formation.java.computerdb.service.implementation.*Service.*(..))" />
+  <aop:advisor advice-ref="txAdvice" pointcut-ref="userServicePointCut" />
+ </aop:config>
+
+</beans>

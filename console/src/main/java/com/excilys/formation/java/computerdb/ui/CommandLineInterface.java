@@ -48,6 +48,7 @@ public class CommandLineInterface {
     ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
     this.companyService = (CompanyService) context.getBean("companyServiceImpl");
     this.computerService = (ComputerService) context.getBean("computerServiceImpl");
+    
     System.out.println("------------------------------------------");
     System.out.println("---Welcome to the computer database app---");
     System.out.println("------------------------------------------");

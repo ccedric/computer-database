@@ -1,6 +1,5 @@
 package selenium;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
-public class LanguageIt {
+public class LoginIt {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -35,21 +34,20 @@ public class LanguageIt {
   }
 
   @Test
-  public void testLanguageIt() throws Exception {
+  public void testLoginIt() throws Exception {
     driver.get(baseUrl + "/computerDB/login");
+    driver.findElement(By.linkText("Application - Computer Database")).click();
+    driver.findElement(By.name("username")).clear();
+    driver.findElement(By.name("username")).sendKeys("admin");
+    driver.findElement(By.name("password")).clear();
+    driver.findElement(By.name("password")).sendKeys("fdgdfgdfg");
+    driver.findElement(By.name("submit")).click();
+    driver.findElement(By.linkText("Application - Computer Database")).click();
     driver.findElement(By.name("username")).clear();
     driver.findElement(By.name("username")).sendKeys("admin");
     driver.findElement(By.name("password")).clear();
     driver.findElement(By.name("password")).sendKeys("admin");
     driver.findElement(By.name("submit")).click();
-    driver.findElement(By.linkText("Application - Computer Database")).click();
-    driver.findElement(By.linkText("English")).click();
-    driver.findElement(By.linkText("Français")).click();
-    driver.findElement(By.linkText("English")).click();
-    driver.findElement(By.linkText("Français")).click();
-    driver.findElement(By.linkText("Nom de l'ordinateur")).click();
-    driver.findElement(By.linkText("English")).click();
-    driver.findElement(By.linkText("Computer name")).click();
   }
 
   /**

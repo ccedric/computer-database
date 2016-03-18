@@ -36,7 +36,12 @@ public class AddComputerIt {
 
   @Test
   public void testAddComputer() throws Exception {
-    driver.get(baseUrl + "/computerDB/dashboard");
+    driver.get(baseUrl + "/computerDB/login");
+    driver.findElement(By.name("username")).clear();
+    driver.findElement(By.name("username")).sendKeys("admin");
+    driver.findElement(By.name("password")).clear();
+    driver.findElement(By.name("password")).sendKeys("admin");
+    driver.findElement(By.name("submit")).click();
     driver.findElement(By.id("addComputer")).click();
     driver.findElement(By.id("name")).clear();
     driver.findElement(By.id("name")).sendKeys("test");

@@ -36,7 +36,12 @@ public class PaginationTestIt {
 
   @Test
   public void testPagination() throws Exception {
-    driver.get(baseUrl + "/computerDB/dashboard?page=1&numberResults=50&search=");
+    driver.get(baseUrl + "/computerDB/login");
+    driver.findElement(By.name("username")).clear();
+    driver.findElement(By.name("username")).sendKeys("admin");
+    driver.findElement(By.name("password")).clear();
+    driver.findElement(By.name("password")).sendKeys("admin");
+    driver.findElement(By.name("submit")).click();
     driver.findElement(By.linkText("»")).click();
     driver.findElement(By.cssSelector("a > span")).click();
     driver.findElement(By.linkText("5")).click();

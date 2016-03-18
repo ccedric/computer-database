@@ -36,7 +36,12 @@ public class OrderByIt {
 
   @Test
   public void testOrderByIt() throws Exception {
-    driver.get(baseUrl + "/computerDB/dashboard");
+    driver.get(baseUrl + "/computerDB/login");
+    driver.findElement(By.name("username")).clear();
+    driver.findElement(By.name("username")).sendKeys("admin");
+    driver.findElement(By.name("password")).clear();
+    driver.findElement(By.name("password")).sendKeys("admin");
+    driver.findElement(By.name("submit")).click();
     driver.findElement(By.linkText("Computer name")).click();
     driver.findElement(By.linkText("Computer name")).click();
     driver.findElement(By.linkText("Introduced date")).click();
