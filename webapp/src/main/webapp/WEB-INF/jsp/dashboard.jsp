@@ -31,7 +31,7 @@
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" method="GET" class="form-inline"
-						action="<t:TagLink url="dashboard" page="1" numberResults="${numberResults}" search="${searchByName}"/>">
+						action="<t:TagLink url="/computer" page="1" numberResults="${numberResults}" search="${searchByName}"/>">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="${messageComputerCompany}"
@@ -44,7 +44,7 @@
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<div class="pull-right">
 						<a class="btn btn-success" id="addComputer"
-							href="<t:TagLink url="add-computer"/>"> <spring:message
+							href="<t:TagLink url="computer/add"/>"> <spring:message
 								code="dashboard.add" />
 						</a> <a class="btn btn-default" id="editComputer"
 							href="<t:TagLink url="#"/>" onclick="$.fn.toggleEditMode();">
@@ -56,10 +56,11 @@
 			</div>
 		</div>
 
-		<form id="deleteForm"
-			action="<t:TagLink url="${pageContext.request.contextPath}/dashboard"/>"
+		<form id="deleteForm" action="<t:TagLink url="/computer"/>"
 			method="POST">
-			<input type="hidden" name="selection" value="">
+			<input type="hidden" name="selection" value=""> <input
+				type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
 		</form>
 
 		<div class="container" style="margin-top: 10px;">
@@ -82,14 +83,14 @@
 						<c:if
 							test="${orderColumn.equals('computerName') && orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="computerName" orderOrder="DESC"/>">
+								href="<t:TagLink url="computer" orderColumn="computerName" orderOrder="DESC"/>">
 									<spring:message code="computer.computerName" />
 							</a><span class="glyphicon glyphicon-triangle-top"></span></th>
 						</c:if>
 						<c:if
 							test="${!orderColumn.equals('computerName') ||  !orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="computerName" orderOrder="ASC"/>"><spring:message
+								href="<t:TagLink url="computer" orderColumn="computerName" orderOrder="ASC"/>"><spring:message
 										code="computer.computerName" /> </a> <c:if
 									test="${orderColumn.equals('computerName')}">
 									<span class="glyphicon glyphicon-triangle-bottom"></span>
@@ -100,14 +101,14 @@
 						<c:if
 							test="${orderColumn.equals('introduced') && orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="introduced" orderOrder="DESC"/>"><spring:message
+								href="<t:TagLink url="computer" orderColumn="introduced" orderOrder="DESC"/>"><spring:message
 										code="computer.introduced" /> </a> <span
 								class="glyphicon glyphicon-triangle-top"></span></th>
 						</c:if>
 						<c:if
 							test="${!orderColumn.equals('introduced') ||  !orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="introduced" orderOrder="ASC"/>"><spring:message
+								href="<t:TagLink url="computer" orderColumn="introduced" orderOrder="ASC"/>"><spring:message
 										code="computer.introduced" /> </a> <c:if
 									test="${orderColumn.equals('introduced')}">
 									<span class="glyphicon glyphicon-triangle-bottom"></span>
@@ -117,14 +118,14 @@
 						<c:if
 							test="${orderColumn.equals('discontinued') && orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="discontinued" orderOrder="DESC"/>"><spring:message
+								href="<t:TagLink url="computer" orderColumn="discontinued" orderOrder="DESC"/>"><spring:message
 										code="computer.discontinued" /> </a> <span
 								class="glyphicon glyphicon-triangle-top"></span></th>
 						</c:if>
 						<c:if
 							test="${!orderColumn.equals('discontinued') ||  !orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="discontinued" orderOrder="ASC"/>"><spring:message
+								href="<t:TagLink url="computer" orderColumn="discontinued" orderOrder="ASC"/>"><spring:message
 										code="computer.discontinued" /></a> <c:if
 									test="${orderColumn.equals('discontinued')}">
 									<span class="glyphicon glyphicon-triangle-bottom"></span>
@@ -134,14 +135,14 @@
 						<c:if
 							test="${orderColumn.equals('companyName') && orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="companyName" orderOrder="DESC"/>"><spring:message
+								href="<t:TagLink url="computer" orderColumn="companyName" orderOrder="DESC"/>"><spring:message
 										code="computer.company" /> </a> <span
 								class="glyphicon glyphicon-triangle-top"></span></th>
 						</c:if>
 						<c:if
 							test="${!orderColumn.equals('companyName') ||  !orderOrder.equals('ASC') }">
 							<th><a
-								href="<t:TagLink url="dashboard" orderColumn="companyName" orderOrder="ASC"/>"><spring:message
+								href="<t:TagLink url="computer" orderColumn="companyName" orderOrder="ASC"/>"><spring:message
 										code="computer.company" /></a> <c:if
 									test="${orderColumn.equals('companyName')}">
 									<span class="glyphicon glyphicon-triangle-bottom"></span>
@@ -165,7 +166,7 @@
 							<sec:authorize access="hasRole('ROLE_ADMIN')">
 
 								<td class="col-xs-3"><a
-									href="<t:TagLink url="edit-computer/${computer.getId()}"/>"
+									href="<t:TagLink url="computer/edit/${computer.getId()}"/>"
 									onclick="">${computer.name}</a></td>
 							</sec:authorize>
 

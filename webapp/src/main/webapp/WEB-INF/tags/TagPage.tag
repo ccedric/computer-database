@@ -9,11 +9,11 @@
 <%@ attribute name="search" required="true" description="Searched element"%>
 
 <div class="container text-center">
-	<form id="numberPage" method="GET" class="col-xs-8" action="<t:TagLink url="dashboard"/>">
+	<form id="numberPage" method="GET" class="col-xs-8" action="<t:TagLink url="computer"/>">
 		<ul class=" pagination">
 			<c:if test="${page != 1}">
 				<li><a
-					href="<t:TagLink url="dashboard" page="${page-1}" numberResults="${numberResults}" search="${search}"/>"
+					href="<t:TagLink url="computer" page="${page-1}" numberResults="${numberResults}" search="${search}"/>"
 					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 				</a></li>
 			</c:if>
@@ -23,12 +23,12 @@
 					<c:choose>
 						<c:when test="${i ==page }">
 							<li class="active" ><a
-								href="<t:TagLink url="dashboard" page="${i}" numberResults="${numberResults}" search="${search}"/>"
+								href="<t:TagLink url="computer" page="${i}" numberResults="${numberResults}" search="${search}"/>"
 								>${i}</a></li>
 						</c:when>
 						<c:otherwise>
 							<li><a
-								href="<t:TagLink url="dashboard" page="${i}" numberResults="${numberResults}" search="${search}"/>">${i}</a></li>
+								href="<t:TagLink url="computer" page="${i}" numberResults="${numberResults}" search="${search}"/>">${i}</a></li>
 						</c:otherwise>
 					</c:choose>
 				</c:if>
@@ -36,7 +36,7 @@
 			
 			<c:if test="${page != maxPage}">
 				<li><a
-					href="<t:TagLink url="dashboard" page="${page+1}" numberResults="${numberResults}" search="${search}"/>"
+					href="<t:TagLink url="computer" page="${page+1}" numberResults="${numberResults}" search="${search}"/>"
 					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>
 			</c:if>
@@ -45,7 +45,7 @@
 
 
 	<div class="btn-group btn-group-sm pull-right col-xs-3" role="group">
-		<form id="pageSize" method="GET" action="<t:TagLink url="dashboard"/>">
+		<form id="pageSize" method="GET" action="<t:TagLink url="computer"/>">
  			<input type="hidden" name="order-column" value="${orderColumn}"/>
 			<input type="hidden" name="order-order" value="${orderOrder}"/>
 			

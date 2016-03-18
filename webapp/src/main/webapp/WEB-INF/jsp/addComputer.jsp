@@ -29,7 +29,7 @@
 						cssClass="alert alert-danger alert-dismissable" element="div"
 						value="Discontinued must be after Introduced." />
 
-					<th:form modelAttribute="computerDto" action="add-computer"
+					<th:form modelAttribute="computerDto" action="add"
 						method="POST" id="formAdd" name="formAdd">
 						<fieldset>
 							<div class="form-group">
@@ -81,7 +81,7 @@
 							<input type="submit" value="${messageAdd}"
 								class="btn btn-primary" id="submit">
 							<spring:message code="add.or" />
-							<a href="<t:TagLink url="dashboard"/>" class="btn btn-default"><spring:message
+							<a href="<t:TagLink url="/computer"/>" class="btn btn-default"><spring:message
 									code="add.cancel" /></a>
 						</div>
 					</th:form>

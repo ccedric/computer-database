@@ -1,5 +1,7 @@
 package com.excilys.formation.java.computerdb.dao.implementation;
 
+import com.excilys.formation.java.computerdb.dao.UserDao;
+import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
 import com.excilys.formation.java.computerdb.model.User;
 
 import org.hibernate.Criteria;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 /**
  * Dao for the model User.
  * 
@@ -19,7 +20,7 @@ import java.util.List;
  *
  */
 @Repository
-public class UserDaoImpl {
+public class UserDaoImpl implements UserDao {
 
   @Autowired
   private SessionFactory sessionFactory;
@@ -28,22 +29,46 @@ public class UserDaoImpl {
    * Find a user with his username.
    */
   @SuppressWarnings("unchecked")
+  @Override
   public User find(String username) {
     Session session = sessionFactory.getCurrentSession();
 
     Criteria crit = session.createCriteria(User.class, "user")
         .add(Restrictions.eq("username", username));
 
-    
     List<User> users = crit.list();
     return users.get(0);
   }
   
-  public SessionFactory getSessionFactory() {
-    return sessionFactory;
+  @Override
+  public User find(long id) {
+    throw new NotImplementedException(
+        "The method find for the dao User has not yet been implemented");
+
   }
 
-  public void setSessionFactory(SessionFactory sessionFactory) {
-    this.sessionFactory = sessionFactory;
+  @Override
+  public long create(User obj) {
+    throw new NotImplementedException(
+        "The method create for the dao User has not yet been implemented");
+  }
+
+  @Override
+  public void delete(User obj) {
+    throw new NotImplementedException(
+        "The method delete for the dao User has not yet been implemented");
+  }
+
+
+  @Override
+  public void update(User obj) {
+    throw new NotImplementedException(
+        "The method update for the dao User has not yet been implemented");
+  }
+
+  @Override
+  public List<User> list() {
+    throw new NotImplementedException(
+        "The method list for the dao User has not yet been implemented");
   }
 }

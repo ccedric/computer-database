@@ -10,7 +10,7 @@
 
 
 	<welcome-file-list>
-		<welcome-file>dashboard</welcome-file>
+		<welcome-file>computer</welcome-file>
 	</welcome-file-list>
 
 	<error-page>

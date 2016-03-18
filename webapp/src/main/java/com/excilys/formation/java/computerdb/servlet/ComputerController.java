@@ -52,7 +52,7 @@ public class ComputerController {
   /**
    * List of computers with no specific search.
    */
-  @RequestMapping(path = "dashboard", method = RequestMethod.GET)
+  @RequestMapping(path = "computer", method = RequestMethod.GET)
   public String list(Page pageComputer, ModelMap modelMap, Column column, Order order)
       throws ServletException, IOException {
 
@@ -106,7 +106,7 @@ public class ComputerController {
   /**
    * Deletion of computers.
    */
-  @RequestMapping(path = "dashboard", method = RequestMethod.POST)
+  @RequestMapping(path = "computer", method = RequestMethod.POST)
   public String deleteListComputer(String selection, ModelMap modelMap)
       throws ServletException, IOException {
     if (null != selection && !selection.isEmpty()) {
@@ -125,13 +125,13 @@ public class ComputerController {
         }
       }
     }
-    return "redirect:/dashboard";
+    return "redirect:/computer";
   }
 
   /**
    * Display the page for adding a computer.
    */
-  @RequestMapping(path = "add-computer", method = RequestMethod.GET)
+  @RequestMapping(path = "computer/add", method = RequestMethod.GET)
   public String addPage(ModelMap modelMap) throws ServletException, IOException {
     List<CompanyDto> companies = companyDtoMapper.listFromModel(companyService.list());
     modelMap.addAttribute("companies", companies);
@@ -141,7 +141,7 @@ public class ComputerController {
   /**
    * Add a computer and redirect to the dashboard.
    */
-  @RequestMapping(path = "add-computer", method = RequestMethod.POST)
+  @RequestMapping(path = "computer/add", method = RequestMethod.POST)
   public String addComputer(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result,
       ModelMap modelMap) throws ServletException, IOException {
     if (result.hasErrors()) {
@@ -153,7 +153,7 @@ public class ComputerController {
       Computer computer = computerDtoMapper.toComputer(computerDto);
       computerService.create(computer);
       LOGGER.info("creation of a new computer : {}", computerDto);
-      return "redirect:/dashboard";
+      return "redirect:/computer";
     }
 
   }
@@ -161,7 +161,7 @@ public class ComputerController {
   /**
    * Show the view editComputer, get request.
    */
-  @RequestMapping(path = { "edit-computer/{id}" }, method = RequestMethod.GET)
+  @RequestMapping(path = { "computer/edit/{id}" }, method = RequestMethod.GET)
   public String doGet(@PathVariable(value = "id") int id, ModelMap modelMap)
       throws ServletException, IOException {
     List<CompanyDto> companies = companyDtoMapper.listFromModel(companyService.list());
@@ -181,7 +181,7 @@ public class ComputerController {
   /**
    * Confirm the edit of a computer, then redirect to the dashboard.
    */
-  @RequestMapping(path = "edit-computer", method = RequestMethod.POST)
+  @RequestMapping(path = "computer/edit", method = RequestMethod.POST)
   public String doPost(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result,
       ModelMap modelMap) throws ServletException, IOException {
     System.out.println(result);
@@ -195,7 +195,7 @@ public class ComputerController {
       Computer computer = computerDtoMapper.toComputer(computerDto);
       computerService.update(computer);
       LOGGER.info("update of a new computer : {}", computerDto);
-      return "redirect:/dashboard";
+      return "redirect:/computer";
     }
   }
 }

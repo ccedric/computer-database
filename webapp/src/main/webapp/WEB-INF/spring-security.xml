@@ -8,19 +8,23 @@
 
  <!-- enable use-expressions -->
  <http use-expressions="true">
-  <intercept-url pattern="/dashboard**"
-   access="hasAnyRole('ROLE_ADMIN,ROLE_USER')" />
-  <intercept-url pattern="/dashboard**" access="hasRole('ROLE_ADMIN')"
+
+  <intercept-url pattern="/computer"
+   access="hasAnyRole('ROLE_ADMIN,ROLE_USER')" method="GET" />
+  <intercept-url pattern="/computer" access="hasRole('ROLE_ADMIN')"
    method="POST" />
-  <intercept-url pattern="/computer**" access="hasRole('ROLE_ADMIN')" />
-  <intercept-url pattern="/add**" access="hasRole('ROLE_ADMIN')" />
-  <intercept-url pattern="/edit**" access="hasRole('ROLE_ADMIN')" />
 
+  <intercept-url pattern="/computer/add" access="hasRole('ROLE_ADMIN')"
+   method="GET" />
+  <intercept-url pattern="/computer/add" access="hasRole('ROLE_ADMIN')"
+   method="POST" />
 
-  <!-- access denied page -->
-  <access-denied-handler error-page="/403" />
+  <intercept-url pattern="/computer/edit" access="hasRole('ROLE_ADMIN')"
+   method="GET" />
+  <intercept-url pattern="/computer/edit" access="hasRole('ROLE_ADMIN')"
+   method="POST" />
 
-  <form-login login-page="/login" default-target-url="/dashboard"
+  <form-login login-page="/login" default-target-url="/computer"
    login-processing-url="/j_spring_security_check"
    authentication-failure-url="/login?error" username-parameter="username"
    password-parameter="password" />

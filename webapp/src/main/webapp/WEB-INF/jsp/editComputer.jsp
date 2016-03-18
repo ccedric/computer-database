@@ -35,7 +35,7 @@
 					<th:errors path="discontinuedAfterIntroduced"
 						cssClass="alert alert-danger alert-dismissable" element="div"
 						value="Discontinued must be after Introduced." />
-					<th:form modelAttribute="computerDto" action="editComputer"
+					<th:form modelAttribute="computerDto" action="${pageContext.request.contextPath}/computer/edit"
 						method="POST" id="formEdit">
 
 						<input type="hidden" name="id" value="${computer.getId()}" />
@@ -91,7 +91,7 @@
 							<input type="submit" value="${messageEdit }"
 								class="btn btn-primary" id="submit">
 							<spring:message code="edit.or" />
-							<a href="<t:TagLink url="dashboard"/>" class="btn btn-default"><spring:message
+							<a href="<t:TagLink url="/computer"/>" class="btn btn-default"><spring:message
 									code="edit.cancel" /></a>
 						</div>
 					</th:form>

@@ -3,6 +3,7 @@ package com.excilys.formation.java.computerdb.service.implementation;
 import com.excilys.formation.java.computerdb.dao.implementation.UserDaoImpl;
 import com.excilys.formation.java.computerdb.model.UserRole;
 import com.excilys.formation.java.computerdb.service.UserService;
+import com.excilys.formation.java.computerdb.service.exception.ServiceNotImplementedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 /**
  * Service for the dao user.
  * 
@@ -32,16 +32,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
   private UserDaoImpl userDao;
 
   /**
-   * return a UserDetails for the coresponding username. 
+   * return a UserDetails for the coresponding username.
    */
   @Override
   @Transactional(readOnly = true)
-  public UserDetails loadUserByUsername(String username) { 
+  public UserDetails loadUserByUsername(String username) {
     com.excilys.formation.java.computerdb.model.User user = userDao.find(username);
     List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
     return buildUserForAuthentication(user, authorities);
-
   }
 
   private User buildUserForAuthentication(com.excilys.formation.java.computerdb.model.User user,
@@ -51,7 +50,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
   }
 
   private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-
     Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 
     // Build user's authorities
@@ -63,50 +61,35 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     return result;
   }
-  
-  /* (non-Javadoc)
-   * @see com.excilys.formation.java.computerdb.service.Service#create(java.lang.Object)
-   */
+
   @Override
   public long create(com.excilys.formation.java.computerdb.model.User obj) {
-    // TODO Auto-generated method stub
-    return 0;
+    throw new ServiceNotImplementedException(
+        "The method create is not implemented in the UserService");
   }
 
-  /* (non-Javadoc)
-   * @see com.excilys.formation.java.computerdb.service.Service#delete(java.lang.Object)
-   */
   @Override
   public void delete(com.excilys.formation.java.computerdb.model.User obj) {
-    // TODO Auto-generated method stub
-    
+    throw new ServiceNotImplementedException(
+        "The method delete is not implemented in the UserService");
   }
 
-  /* (non-Javadoc)
-   * @see com.excilys.formation.java.computerdb.service.Service#update(java.lang.Object)
-   */
   @Override
   public void update(com.excilys.formation.java.computerdb.model.User obj) {
-    // TODO Auto-generated method stub
-    
+    throw new ServiceNotImplementedException(
+        "The method update is not implemented in the UserService");
   }
 
-  /* (non-Javadoc)
-   * @see com.excilys.formation.java.computerdb.service.Service#find(long)
-   */
   @Override
   public com.excilys.formation.java.computerdb.model.User find(long id) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new ServiceNotImplementedException(
+        "The method find is not implemented in the UserService");
   }
 
-  /* (non-Javadoc)
-   * @see com.excilys.formation.java.computerdb.service.Service#list()
-   */
   @Override
   public List<com.excilys.formation.java.computerdb.model.User> list() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new ServiceNotImplementedException(
+        "The method list is not implemented in the UserService");
   }
 
 }
