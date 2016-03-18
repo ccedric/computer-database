@@ -4,7 +4,7 @@
  <groupId>com.excilys.formation.java.computerdb</groupId>
  <artifactId>computerDB</artifactId>
  <packaging>pom</packaging>
- <version>0.6.0-SNAPSHOT</version>
+ <version>${computerdb-version}</version>
 
  <modules>
   <module>core</module>
@@ -174,7 +174,6 @@
     <groupId>org.springframework</groupId>
     <artifactId>spring-webmvc</artifactId>
     <version>${spring-version}</version>
-    <scope>runtime</scope>
    </dependency>
 
    <dependency>

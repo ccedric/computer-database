@@ -1,11 +1,13 @@
 package com.excilys.formation.java.computerdb.dao.implementation;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDaoImpl;
+import com.excilys.formation.java.computerdb.model.Computer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/test-context.xml" })
+@ContextConfiguration(locations = { "classpath:persistence-context.xml" })
 public class ComputerDaoTest {
   @Autowired
   ComputerDaoImpl dao;
@@ -65,5 +67,19 @@ public class ComputerDaoTest {
     }  catch (ComputerNotFoundException e) {
       assertTrue(true);
     }
+  }
+  
+  @Test
+  public void testFind() {
+    Computer computer = dao.find(110);
+    assertEquals(110,computer.getId());
+  }
+  
+  @Test
+  public void testUpdate() {
+    Computer computer = dao.find(110);
+    computer.setName(computer.getName() + "t");
+    dao.update(computer);
+    assertEquals(dao.find(110).getName(),computer.getName());
   }
 }

@@ -22,7 +22,7 @@
 					<spring:message code="login.title" />
 				</h1>
 
-				<div id="login-box">
+				<div>
 
 					<h3>
 						<spring:message code="login.message" />
@@ -45,16 +45,16 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="name"><spring:message code="login.user" /></label>
-								<input type='text' name='username'>
+								<input type='text' name='username' class="form-control">
 							</div>
 
 							<div class="form-group">
 								<label for="name"><spring:message code="login.password" /></label>
-								<input type='password' name='password'>
+								<input type='password' name='password' class="form-control">
 							</div>
 						</fieldset>
-						<div>
-							<input name="submit" type="submit" value="${messageSubmit }" />
+						<div class="actions pull-right">
+							<input name="submit" type="submit" value="${messageSubmit }" class="btn btn-primary"/>
 							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />
 
