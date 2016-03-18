@@ -41,6 +41,74 @@
   <spring-version>4.2.4.RELEASE</spring-version>
  </properties>
 
+ <dependencies>
+  <!-- Spring -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-core</artifactId>
+   <version>${spring-version}</version>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+   <version>${spring-version}</version>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-test</artifactId>
+   <version>${spring-version}</version>
+   <scope>test</scope>
+  </dependency>
+
+  <!--Logging for spring -->
+  <dependency>
+   <groupId>org.slf4j</groupId>
+   <artifactId>jcl-over-slf4j</artifactId>
+   <version>${jcl.slf4j.version}</version>
+   <scope>runtime</scope>
+  </dependency>
+
+  <dependency>
+   <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
+   <artifactId>commons-logging</artifactId>
+   <version>${commons-logging-version}</version>
+   <scope>runtime</scope>
+  </dependency>
+
+  <!-- Tests -->
+  <dependency>
+   <groupId>junit</groupId>
+   <artifactId>junit</artifactId>
+   <version>${junit-version}</version>
+   <scope>test</scope>
+  </dependency>
+
+  <!-- Log -->
+  <dependency>
+   <groupId>ch.qos.logback</groupId>
+   <artifactId>logback-classic</artifactId>
+   <version>${logback-classic-version}</version>
+   <scope>runtime</scope>
+  </dependency>
+
+  <dependency>
+   <groupId>org.slf4j</groupId>
+   <artifactId>slf4j-api</artifactId>
+   <version>${slf4j-version}</version>
+   <scope>compile</scope>
+  </dependency>
+
+  <dependency>
+   <groupId>ch.qos.logback</groupId>
+   <artifactId>logback-core</artifactId>
+   <version>${logback-core-version}</version>
+   <scope>runtime</scope>
+  </dependency>
+
+ </dependencies>
+
  <dependencyManagement>
   <dependencies>
    <!-- computerDB -->
@@ -83,11 +151,6 @@
 
 
    <!-- Spring -->
-   <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-core</artifactId>
-    <version>${spring-version}</version>
-   </dependency>
 
    <dependency>
     <groupId>org.springframework</groupId>
@@ -105,19 +168,6 @@
     <groupId>org.springframework</groupId>
     <artifactId>spring-beans</artifactId>
     <version>${spring-version}</version>
-   </dependency>
-
-   <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-context</artifactId>
-    <version>${spring-version}</version>
-   </dependency>
-
-   <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-test</artifactId>
-    <version>${spring-version}</version>
-    <scope>test</scope>
    </dependency>
 
    <dependency>
@@ -165,20 +215,6 @@
     <version>${spring-security-version}</version>
    </dependency>
 
-   <!--Logging for spring -->
-   <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>jcl-over-slf4j</artifactId>
-    <version>${jcl.slf4j.version}</version>
-    <scope>runtime</scope>
-   </dependency>
-
-   <dependency>
-    <groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
-    <artifactId>commons-logging</artifactId>
-    <version>${commons-logging-version}</version>
-    <scope>runtime</scope>
-   </dependency>
 
    <!-- Servlet -->
    <dependency>
@@ -211,14 +247,6 @@
     <scope>test</scope>
    </dependency>
 
-   <dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>${junit-version}</version>
-    <scope>test</scope>
-   </dependency>
-
-
    <!-- DataBase -->
    <dependency>
     <groupId>mysql</groupId>
@@ -226,30 +254,6 @@
     <version>${mysql-version}</version>
     <scope>compile</scope>
    </dependency>
-
-
-   <!-- Log -->
-   <dependency>
-    <groupId>ch.qos.logback</groupId>
-    <artifactId>logback-classic</artifactId>
-    <version>${logback-classic-version}</version>
-    <scope>runtime</scope>
-   </dependency>
-
-   <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>${slf4j-version}</version>
-    <scope>compile</scope>
-   </dependency>
-
-   <dependency>
-    <groupId>ch.qos.logback</groupId>
-    <artifactId>logback-core</artifactId>
-    <version>${logback-core-version}</version>
-    <scope>runtime</scope>
-   </dependency>
-
 
    <!-- Hibernate -->
    <dependency>
