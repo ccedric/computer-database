@@ -58,7 +58,7 @@ public class ComputerDtoValidator {
       try {
         LocalDate.parse(input, formatter);
       } catch (Exception e) {
-        throw new DateTimeInvalidException("The format of hte DateTime is invalid");
+        throw new DateTimeInvalidException("The format of the DateTime is invalid");
       }
     }
   }

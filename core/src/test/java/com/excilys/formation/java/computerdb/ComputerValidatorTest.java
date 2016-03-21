@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:core-context.xml" })
+@ContextConfiguration(locations = { "classpath:test-core-context.xml" })
 public class ComputerValidatorTest {
 
   @Test

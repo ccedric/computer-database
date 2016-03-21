@@ -20,7 +20,7 @@
 <title><spring:message code="app.title" /></title>
 <%@include file="head.jsp"%>
 </head>
-<body>
+<body onload='document.formEdit.name.focus();'>
 	<%@include file="header.jsp"%>
 	<section id="main">
 		<div class="container">
@@ -36,7 +36,7 @@
 						cssClass="alert alert-danger alert-dismissable" element="div"
 						value="Discontinued must be after Introduced." />
 					<th:form modelAttribute="computerDto" action="${pageContext.request.contextPath}/computer/edit"
-						method="POST" id="formEdit">
+						method="POST" id="formEdit" name="formEdit">
 
 						<input type="hidden" name="id" value="${computer.getId()}" />
 						<fieldset>

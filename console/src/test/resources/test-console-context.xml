@@ -10,9 +10,69 @@
   http://www.springframework.org/schema/mvc
  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
+ <context:component-scan base-package="com.excilys.formation.java.computerdb.ui" />
+
  <context:component-scan
-  base-package="com.excilys.formation.java.computerdb.ui" />
-  
- <import resource="classpath:/test-binding-context.xml"/>
+  base-package="com.excilys.formation.java.computerdb.dto,com.excilys.formation.java.computerdb.validator" />
+
+ <context:component-scan
+  base-package="com.excilys.formation.java.computerdb.service.implementation" />
+
+ <context:component-scan
+  base-package="com.excilys.formation.java.computerdb.dao.implementation" />
+ <context:component-scan
+  base-package="com.excilys.formation.java.computerdb.model.mapper" />
+
+ <bean id="txManager"
+  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  <property name="dataSource" ref="mainDataSource" />
+ </bean>
+
+ <tx:annotation-driven proxy-target-class="true"
+  transaction-manager="txManager" />
+
+ <bean id="mainDataSource"
+  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+  <property name="url"
+   value="jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
+  <property name="username" value="admincdb" />
+  <property name="password" value="qwerty1234" />
+ </bean>
+
+ <bean id="sessionFactory"
+  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+  <property name="dataSource" ref="mainDataSource" />
+  <property name="annotatedClasses">
+   <list>
+    <value>com.excilys.formation.java.computerdb.model.Computer</value>
+    <value>com.excilys.formation.java.computerdb.model.Company</value>
+    <value>com.excilys.formation.java.computerdb.model.User</value>
+    <value>com.excilys.formation.java.computerdb.model.UserRole</value>
+   </list>
+  </property>
+  <property name="hibernateProperties">
+   <props>
+    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+    <prop key="hibernate.id.new_generator_mappings">false</prop>
+   </props>
+  </property>
+ </bean>
+
+ <bean id="localeResolver"
+  class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+  <property name="defaultLocale" value="en" />
+ </bean>
+
+ <!-- Register the i18n cdb.properties -->
+ <bean id="messageSource"
+  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+  <property name="defaultEncoding" value="UTF-8" />
+  <property name="basenames">
+   <list>
+    <value>classpath:/i18n/cdb</value>
+   </list>
+  </property>
+ </bean>
 
 </beans>

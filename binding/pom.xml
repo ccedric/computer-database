@@ -26,6 +26,13 @@
    <artifactId>spring-web</artifactId>
   </dependency>
 
+  <!-- javax servlet is used in the tests -->
+  <dependency>
+   <groupId>javax.servlet</groupId>
+   <artifactId>javax.servlet-api</artifactId>
+   <scope>test</scope>
+  </dependency>
+
  </dependencies>
 
  <build>

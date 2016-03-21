@@ -22,6 +22,7 @@
   <dbunit-version>2.5.1</dbunit-version>
   <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
   <hibernate-version>5.1.0.Final</hibernate-version>
+  <javax-el-version>2.2.4</javax-el-version>
   <java-source-version>1.8</java-source-version>
   <java-target-version>1.8</java-target-version>
   <java-servlet-jsp-version>2.0</java-servlet-jsp-version>
@@ -247,6 +248,14 @@
     <version>${selenium-version}</version>
     <scope>test</scope>
    </dependency>
+
+   <dependency>
+    <groupId>javax.el</groupId>
+    <artifactId>javax.el-api</artifactId>
+    <version>${javax-el-version}</version>
+    <scope>test</scope>
+   </dependency>
+
 
    <!-- DataBase -->
    <dependency>

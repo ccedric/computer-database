@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.ComputerNotFoundException;
 import com.excilys.formation.java.computerdb.dao.implementation.ComputerDaoImpl;
+import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 
 import org.junit.Test;
@@ -25,12 +26,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:persistence-context.xml" })
+@ContextConfiguration(locations = { "classpath:test-persistence-context.xml" })
 @Rollback(true)
 public class ComputerDaoTest {
   @Autowired
   ComputerDaoImpl dao;
 
+  
   @Test
   public void testCreateFalse() {
     try {
@@ -40,6 +42,33 @@ public class ComputerDaoTest {
       assertTrue(true);
     }
   }
+  
+  @Test
+  public void testCreateValid() {
+    Computer computer = new Computer.ComputerBuilder("test junit").build();
+    long id = dao.create(computer);
+    assertEquals(id,dao.find(id).getId());
+  }
+  
+
+  @Test
+  public void testDeleteValid() {
+    int before = dao.list().size();
+    dao.deleteByCompany(new Company(13,"IBM"));
+    int after = dao.list().size();
+    assertTrue(before >= after);
+  }
+  
+  @Test
+  public void testDeleteFalse() {
+    try {
+      dao.delete(null);
+      fail("An exception should be thrown");
+    } catch (ComputerDaoInvalidException e) {
+      assertTrue(true);
+    }
+  }
+  
   
   @Test
   public void testUpdateFalse() {
@@ -52,14 +81,13 @@ public class ComputerDaoTest {
   }
   
   @Test
-  public void testDeleteFalse() {
-    try {
-      dao.delete(null);
-      fail("An exception should be thrown");
-    } catch (ComputerDaoInvalidException e) {
-      assertTrue(true);
-    }
+  public void testUpdate() {
+    Computer computer = dao.find(110);
+    computer.setName(computer.getName() + "t");
+    dao.update(computer);
+    assertEquals(dao.find(110).getName(),computer.getName());
   }
+  
   
   @Test
   public void testFindFalse() {
@@ -78,10 +106,13 @@ public class ComputerDaoTest {
   }
   
   @Test
-  public void testUpdate() {
-    Computer computer = dao.find(110);
-    computer.setName(computer.getName() + "t");
-    dao.update(computer);
-    assertEquals(dao.find(110).getName(),computer.getName());
+  public void testCount() {
+    int before = dao.selectCount("");
+    int searched = dao.selectCount("Apple");
+    assertTrue(searched < before);
+    Computer computer = new Computer.ComputerBuilder("test junit").build();
+    dao.create(computer);
+    int after = dao.selectCount("");
+    assertEquals(before + 1, after );
   }
 }

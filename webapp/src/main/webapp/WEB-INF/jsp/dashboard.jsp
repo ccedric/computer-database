@@ -18,7 +18,7 @@
 <title><spring:message code="app.title" /></title>
 <%@include file="head.jsp"%>
 </head>
-<body>
+<body onload='document.searchForm.search.focus();'>
 	<%@include file="header.jsp"%>
 	<section id="main">
 
@@ -30,7 +30,7 @@
 
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" method="GET" class="form-inline"
+					<form id="searchForm" name="searchForm" method="GET" class="form-inline"
 						action="<t:TagLink url="/computer" page="1" numberResults="${numberResults}" search="${searchByName}"/>">
 
 						<input type="search" id="searchbox" name="search"

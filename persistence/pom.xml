@@ -54,6 +54,11 @@
    <artifactId>hibernate-java8</artifactId>
   </dependency>
 
+  <dependency>
+   <groupId>javax.el</groupId>
+   <artifactId>javax.el-api</artifactId>
+  </dependency>
+
  </dependencies>
 
  <build>

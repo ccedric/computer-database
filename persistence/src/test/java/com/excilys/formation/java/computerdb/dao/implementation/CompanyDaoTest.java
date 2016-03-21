@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import com.excilys.formation.java.computerdb.dao.exception.CompanyDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
+import com.excilys.formation.java.computerdb.model.Company;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:persistence-context.xml" })
+@ContextConfiguration(locations = { "classpath:test-persistence-context.xml" })
 @Rollback(true)
 public class CompanyDaoTest {
   @Autowired
@@ -48,4 +49,16 @@ public class CompanyDaoTest {
     }
   }
 
+  @Test
+  public void testDeleteValid() {
+    Company company = new Company(13,"IBM");
+    dao.delete(company);
+    try {
+      dao.find(13);
+      fail("An exception should be thrown");
+    } catch (CompanyNotFoundException e) {
+      assertTrue(true);
+    }
+  }
+  
 }

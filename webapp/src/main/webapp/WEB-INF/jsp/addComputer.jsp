@@ -16,7 +16,7 @@
 <title><spring:message code="app.title" /></title>
 <%@include file="head.jsp"%>
 </head>
-<body>
+<body onload='document.formAdd.name.focus();'>
 	<%@include file="header.jsp"%>
 	<section id="main">
 		<div class="container">

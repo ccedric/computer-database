@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:persistence-context.xml" })
+@ContextConfiguration(locations = { "classpath:test-persistence-context.xml" })
 @Rollback(true)
 public class UserDaoTest {
   @Autowired
