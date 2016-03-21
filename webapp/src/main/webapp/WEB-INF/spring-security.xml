@@ -8,6 +8,8 @@
 
  <!-- enable use-expressions -->
  <http use-expressions="true">
+  <intercept-url pattern="/computer" access="hasRole('ROLE_ANONYMOUS')"
+   method="GET" />
 
   <intercept-url pattern="/computer"
    access="hasAnyRole('ROLE_ADMIN,ROLE_USER')" method="GET" />
@@ -23,6 +25,7 @@
    method="GET" />
   <intercept-url pattern="/computer/edit" access="hasRole('ROLE_ADMIN')"
    method="POST" />
+
 
   <form-login login-page="/login" default-target-url="/computer"
    login-processing-url="/j_spring_security_check"

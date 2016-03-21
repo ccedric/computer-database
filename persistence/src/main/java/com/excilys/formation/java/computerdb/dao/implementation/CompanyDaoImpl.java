@@ -1,6 +1,7 @@
 package com.excilys.formation.java.computerdb.dao.implementation;
 
 import com.excilys.formation.java.computerdb.dao.CompanyDao;
+import com.excilys.formation.java.computerdb.dao.exception.CompanyDaoInvalidException;
 import com.excilys.formation.java.computerdb.dao.exception.CompanyNotFoundException;
 import com.excilys.formation.java.computerdb.dao.exception.NotImplementedException;
 import com.excilys.formation.java.computerdb.model.Company;
@@ -37,6 +38,9 @@ public class CompanyDaoImpl implements CompanyDao {
   @Override
   public void delete(Company obj) {
     Session session = sessionFactory.getCurrentSession();
+    if (null == obj) {
+      throw new CompanyDaoInvalidException("Tried to delete a null company");
+    }
     session.delete(obj);
     LOGGER.info("Company deleted, id {}, name {}", obj.getId(), obj.getName());
   }

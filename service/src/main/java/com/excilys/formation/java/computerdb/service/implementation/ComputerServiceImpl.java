@@ -38,7 +38,7 @@ public class ComputerServiceImpl implements ComputerService {
     } catch (ComputerInvalidException e) {
       LOGGER.error("Error while creating a new Computer, computer invalid ");
       throw new ComputerServiceInvalidException(
-          "Error while creating the coputer, computer invalid", e);
+          "Error while creating the computer, computer invalid", e);
     }
     return computerDao.create(obj);
   }
@@ -51,7 +51,7 @@ public class ComputerServiceImpl implements ComputerService {
     } catch (ComputerInvalidException e) {
       LOGGER.error("Error while creating a new Computer, computer invalid ");
       throw new ComputerServiceInvalidException(
-          "Error while creating the coputer, computer invalid", e);
+          "Error while creating the computer, computer invalid", e);
     }
     computerDao.delete(obj);
   }
@@ -64,7 +64,7 @@ public class ComputerServiceImpl implements ComputerService {
     } catch (ComputerInvalidException e) {
       LOGGER.error("Error while creating a new Computer, computer invalid ");
       throw new ComputerServiceInvalidException(
-          "Error while creating the coputer, computer invalid", e);
+          "Error while creating the computer, computer invalid", e);
     }
 
     try {

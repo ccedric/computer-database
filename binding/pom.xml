@@ -6,29 +6,29 @@
   <groupId>com.excilys.formation.java.computerdb</groupId>
   <artifactId>computerDB</artifactId>
   <version>${computerdb-version}</version>
-</parent>
+ </parent>
 
-<artifactId>computerDB-binding</artifactId>
-<packaging>jar</packaging>
-<name>computerDB-binding</name>
+ <artifactId>computerDB-binding</artifactId>
+ <packaging>jar</packaging>
+ <name>computerDB-binding</name>
 
-<dependencies>
+ <dependencies>
   <!-- computerDB -->
   <dependency>
-    <groupId>com.excilys.formation.java.computerdb</groupId>
-    <artifactId>computerDB-service</artifactId>
+   <groupId>com.excilys.formation.java.computerdb</groupId>
+   <artifactId>computerDB-service</artifactId>
   </dependency>
 
 
   <!-- Spring -->
- <dependency>
+  <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-web</artifactId>
- </dependency>
+  </dependency>
 
-</dependencies>
+ </dependencies>
 
-<build>
+ <build>
   <sourceDirectory>src/main/java</sourceDirectory>
 
   <resources>
@@ -36,41 +36,19 @@
     <directory>src/main/resources</directory>
     <excludes>
      <exclude>**/*.java</exclude>
-   </excludes>
- </resource>
-</resources>
-<!-- To specify the test resources -->
-<testResources>
- <testResource>
-  <directory>src/test/resources</directory>
-  <filtering>true</filtering>
-</testResource>
-</testResources>
+    </excludes>
+   </resource>
+  </resources>
+  <!-- To specify the test resources -->
+  <testResources>
+   <testResource>
+    <directory>src/test/resources</directory>
+    <filtering>true</filtering>
+   </testResource>
+  </testResources>
 
-<plugins>
-
-  <!-- Specify Junit usage -->
-  <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>2.19.1</version>
-    <configuration>
-
-     <includes>
-      <include>**/*Test.java</include>
-    </includes>
-
-  </configuration>
-  <dependencies>
-   <dependency>
-    <groupId>org.apache.maven.surefire</groupId>
-    <artifactId>surefire-junit47</artifactId>
-    <version>2.19.1</version>
-  </dependency>
-</dependencies>
-</plugin>
-
-</plugins>
-</build>
+  <plugins>
+  </plugins>
+ </build>
 
 </project>

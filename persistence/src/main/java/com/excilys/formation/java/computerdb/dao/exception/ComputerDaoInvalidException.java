@@ -5,8 +5,9 @@ package com.excilys.formation.java.computerdb.dao.exception;
  * 
  * @author Cédric Cousseran
  */
-@SuppressWarnings("serial")
 public class ComputerDaoInvalidException extends RuntimeException {
+  private static final long serialVersionUID = -6184560629348111262L;
+
   public ComputerDaoInvalidException() {
     super();
   }

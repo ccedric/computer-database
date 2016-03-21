@@ -1,6 +1,8 @@
 # computer-database
 
-Project done during a formation at Excilys
+Project done during a formation at Excilys.
+
+The goal of the project is to create an application managing a computer database.
 
 Specifications are described here:
 https://github.com/loicortola/spec-cdb
