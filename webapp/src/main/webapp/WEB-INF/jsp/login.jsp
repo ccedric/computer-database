@@ -44,19 +44,20 @@
 						method='POST' id="loginForm" name="loginForm">
 						<fieldset>
 							<div class="form-group">
-								<label for="name"><spring:message code="login.user" /></label>
+								<label for="username"><spring:message code="login.user" /></label>
 								<input type='text' name='username' class="form-control">
 							</div>
 
 							<div class="form-group">
-								<label for="name"><spring:message code="login.password" /></label>
-								<input type='password' name='password' class="form-control">
+								<label for="password"><spring:message
+										code="login.password" /></label> <input type='password'
+									name='password' class="form-control">
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input name="submit" type="submit" value="${messageSubmit }" class="btn btn-primary"/>
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
+							<input name="submit" type="submit" value="${messageSubmit }"
+								class="btn btn-primary" /> <input type="hidden"
+								name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 						</div>
 					</form>
@@ -68,7 +69,20 @@
 
 </body>
 <footer>
+	<script type="text/javascript">
+		var messageRequiredUsername = "<spring:message code='error.errorUsernameRequired'/>";
+		var messageMinUsername = "<spring:message code='error.errorUsernameMin'/>";
+		var messageMaxUsername = "<spring:message code='error.errorUsernameMax'/>";
+
+		var messageRequiredPassword = "<spring:message code='error.errorPasswordRequired'/>";
+		var messageMinPassword = "<spring:message code='error.errorPasswordMin'/>";
+		var messageMaxPassword = "<spring:message code='error.errorPasswordMax'/>";
+
+	</script>
+
 	<%@include file="script.jsp"%>
+	<script src="${pageContext.request.contextPath}/js/login.js"></script>
+
 </footer>
 
 </html>
