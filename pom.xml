@@ -16,7 +16,7 @@
  </modules>
 
  <properties>
-  <computerdb-version>0.6.0</computerdb-version>
+  <computerdb-version>0.7.0-SNAPSHOT</computerdb-version>
 
   <commons-logging-version>1.2</commons-logging-version>
   <dbunit-version>2.5.1</dbunit-version>
