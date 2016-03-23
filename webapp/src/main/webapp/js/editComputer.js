@@ -4,11 +4,7 @@ $(document).ready(function() {
 		if (element.value==""){
 			return true;
 		}
-		if(messageFormatDate.test(value)){
-			return true;
-		} else {
-			return false;
-		}
+		return !!messageFormatDate.test(value);
 	},
 	messageDate);
 

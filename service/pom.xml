@@ -21,7 +21,12 @@
    <artifactId>computerDB-persistence</artifactId>
   </dependency>
 
-
+   <!-- jackson -->
+   <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+   </dependency>
+   
   <!-- Spring -->
   <dependency>
    <groupId>org.springframework</groupId>

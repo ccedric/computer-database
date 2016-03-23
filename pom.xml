@@ -12,6 +12,7 @@
   <module>service</module>
   <module>binding</module>
   <module>console</module>
+  <module>webservice</module>
   <module>webapp</module>
  </modules>
 
@@ -22,6 +23,7 @@
   <dbunit-version>2.5.1</dbunit-version>
   <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
   <hibernate-version>5.1.0.Final</hibernate-version>
+  <jackson-version>2.7.3</jackson-version>
   <javax-el-version>2.2.4</javax-el-version>
   <java-source-version>1.8</java-source-version>
   <java-target-version>1.8</java-target-version>
@@ -29,6 +31,8 @@
   <javax-servlet-api>3.1.0</javax-servlet-api>
   <javax-servlet-jstl-version>1.2</javax-servlet-jstl-version>
   <javax-validation-version>1.1.0.Final</javax-validation-version>
+  <jax-resteasy-version>3.0.16.Final</jax-resteasy-version>
+  <jboss-log-version>3.3.0.Final</jboss-log-version>
   <jcl.slf4j.version>1.7.16</jcl.slf4j.version>
   <junit-version>4.12</junit-version>
   <logback-classic-version>1.1.3</logback-classic-version>
@@ -43,6 +47,14 @@
   <spring-security-version>4.0.4.RELEASE</spring-security-version>
   <spring-version>4.2.4.RELEASE</spring-version>
  </properties>
+
+ <repositories>
+  <repository>
+   <id>JBoss repository</id>
+   <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+  </repository>
+ </repositories>
+
 
  <dependencies>
   <!-- Spring -->
@@ -110,6 +122,13 @@
    <scope>runtime</scope>
   </dependency>
 
+  <dependency>
+   <groupId>org.jboss.logging</groupId>
+   <artifactId>jboss-logging</artifactId>
+   <version>${jboss-log-version}</version>
+  </dependency>
+
+
  </dependencies>
 
  <dependencyManagement>
@@ -137,6 +156,33 @@
     <groupId>com.excilys.formation.java.computerdb</groupId>
     <artifactId>computerDB-binding</artifactId>
     <version>${computerdb-version}</version>
+   </dependency>
+
+   <!-- jackson -->
+   <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>${jackson-version}</version>
+   </dependency>
+   
+   
+   <!-- Jax -->
+   <dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-jaxrs</artifactId>
+    <version>${jax-resteasy-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-spring</artifactId>
+    <version>${jax-resteasy-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-jackson-provider</artifactId>
+    <version>${jax-resteasy-version}</version>
    </dependency>
 
    <!-- Validation -->
@@ -253,7 +299,6 @@
     <groupId>javax.el</groupId>
     <artifactId>javax.el-api</artifactId>
     <version>${javax-el-version}</version>
-    <scope>test</scope>
    </dependency>
 
 

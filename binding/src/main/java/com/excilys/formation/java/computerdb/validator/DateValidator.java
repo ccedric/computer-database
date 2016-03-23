@@ -26,11 +26,8 @@ public class DateValidator implements ConstraintValidator<Date, String> {
 
   @Override
   public boolean isValid(String date, ConstraintValidatorContext ctx) {
-    if ((date == null) || (date.equals(""))
-        || (date.matches(messageSource.getMessage("app.regexDate", null, Locale.getDefault())))) {
-      return true;
-    }
-    return false;
+    return (date == null) || (date.equals(""))
+            || (date.matches(messageSource.getMessage("app.regexDate", null, Locale.getDefault())));
   }
 
 }

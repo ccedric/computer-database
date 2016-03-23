@@ -29,6 +29,9 @@ public class ComputerDto {
    */
   @AssertTrue
   public boolean isDiscontinuedAfterIntroduced() {
+    if (introduced == null || discontinued == null) {
+      return true;
+    }
     if (introduced.equals("") && discontinued.equals("")) {
       return true;
     }

@@ -77,7 +77,6 @@
    /WEB-INF/spring-security.xml,
    /WEB-INF/mvc-dispatcher-servlet.xml,
    classpath:webapp-context.xml
-   
   </param-value>
  </context-param>
 

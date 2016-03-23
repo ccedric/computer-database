@@ -13,6 +13,12 @@
  <name>computerDB-console</name>
 
  <dependencies>
+  <!-- Jax -->
+  <dependency>
+   <groupId>org.jboss.resteasy</groupId>
+   <artifactId>resteasy-jaxrs</artifactId>
+  </dependency>
+  
   <!-- computerDB -->
   <dependency>
    <groupId>com.excilys.formation.java.computerdb</groupId>
@@ -34,6 +40,11 @@
   <dependency>
    <groupId>javax.servlet</groupId>
    <artifactId>javax.servlet-api</artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>javax.el</groupId>
+   <artifactId>javax.el-api</artifactId>
   </dependency>
  </dependencies>
 

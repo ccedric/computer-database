@@ -1,5 +1,6 @@
 package com.excilys.formation.java.computerdb.ui;
 
+import com.excilys.formation.java.computerdb.dto.ComputerDto;
 import com.excilys.formation.java.computerdb.model.Company;
 import com.excilys.formation.java.computerdb.model.Computer;
 import com.excilys.formation.java.computerdb.service.CompanyService;
@@ -32,6 +33,7 @@ public class CommandLineInterface {
 
   private static Scanner sc = new Scanner(System.in);
   private static int pageComputerSize = 10;
+  private static final String API_URL = "http://localhost:8081/computerDB/api/";
 
   /**
    * Main of the application for the command line interface.
@@ -45,10 +47,11 @@ public class CommandLineInterface {
 
   private void init() {
     @SuppressWarnings("resource")
-    ApplicationContext context = new ClassPathXmlApplicationContext("console-context.xml");
+    ApplicationContext context = new ClassPathXmlApplicationContext(
+        "classpath:/console-context.xml");
     this.companyService = (CompanyService) context.getBean("companyServiceImpl");
     this.computerService = (ComputerService) context.getBean("computerServiceImpl");
-    
+
     System.out.println("------------------------------------------");
     System.out.println("---Welcome to the computer database app---");
     System.out.println("------------------------------------------");
@@ -151,7 +154,7 @@ public class CommandLineInterface {
         System.out.println("Company and associated computers successfully deleted");
       } else {
         System.out.println("This company doesn't exist");
-        deleteComputer();
+        showHelp();
       }
       showHelp();
     } catch (NumberFormatException e) {
@@ -299,12 +302,10 @@ public class CommandLineInterface {
         }
         if (input.equals("0")) {
           company = null;
+          break;
         }
-        {
-          int idManufacturer = Integer.parseInt(input);
-          company = companyService.find(idManufacturer);
-        }
-        break;
+        int idManufacturer = Integer.parseInt(input);
+        company = companyService.find(idManufacturer);
       } catch (NumberFormatException e) {
         System.out.println("The id you entered is not a number, please type it again");
         showComputerDetails();

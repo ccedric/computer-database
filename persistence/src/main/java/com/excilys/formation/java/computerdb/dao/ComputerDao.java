@@ -39,6 +39,6 @@ public interface ComputerDao extends Dao<Computer> {
    * @param obj
    *          the company
    */
-  public void deleteByCompany(Company obj);
+  void deleteByCompany(Company obj);
 
 }
