@@ -47,9 +47,9 @@ public class CompanyWebService {
   /**
    * List a company and all his computers.
    */
-  @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
+  @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
   public Response delete(@PathVariable("id") long id) {
-
+    LOGGER.info("Call to the webservice delete");
     companyService.delete(companyService.find(id));
     LOGGER.info("Company {} and all his computers deleted",id);
     return Response.ok("ok").build();

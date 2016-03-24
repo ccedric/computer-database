@@ -3,9 +3,6 @@ package com.excilys.formation.java.computerdb.webservice;
 import com.excilys.formation.java.computerdb.dto.ComputerDto;
 import com.excilys.formation.java.computerdb.dto.mapper.ComputerDtoMapper;
 import com.excilys.formation.java.computerdb.model.Computer;
-import com.excilys.formation.java.computerdb.order.Column;
-import com.excilys.formation.java.computerdb.order.Order;
-import com.excilys.formation.java.computerdb.order.OrderSearch;
 import com.excilys.formation.java.computerdb.service.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
 
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 
 /**
@@ -29,7 +27,7 @@ import javax.ws.rs.core.Response;
  *
  */
 @RestController
-@RequestMapping("/api/computer")
+@RequestMapping("/api/computer/")
 public class ComputerWebService {
   private static final Logger LOGGER = LoggerFactory.getLogger(ComputerWebService.class);
 
@@ -42,17 +40,12 @@ public class ComputerWebService {
   /**
    * List all computers.
    */
-  @RequestMapping(value = "list", method = RequestMethod.GET)
-  public List<ComputerDto> list() {
-    Page page = new Page(1, 10, "");
-    Column column = Column.computerId;
-    Order order = Order.ASC;
-    OrderSearch orderSearch = new OrderSearch(column, order);
-    page.setOrderSearch(orderSearch);
-
+  @RequestMapping(value = "list", method = RequestMethod.POST)
+  public List<ComputerDto> list(@RequestBody Page pageComputer) {
+    System.err.println(pageComputer.getPage());
     List<ComputerDto> computers = computerDtoMapper
-        .listFromModel(computerService.listPageByName(page));
-    
+        .listFromModel(computerService.listPageByName(pageComputer));
+
     return computers;
   }
 
@@ -63,7 +56,7 @@ public class ComputerWebService {
   public ComputerDto get(@PathVariable("id") long id) {
     ComputerDto computer = computerDtoMapper.fromModel(computerService.find(id));
 
-    LOGGER.info("Computer retrieved with the id {}",id);
+    LOGGER.info("Computer retrieved with the id {}", id);
     return computer;
   }
 
@@ -71,22 +64,23 @@ public class ComputerWebService {
    * Create a computer.
    */
   @RequestMapping(value = "create", method = RequestMethod.POST)
-  public ComputerDto create(@RequestBody ComputerDto dto) {
+  public ComputerDto create(@RequestBody @Valid ComputerDto dto) {
+    LOGGER.info("Call to the webservice computer create with computer : {}",dto);
     Computer computer = computerDtoMapper.toComputer(dto);
     computerService.create(computer);
     return computerDtoMapper.fromModel(computer);
   }
-  
+
   /**
    * Update a computer.
    */
   @RequestMapping(value = "update", method = RequestMethod.POST)
-  public ComputerDto update(@RequestBody ComputerDto dto) {
+  public ComputerDto update(@RequestBody @Valid ComputerDto dto) {
     Computer computer = computerDtoMapper.toComputer(dto);
     computerService.update(computer);
     return computerDtoMapper.fromModel(computer);
   }
-  
+
   /**
    * Delete a computer.
    */

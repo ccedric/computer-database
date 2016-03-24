@@ -82,4 +82,9 @@ public class CompanyDto {
     return true;
   }
 
+  @Override
+  public String toString() {
+    return "CompanyDto [id=" + id + ", name=" + name + "]";
+  }
+
 }

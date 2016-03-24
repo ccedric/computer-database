@@ -28,7 +28,7 @@ public class ComputerDto {
    * Verify that the discontinued date is after the introduced date.
    */
   @AssertTrue
-  public boolean isDiscontinuedAfterIntroduced() {
+  private boolean isDiscontinuedAfterIntroduced() {
     if (introduced == null || discontinued == null) {
       return true;
     }

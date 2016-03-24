@@ -1,16 +1,10 @@
 package com.excilys.formation.java.computerdb.ui;
 
+import com.excilys.formation.java.computerdb.dto.CompanyDto;
 import com.excilys.formation.java.computerdb.dto.ComputerDto;
-import com.excilys.formation.java.computerdb.model.Company;
-import com.excilys.formation.java.computerdb.model.Computer;
-import com.excilys.formation.java.computerdb.service.CompanyService;
-import com.excilys.formation.java.computerdb.service.ComputerService;
 import com.excilys.formation.java.computerdb.service.Page;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
+import com.excilys.formation.java.computerdb.ui.util.CompanyWebServiceUtil;
+import com.excilys.formation.java.computerdb.ui.util.ComputerWebServiceUtil;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,16 +18,12 @@ import java.util.Scanner;
  * @author Cédric Cousseran
  *
  */
-@Component
 public class CommandLineInterface {
-  @Autowired
-  private CompanyService companyService;
-  @Autowired
-  private ComputerService computerService;
-
   private static Scanner sc = new Scanner(System.in);
   private static int pageComputerSize = 10;
-  private static final String API_URL = "http://localhost:8081/computerDB/api/";
+
+  private static ComputerWebServiceUtil webserviceComputer = new ComputerWebServiceUtil();
+  private static CompanyWebServiceUtil webserviceCompany = new CompanyWebServiceUtil();
 
   /**
    * Main of the application for the command line interface.
@@ -46,12 +36,6 @@ public class CommandLineInterface {
   }
 
   private void init() {
-    @SuppressWarnings("resource")
-    ApplicationContext context = new ClassPathXmlApplicationContext(
-        "classpath:/console-context.xml");
-    this.companyService = (CompanyService) context.getBean("companyServiceImpl");
-    this.computerService = (ComputerService) context.getBean("computerServiceImpl");
-
     System.out.println("------------------------------------------");
     System.out.println("---Welcome to the computer database app---");
     System.out.println("------------------------------------------");
@@ -121,14 +105,9 @@ public class CommandLineInterface {
     }
     try {
       int id = Integer.parseInt(input);
-      Computer comp = computerService.find(id);
-      if (comp.getId() != 0) {
-        computerService.delete(comp);
-        System.out.println("Computer successfully deleted");
-      } else {
-        System.out.println("This computer doesn't exist");
-        deleteComputer();
-      }
+      webserviceComputer.delete(id);
+      System.out.println("Computer successfully deleted");
+
       showHelp();
     } catch (NumberFormatException e) {
       System.out.println("The id you entered is not a number, please type it again");
@@ -148,14 +127,12 @@ public class CommandLineInterface {
     }
     try {
       int id = Integer.parseInt(input);
-      Company company = companyService.find(id);
-      if (company.getId() != 0) {
-        companyService.delete(company);
-        System.out.println("Company and associated computers successfully deleted");
-      } else {
-        System.out.println("This company doesn't exist");
-        showHelp();
-      }
+      webserviceCompany.delete(id);
+      //      if (response.getStatus() == 200) {
+      //        System.out.println("Company and associated computers successfully deleted");
+      //      } else {
+      //        System.out.println("Error while deleting a company");
+      //      }
       showHelp();
     } catch (NumberFormatException e) {
       System.out.println("The id you entered is not a number, please type it again");
@@ -173,10 +150,11 @@ public class CommandLineInterface {
     if (inputId.equals("q")) {
       showHelp();
     }
-    Computer comp = null;
+    ComputerDto comp = null;
     try {
       int id = Integer.parseInt(inputId);
-      comp = computerService.find(id);
+      
+      comp = webserviceComputer.get(id);
       if (comp.getId() != 0) {
         System.out.println("Computer selected:");
         System.out.println(comp);
@@ -195,89 +173,90 @@ public class CommandLineInterface {
     if (name.equals("q")) {
       showHelp();
     }
-    Company company = null;
+    
+    int idManufacturer = 0;
     while (true) {
       try {
         System.out.println(
-            "Please enter the id of the manufacturer of the computer, type 0 if you don't want to"
-                + " add this value, or type q to go back to the menu");
+            "Please enter the id of the manufacturer of the computer, type 0 if you don't want"
+                + " to add this value, or type q to go back to the menu");
         String input = sc.nextLine();
         if (input.equals("q")) {
           showHelp();
         }
         if (input.equals("0")) {
-          company = null;
-        } else {
-          int idManufacturer = Integer.parseInt(input);
-          company = companyService.find(idManufacturer);
+          break;
         }
+        idManufacturer = Integer.parseInt(input);
         break;
       } catch (NumberFormatException e) {
         System.out.println("The id you entered is not a number, please type it again");
+        showComputerDetails();
       }
     }
-    LocalDate timestamp = null;
+
+    String introduced = new String();
     while (true) {
       System.out.println(
-          "Please enter the introduced timestamp, format: yyyy-MM-dd, type 0 if you don't want to"
-              + " add this value, or type q to go back to the menu");
-      String input = sc.nextLine();
-      if (input.equals("q")) {
-        showHelp();
-      }
-      if (input.equals("0")) {
-        timestamp = null;
-        break;
-      } else {
-        try {
-          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-          timestamp = LocalDate.parse(input, formatter);
-          break;
-        } catch (DateTimeParseException e) {
-          System.out.println("The timestamp doesn't have the right format.");
-        }
-      }
-
-    }
-
-    LocalDate timestampEnd = null;
-    while (true) {
-      System.out.println(
-          "Please enter the discontinued timestamp, format: yyyy-MM-dd, type 0 if you don't want"
+          "Please enter the introduced timestamp, format: MM-dd-yyyy, type 0 if you don't want"
               + " to add this value, or type q to go back to the menu");
       String input = sc.nextLine();
       if (input.equals("q")) {
         showHelp();
       }
       if (input.equals("0")) {
-        timestamp = null;
         break;
-      } else {
+      }
+      try {
+        introduced = input;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+
         try {
-          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-          timestampEnd = LocalDate.parse(input, formatter);
-          if (timestampEnd.isBefore(timestamp)) {
-            System.out.println(
-                "The discontinued timestamp must be after the introduced timsestamp, wich is:");
-            System.out.println(timestamp);
-          } else {
-            break;
-          }
-        } catch (DateTimeParseException e) {
-          System.out.println("The timestamp doesn't have the right format.");
+          LocalDate.parse(introduced, formatter);
+          break;
+        } catch (Exception e) {
+          System.out.println("The introduced date must be mm-dd-yyyy");
         }
+
+      } catch (DateTimeParseException e) {
+        System.out.println("The timestamp doesn't have the right format.");
       }
     }
 
-    comp.setName(name);
-    comp.setCompany(company);
-    comp.setIntroduced(timestamp);
-    comp.setDiscontinued(timestampEnd);
-    computerService.update(comp);
-    System.out.println("Computer update successfully");
-    System.out.println(computerService.find(comp.getId()));
-    showHelp();
+    String discontinued = new String();
+    while (true) {
+      System.out.println(
+          "Please enter the discontinued timestamp, format: MM-dd-yyyy, or type 0 if you don't"
+              + " want to add this value, or type q to go back to the menu");
+      String input = sc.nextLine();
+      if (input.equals("q")) {
+        showHelp();
+      }
+      if (input.equals("0")) {
+        break;
+      }
+      try {
+        discontinued = input;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
+        try {
+          LocalDate.parse(discontinued, formatter);
+          break;
+        } catch (Exception e) {
+          System.out.println("The introduced date must be mm-dd-yyyy");
+        }
+      } catch (DateTimeParseException e) {
+        System.out.println("The timestamp doesn't have the right format.");
+      }
+    }
+
+    comp = new ComputerDto.ComputerDtoBuilder(name)
+        .companyId(idManufacturer).introduced(introduced).discontinued(discontinued).build();
+
+    ComputerDto computer = webserviceComputer.update(comp);
+    System.out.println("Computer update successfully");
+    System.out.println(computer);
+    showHelp();
   }
 
   /**
@@ -290,7 +269,8 @@ public class CommandLineInterface {
     if (name.equals("q")) {
       showHelp();
     }
-    Company company = null;
+
+    int idManufacturer = 0;
     while (true) {
       try {
         System.out.println(
@@ -301,73 +281,78 @@ public class CommandLineInterface {
           showHelp();
         }
         if (input.equals("0")) {
-          company = null;
           break;
         }
-        int idManufacturer = Integer.parseInt(input);
-        company = companyService.find(idManufacturer);
+        idManufacturer = Integer.parseInt(input);
+        break;
       } catch (NumberFormatException e) {
         System.out.println("The id you entered is not a number, please type it again");
         showComputerDetails();
       }
     }
-    LocalDate timestamp = null;
+
+    String introduced = new String();
     while (true) {
       System.out.println(
-          "Please enter the introduced timestamp, format: yyyy-MM-dd, type 0 if you don't want"
+          "Please enter the introduced timestamp, format: MM-dd-yyyy, type 0 if you don't want"
               + " to add this value, or type q to go back to the menu");
       String input = sc.nextLine();
       if (input.equals("q")) {
         showHelp();
       }
       if (input.equals("0")) {
-        timestamp = null;
         break;
       }
       try {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        timestamp = LocalDate.parse(input, formatter);
-        break;
+        introduced = input;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+
+        try {
+          LocalDate.parse(introduced, formatter);
+          break;
+        } catch (Exception e) {
+          System.out.println("The introduced date must be mm-dd-yyyy");
+        }
+
       } catch (DateTimeParseException e) {
         System.out.println("The timestamp doesn't have the right format.");
       }
     }
 
-    LocalDate timestampEnd = null;
+    String discontinued = new String();
     while (true) {
       System.out.println(
-          "Please enter the discontinued timestamp, format: yyyy-MM-dd, or type 0 if you don't"
+          "Please enter the discontinued timestamp, format: MM-dd-yyyy, or type 0 if you don't"
               + " want to add this value, or type q to go back to the menu");
       String input = sc.nextLine();
       if (input.equals("q")) {
         showHelp();
       }
       if (input.equals("0")) {
-        timestampEnd = null;
         break;
       }
       try {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        timestampEnd = LocalDate.parse(input, formatter);
-        if (timestampEnd.isBefore(timestamp)) {
-          System.out.println(
-              "The discontinued timestamp must be after the introduced timsestamp, wich is:");
-          System.out.println(timestamp);
-        } else {
+        discontinued = input;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+
+        try {
+          LocalDate.parse(discontinued, formatter);
           break;
+        } catch (Exception e) {
+          System.out.println("The introduced date must be mm-dd-yyyy");
         }
       } catch (DateTimeParseException e) {
         System.out.println("The timestamp doesn't have the right format.");
       }
     }
 
-    Computer comp = new Computer.ComputerBuilder(name).company(company).introduced(timestamp)
-        .discontinued(timestampEnd).build();
-    long number = 0L;
-    number = computerService.create(comp);
-    if (number != 0) {
+    ComputerDto comp = new ComputerDto.ComputerDtoBuilder(name).companyId(idManufacturer)
+        .introduced(introduced).discontinued(discontinued).build();
+
+    comp = webserviceComputer.create(comp);
+    if (comp.getId() != 0) {
       System.out.println("Computer created successfully");
-      System.out.println(computerService.find(number));
+      System.out.println(comp);
     } else {
       System.out.println("Error while creating the computer");
     }
@@ -386,7 +371,8 @@ public class CommandLineInterface {
     }
     try {
       int id = Integer.parseInt(input);
-      System.out.println(computerService.find(id));
+      ComputerDto computer = webserviceComputer.get(id);
+      System.out.println(computer);
       showHelp();
     } catch (NumberFormatException e) {
       System.out.println("The id you entered is not a number, please type it again");
@@ -398,8 +384,8 @@ public class CommandLineInterface {
    * CLI to list all companies available in the database.
    */
   private void listCompanies() {
-    List<Company> companies = companyService.list();
-    for (Company company : companies) {
+    List<CompanyDto> companies = webserviceCompany.list();
+    for (CompanyDto company : companies) {
       System.out.println(company);
     }
     showHelp();
@@ -410,10 +396,10 @@ public class CommandLineInterface {
    */
   private void listComputer() {
     Page pageComputer = new Page(1, pageComputerSize, "");
-    List<Computer> computersPage;
+    List<ComputerDto> computersPage;
     while (true) {
-      computersPage = computerService.listPageByName(pageComputer);
-      for (Computer computer : computersPage) {
+      computersPage = webserviceComputer.list(pageComputer);
+      for (ComputerDto computer : computersPage) {
         System.out.println(computer);
       }
       System.out.println();

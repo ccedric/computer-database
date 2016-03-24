@@ -31,6 +31,7 @@
   <javax-servlet-api>3.1.0</javax-servlet-api>
   <javax-servlet-jstl-version>1.2</javax-servlet-jstl-version>
   <javax-validation-version>1.1.0.Final</javax-validation-version>
+  <javax-ws-rs-version>2.0.1</javax-ws-rs-version>
   <jax-resteasy-version>3.0.16.Final</jax-resteasy-version>
   <jboss-log-version>3.3.0.Final</jboss-log-version>
   <jcl.slf4j.version>1.7.16</jcl.slf4j.version>
@@ -43,6 +44,7 @@
   <mockito-version>1.10.19</mockito-version>
   <mysql-version>5.1.6</mysql-version>
   <selenium-version>2.52.0</selenium-version>
+  <scannotation-version>1.0.3</scannotation-version>
   <slf4j-version>1.7.14</slf4j-version>
   <spring-security-version>4.0.4.RELEASE</spring-security-version>
   <spring-version>4.2.4.RELEASE</spring-version>
@@ -164,8 +166,8 @@
     <artifactId>jackson-databind</artifactId>
     <version>${jackson-version}</version>
    </dependency>
-   
-   
+
+
    <!-- Jax -->
    <dependency>
     <groupId>org.jboss.resteasy</groupId>
@@ -184,6 +186,39 @@
     <artifactId>resteasy-jackson-provider</artifactId>
     <version>${jax-resteasy-version}</version>
    </dependency>
+
+   <dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-jettison-provider</artifactId>
+    <version>${jax-resteasy-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>javax.ws.rs</groupId>
+    <artifactId>javax.ws.rs-api</artifactId>
+    <version>${javax-ws-rs-version}</version>
+   </dependency>
+
+   <!-- JAXB support -->
+   <dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-jaxb-provider</artifactId>
+    <version>${jax-resteasy-version}</version>
+   </dependency>
+
+
+   <dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-client</artifactId>
+    <version>${jax-resteasy-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>org.scannotation</groupId>
+    <artifactId>scannotation</artifactId>
+    <version>${scannotation-version}</version>
+   </dependency>
+
 
    <!-- Validation -->
    <dependency>
