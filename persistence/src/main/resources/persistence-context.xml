@@ -62,10 +62,6 @@
    <props>
     <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
     <prop key="hibernate.id.new_generator_mappings">false</prop>
-    <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
-    <prop key="hibernate.cache.use_second_level_cache">true</prop>
-    <prop key="hibernate.cache.use_query_cache">true</prop>
-    <prop key="net.sf.ehcache.configurationResourceName">myehcache.xml</prop>
    </props>
   </property>
  </bean>
