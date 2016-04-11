@@ -59,7 +59,7 @@
 		<form id="deleteForm" action="<t:TagLink url="/computer"/>"
 			method="POST">
 			<input type="hidden" name="selection" value=""> <input
-				type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				type="hidden" name="${_csrf.parameterName}" id="${_csrf.parameterName}" value="${_csrf.token}" />
 
 		</form>
 
@@ -162,12 +162,12 @@
 
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="${computer.id}"></td>
+								class="cb" id="${computer.name}_id" value="${computer.id}"></td>
 							<sec:authorize access="hasRole('ROLE_ADMIN')">
 
 								<td class="col-xs-3"><a
-									href="<t:TagLink url="computer/edit/${computer.getId()}"/>"
-									onclick="">${computer.name}</a></td>
+									href="computer/edit/${computer.getId()}"
+									onclick="" id="${computer.name}_name">${computer.name}</a></td>
 							</sec:authorize>
 
 							<sec:authorize access="hasRole('ROLE_USER')">

@@ -5,8 +5,9 @@ package com.excilys.formation.java.computerdb.dto.exception;
  * 
  * @author Cédric Cousseran
  */
-@SuppressWarnings("serial")
 public class DateTimeInvalidException extends RuntimeException {
+  private static final long serialVersionUID = -7326106829487534777L;
+
   public DateTimeInvalidException() {
     super();
   }

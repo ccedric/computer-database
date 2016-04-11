@@ -5,8 +5,9 @@ package com.excilys.formation.java.computerdb.model.exception;
  * 
  * @author Cédric Cousseran
  */
-@SuppressWarnings("serial")
 public class ComputerInvalidException extends RuntimeException {
+  private static final long serialVersionUID = -8806683165398682225L;
+
   public ComputerInvalidException() {
     super();
   }

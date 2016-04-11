@@ -35,10 +35,11 @@
 					<th:errors path="discontinuedAfterIntroduced"
 						cssClass="alert alert-danger alert-dismissable" element="div"
 						value="Discontinued must be after Introduced." />
-					<th:form modelAttribute="computerDto" action="${pageContext.request.contextPath}/computer/edit"
+					<th:form modelAttribute="computerDto"
+						action="${pageContext.request.contextPath}/computer/edit"
 						method="POST" id="formEdit" name="formEdit">
 
-						<input type="hidden" name="id" value="${computer.getId()}" />
+						<input type="hidden" name="id" id="id" value="${computer.getId()}" />
 						<fieldset>
 							<div class="form-group">
 								<label for="name"><spring:message
@@ -94,6 +95,9 @@
 							<a href="<t:TagLink url="/computer"/>" class="btn btn-default"><spring:message
 									code="edit.cancel" /></a>
 						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+							id="${_csrf.parameterName}" value="${_csrf.token}" />
+
 					</th:form>
 				</div>
 			</div>

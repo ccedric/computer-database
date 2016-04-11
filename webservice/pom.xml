@@ -14,25 +14,47 @@
 
 
  <dependencies>
+
+  <!-- Spring -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-core</artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-test</artifactId>
+   <scope>test</scope>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-aspects</artifactId>
+  </dependency>
+
   <!-- computerDB -->
   <dependency>
    <groupId>com.excilys.formation.java.computerdb</groupId>
    <artifactId>computerDB-binding</artifactId>
   </dependency>
+
+
   <!-- jackson -->
   <dependency>
    <groupId>com.fasterxml.jackson.core</groupId>
    <artifactId>jackson-databind</artifactId>
   </dependency>
+
+
   <!-- Jax -->
   <dependency>
    <groupId>org.jboss.resteasy</groupId>
    <artifactId>resteasy-jaxrs</artifactId>
-  </dependency>
-
-  <dependency>
-   <groupId>org.jboss.resteasy</groupId>
-   <artifactId>resteasy-spring</artifactId>
   </dependency>
 
   <dependency>
@@ -49,6 +71,16 @@
   <dependency>
    <groupId>javax.servlet</groupId>
    <artifactId>javax.servlet-api</artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework.security</groupId>
+   <artifactId>spring-security-config </artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework.security</groupId>
+   <artifactId>spring-security-core</artifactId>
   </dependency>
 
  </dependencies>

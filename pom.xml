@@ -19,8 +19,9 @@
  <properties>
   <computerdb-version>0.7.0-SNAPSHOT</computerdb-version>
 
+  <bonecp-version>0.8.0.RELEASE</bonecp-version>
   <commons-logging-version>1.2</commons-logging-version>
-  <dbunit-version>2.5.1</dbunit-version>
+  <ehcache-version>2.6.11</ehcache-version>
   <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
   <hibernate-version>5.1.0.Final</hibernate-version>
   <jackson-version>2.7.3</jackson-version>
@@ -41,10 +42,8 @@
   <maven-compiler-version>3.5.1</maven-compiler-version>
   <maven-failsafe-version>2.13</maven-failsafe-version>
   <maven-surefire-version>2.19.1</maven-surefire-version>
-  <mockito-version>1.10.19</mockito-version>
   <mysql-version>5.1.6</mysql-version>
   <selenium-version>2.52.0</selenium-version>
-  <scannotation-version>1.0.3</scannotation-version>
   <slf4j-version>1.7.14</slf4j-version>
   <spring-security-version>4.0.4.RELEASE</spring-security-version>
   <spring-version>4.2.4.RELEASE</spring-version>
@@ -59,26 +58,6 @@
 
 
  <dependencies>
-  <!-- Spring -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-core</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-context</artifactId>
-   <version>${spring-version}</version>
-  </dependency>
-
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-test</artifactId>
-   <version>${spring-version}</version>
-   <scope>test</scope>
-  </dependency>
-
   <!--Logging for spring -->
   <dependency>
    <groupId>org.slf4j</groupId>
@@ -160,6 +139,27 @@
     <version>${computerdb-version}</version>
    </dependency>
 
+   <!-- Spring -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>${spring-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>${spring-version}</version>
+   </dependency>
+
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>${spring-version}</version>
+    <scope>test</scope>
+   </dependency>
+
+
    <!-- jackson -->
    <dependency>
     <groupId>com.fasterxml.jackson.core</groupId>
@@ -211,12 +211,6 @@
     <groupId>org.jboss.resteasy</groupId>
     <artifactId>resteasy-client</artifactId>
     <version>${jax-resteasy-version}</version>
-   </dependency>
-
-   <dependency>
-    <groupId>org.scannotation</groupId>
-    <artifactId>scannotation</artifactId>
-    <version>${scannotation-version}</version>
    </dependency>
 
 
@@ -344,6 +338,11 @@
     <version>${mysql-version}</version>
     <scope>compile</scope>
    </dependency>
+   <dependency>
+    <groupId>com.jolbox</groupId>
+    <artifactId>bonecp</artifactId>
+    <version>${bonecp-version}</version>
+   </dependency>
 
    <!-- Hibernate -->
    <dependency>
@@ -367,6 +366,19 @@
    <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-java8</artifactId>
+    <version>${hibernate-version}</version>
+   </dependency>
+
+   <!-- EHCache Core APIs -->
+   <dependency>
+    <groupId>net.sf.ehcache</groupId>
+    <artifactId>ehcache-core</artifactId>
+    <version>${ehcache-version}</version>
+   </dependency>
+   <!-- Hibernate EHCache API -->
+   <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-ehcache</artifactId>
     <version>${hibernate-version}</version>
    </dependency>
 

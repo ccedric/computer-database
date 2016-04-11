@@ -22,8 +22,8 @@ public class CommandLineInterface {
   private static Scanner sc = new Scanner(System.in);
   private static int pageComputerSize = 10;
 
-  private static ComputerWebServiceUtil webserviceComputer = new ComputerWebServiceUtil();
-  private static CompanyWebServiceUtil webserviceCompany = new CompanyWebServiceUtil();
+  private static ComputerWebServiceUtil webserviceComputer = ComputerWebServiceUtil.instance;
+  private static CompanyWebServiceUtil webserviceCompany = CompanyWebServiceUtil.instance;
 
   /**
    * Main of the application for the command line interface.
@@ -36,12 +36,11 @@ public class CommandLineInterface {
   }
 
   private void init() {
-    System.out.println("------------------------------------------");
-    System.out.println("---Welcome to the computer database app---");
-    System.out.println("------------------------------------------");
+    System.out.println("--------------------------------------------");
+    System.out.println("--- Welcome to the computer database app ---");
+    System.out.println("--------------------------------------------");
 
     showHelp();
-
   }
 
   /**
@@ -128,11 +127,6 @@ public class CommandLineInterface {
     try {
       int id = Integer.parseInt(input);
       webserviceCompany.delete(id);
-      //      if (response.getStatus() == 200) {
-      //        System.out.println("Company and associated computers successfully deleted");
-      //      } else {
-      //        System.out.println("Error while deleting a company");
-      //      }
       showHelp();
     } catch (NumberFormatException e) {
       System.out.println("The id you entered is not a number, please type it again");

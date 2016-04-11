@@ -142,14 +142,8 @@ public class ComputerDto {
     public ComputerDto build() {
       return new ComputerDto(this);
     }
-
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -163,11 +157,6 @@ public class ComputerDto {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -219,9 +208,27 @@ public class ComputerDto {
 
   @Override
   public String toString() {
-    return "ComputerDTO [id=" + id + ", name=" + name + ", companyName=" + companyName
-        + ", companyId=" + companyId + ", introduced=" + introduced + ", discontinued="
-        + discontinued + "]";
+    StringBuilder sb = new StringBuilder("ComputerDTO, name= ");
+    sb.append(name);
+    if (id != 0) {
+      sb.append(",   id= ");
+      sb.append(id);
+    }
+    if (companyId != 0) {
+      sb.append(",   CompanyId= ");
+      sb.append(companyId);
+      sb.append(",   CompanyName= ");
+      sb.append(companyName);
+    }
+    if (introduced != null) {
+      sb.append(",   introduced= ");
+      sb.append(introduced);
+    }
+    if (discontinued != null) {
+      sb.append(",   discontinued= ");
+      sb.append(discontinued);
+    }
+    return sb.toString();
   }
 
 }

@@ -20,6 +20,25 @@
    <artifactId>computerDB-core</artifactId>
   </dependency>
 
+
+  <!-- Spring -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-core</artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-test</artifactId>
+   <scope>test</scope>
+  </dependency>
+
+
   <!-- Spring -->
   <dependency>
    <groupId>org.springframework</groupId>
@@ -31,7 +50,11 @@
    <groupId>mysql</groupId>
    <artifactId>mysql-connector-java</artifactId>
   </dependency>
-
+  <dependency>
+   <groupId>com.jolbox</groupId>
+   <artifactId>bonecp</artifactId>
+  </dependency>
+  
   <!-- Hibernate -->
   <dependency>
    <groupId>org.hibernate</groupId>
@@ -53,6 +76,18 @@
    <groupId>org.hibernate</groupId>
    <artifactId>hibernate-java8</artifactId>
   </dependency>
+
+   <!-- EHCache Core APIs -->
+   <dependency>
+    <groupId>net.sf.ehcache</groupId>
+    <artifactId>ehcache-core</artifactId>
+   </dependency>
+   <!-- Hibernate EHCache API -->
+   <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-ehcache</artifactId>
+   </dependency>
+
 
   <dependency>
    <groupId>javax.el</groupId>

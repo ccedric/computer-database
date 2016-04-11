@@ -40,11 +40,6 @@
    <artifactId>resteasy-client</artifactId>
   </dependency>
 
-  <dependency>
-   <groupId>org.scannotation</groupId>
-   <artifactId>scannotation</artifactId>
-  </dependency>
-
   <!-- computerDB -->
   <dependency>
    <groupId>com.excilys.formation.java.computerdb</groupId>
@@ -60,17 +55,6 @@
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-webmvc</artifactId>
-  </dependency>
-
-  <!-- Servlet -->
-  <dependency>
-   <groupId>javax.servlet</groupId>
-   <artifactId>javax.servlet-api</artifactId>
-  </dependency>
-
-  <dependency>
-   <groupId>javax.el</groupId>
-   <artifactId>javax.el-api</artifactId>
   </dependency>
  </dependencies>
 

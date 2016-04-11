@@ -14,6 +14,25 @@
 
  <dependencies>
 
+
+  <!-- Spring -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-core</artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+  </dependency>
+
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-test</artifactId>
+   <scope>test</scope>
+  </dependency>
+  
+  
   <!-- Validation -->
   <dependency>
    <groupId>org.hibernate</groupId>

@@ -113,16 +113,9 @@ public class ComputerController {
       String[] idsDelete = selection.split(",");
       int idDeleteInt;
       for (String idDelete : idsDelete) {
-        try {
-          idDeleteInt = Integer.parseInt(idDelete);
-          computerService.delete(computerService.find(idDeleteInt));
-          LOGGER.info("Deletion of the computer with id {} successful", idDelete);
-
-        } catch (Exception e) {
-          LOGGER.info("Exception occured during the deletion of the computer {}, stack trace: ",
-              idDelete);
-          e.printStackTrace();
-        }
+        idDeleteInt = Integer.parseInt(idDelete);
+        computerService.delete(computerService.find(idDeleteInt));
+        LOGGER.info("Deletion of the computer with id {} successful", idDelete);
       }
     }
     return "redirect:/computer";
@@ -144,7 +137,11 @@ public class ComputerController {
   @RequestMapping(path = "computer/add", method = RequestMethod.POST)
   public String addComputer(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result,
       ModelMap modelMap) throws ServletException, IOException {
+
     if (result.hasErrors()) {
+      LOGGER.warn("A Post to create a new dto : {} had errors: {}", computerDto,
+          result.getAllErrors());
+
       List<CompanyDto> companies = companyDtoMapper.listFromModel(companyService.list());
       modelMap.addAttribute("companies", companies);
       modelMap.addAttribute("computer", computerDto);
@@ -184,7 +181,6 @@ public class ComputerController {
   @RequestMapping(path = "computer/edit", method = RequestMethod.POST)
   public String doPost(@Valid @ModelAttribute ComputerDto computerDto, BindingResult result,
       ModelMap modelMap) throws ServletException, IOException {
-    System.out.println(result);
     if (result.hasErrors()) {
       List<CompanyDto> companies = companyDtoMapper.listFromModel(companyService.list());
       modelMap.addAttribute("companies", companies);

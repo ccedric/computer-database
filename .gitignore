@@ -3,6 +3,8 @@
 
 ### Eclipse ###
 
+.idea/
+*.iml
 .metadata
 bin/
 tmp/

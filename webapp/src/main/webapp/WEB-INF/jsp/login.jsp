@@ -56,8 +56,8 @@
 						</fieldset>
 						<div class="actions pull-right">
 							<input name="submit" type="submit" value="${messageSubmit }"
-								class="btn btn-primary" /> <input type="hidden"
-								name="${_csrf.parameterName}" value="${_csrf.token}" />
+								class="btn btn-primary" /> <input type="hidden" id="_csrf"
+								name="_csrf" value="${_csrf.token}" />
 
 						</div>
 					</form>
@@ -77,7 +77,6 @@
 		var messageRequiredPassword = "<spring:message code='error.errorPasswordRequired'/>";
 		var messageMinPassword = "<spring:message code='error.errorPasswordMin'/>";
 		var messageMaxPassword = "<spring:message code='error.errorPasswordMax'/>";
-
 	</script>
 
 	<%@include file="script.jsp"%>

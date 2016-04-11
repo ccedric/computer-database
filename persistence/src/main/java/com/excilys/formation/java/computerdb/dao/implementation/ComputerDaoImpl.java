@@ -126,7 +126,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
     List<Computer> computers = session.createCriteria(Computer.class, "computer")
         .createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN).list();
-    LOGGER.info("List of Computer found, size of the list: {}", computers.size());
+    //LOGGER.info("List of Computer found, size of the list: {}", computers.size());
     return computers;
   }
 
@@ -167,7 +167,7 @@ public class ComputerDaoImpl implements ComputerDao {
         .setFirstResult(indexBegin).setMaxResults(indexBegin + pageSize);
 
     List<Computer> computers = crit.list();
-    LOGGER.info("List of computers found, size of the list: {}", computers.size());
+    //LOGGER.info("List of computers found, size of the list: {}", computers.size());
     return computers;
   }
 
@@ -183,7 +183,7 @@ public class ComputerDaoImpl implements ComputerDao {
     crit.setProjection(Projections.rowCount());
 
     int count = ((Long) crit.uniqueResult()).intValue();
-    return count - 1;
+    return count;
   }
 
 }

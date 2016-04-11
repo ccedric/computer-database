@@ -11,7 +11,7 @@
  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
  <!-- Retrieve database properties -->
- <context:property-placeholder location="classpath:database.properties"/>
+ <context:property-placeholder location="classpath:database.properties" />
 
  <context:component-scan
   base-package="com.excilys.formation.java.computerdb.dao.implementation" />
@@ -26,18 +26,30 @@
  <tx:annotation-driven proxy-target-class="true"
   transaction-manager="txManager" />
 
+ <!-- BoneCP configuration -->
+ <bean id="boneCP" class="com.jolbox.bonecp.BoneCPDataSource"
+  destroy-method="close">
+  <property name="driverClass" value="com.mysql.jdbc.Driver" />
+  <property name="jdbcUrl" value="${database.url}" />
+  <property name="username" value="${database.username}" />
+  <property name="password" value="${database.password}" />
+  <property name="maxConnectionsPerPartition" value="40" />
+  <property name="minConnectionsPerPartition" value="5" />
+  <property name="partitionCount" value="10" />
+  <property name="deregisterDriverOnClose" value="true" />
+ </bean>
+
  <bean id="mainDataSource"
   class="org.springframework.jdbc.datasource.DriverManagerDataSource">
   <property name="driverClassName" value="${database.driver}" />
-  <property name="url"
-   value="${database.url}" />
+  <property name="url" value="${database.url}" />
   <property name="username" value="${database.username}" />
   <property name="password" value="${database.password}" />
  </bean>
 
  <bean id="sessionFactory"
   class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-  <property name="dataSource" ref="mainDataSource" />
+  <property name="dataSource" ref="boneCP" />
   <property name="annotatedClasses">
    <list>
     <value>com.excilys.formation.java.computerdb.model.Computer</value>
@@ -50,6 +62,10 @@
    <props>
     <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
     <prop key="hibernate.id.new_generator_mappings">false</prop>
+    <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+    <prop key="hibernate.cache.use_second_level_cache">true</prop>
+    <prop key="hibernate.cache.use_query_cache">true</prop>
+    <prop key="net.sf.ehcache.configurationResourceName">myehcache.xml</prop>
    </props>
   </property>
  </bean>

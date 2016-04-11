@@ -29,8 +29,8 @@
 						cssClass="alert alert-danger alert-dismissable" element="div"
 						value="Discontinued must be after Introduced." />
 
-					<th:form modelAttribute="computerDto" action="add"
-						method="POST" id="formAdd" name="formAdd">
+					<th:form modelAttribute="computerDto" action="add" method="POST"
+						id="formAdd" name="formAdd">
 						<fieldset>
 							<div class="form-group">
 								<label for="name"><spring:message
@@ -84,6 +84,10 @@
 							<a href="<t:TagLink url="/computer"/>" class="btn btn-default"><spring:message
 									code="add.cancel" /></a>
 						</div>
+						<input type="hidden" name="selection" value="">
+						<input type="hidden" name="${_csrf.parameterName}" id="${_csrf.parameterName}"
+							value="${_csrf.token}" />
+
 					</th:form>
 				</div>
 			</div>
