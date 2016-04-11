@@ -10,4 +10,11 @@ CREATE TABLE user_role (
   user_id bigint not null,
   role varchar(45) NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES users (id));
+  CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES user (id));
+
+
+insert into user (id,username,password, enabled) values (  1,'admin','$2a$04$fc7hreDA7KNZf93RnJvRQ.IX7PAmDmaLcKWmH.6AUCPUfZ.hCgKoa',1);
+insert into user (id,username,password, enabled) values (  2,'user','$2a$04$Fzn5220q30/kdVHrsmnrCuSlvGadOEIm38rP9h4w5Xb2SAj8YeKt6',1);
+
+insert into user_role (id, user_id,role) values (1,1,'ROLE_ADMIN');
+  insert into user_role (id, user_id,role) values (2,2,'ROLE_USER');
