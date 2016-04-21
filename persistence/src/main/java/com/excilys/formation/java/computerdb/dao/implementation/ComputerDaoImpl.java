@@ -126,7 +126,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
     List<Computer> computers = session.createCriteria(Computer.class, "computer")
         .createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN).list();
-    //LOGGER.info("List of Computer found, size of the list: {}", computers.size());
+    // LOGGER.info("List of Computer found, size of the list: {}", computers.size());
     return computers;
   }
 
@@ -134,6 +134,41 @@ public class ComputerDaoImpl implements ComputerDao {
   @SuppressWarnings({ "unchecked" })
   public List<Computer> listPageByName(int indexBegin, int pageSize, String name,
       OrderSearch order) {
+
+    // String column;
+    //
+    // switch (order.getColumn().toString()) {
+    // case "computerId":
+    // column = "computer.id";
+    // break;
+    // case "computerName":
+    // column = "computer.name";
+    // break;
+    // case "companyName":
+    // column = "company.name";
+    // break;
+    // default:
+    // column = "computer.id";
+    // break;
+    // }
+    //
+    // StringBuilder request = new StringBuilder();
+    // request.append("select Computer from Computer computer left join computer.company as company
+    // ");
+    // request.append("where computer.name like '%");
+    // request.append(name);
+    // request.append("%' OR company.name LIKE '%");
+    // request.append(name);
+    // request.append("%' ORDER BY ");
+    // request.append(column);
+    // request.append(order.getOrder());
+    //
+    // String sql = request.toString();
+    //
+    // String hql = "select computer from Computer computer left join computer.company as company";
+    // List<Computer> computers = (List<Computer>)
+    // sessionFactory.getCurrentSession().createQuery(hql)
+    // .setFirstResult(indexBegin).setMaxResults(indexBegin + pageSize).list();
 
     Session session = sessionFactory.getCurrentSession();
     String column;
@@ -160,14 +195,21 @@ public class ComputerDaoImpl implements ComputerDao {
       orderQuery = Order.desc(column);
     }
 
-    Criteria crit = session.createCriteria(Computer.class, "computer")
-        .createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN).addOrder(orderQuery)
-        .add(Restrictions.or(Restrictions.like("computer.name", name + '%'),
-            Restrictions.like("company.name", name + '%')))
-        .setFirstResult(indexBegin).setMaxResults(indexBegin + pageSize);
+    Criteria crit;
+    if (name == null || name.equals("")) {
+      crit = session.createCriteria(Computer.class, "computer")
+          .createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN).addOrder(orderQuery)
+          .setFirstResult(indexBegin).setMaxResults(indexBegin + pageSize);
+    } else {
+      crit = session.createCriteria(Computer.class, "computer")
+          .createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN).addOrder(orderQuery)
+          .add(Restrictions.or(Restrictions.like("computer.name", name + '%'),
+              Restrictions.like("company.name", name + '%')))
+          .setFirstResult(indexBegin).setMaxResults(indexBegin + pageSize);
+    }
 
     List<Computer> computers = crit.list();
-    //LOGGER.info("List of computers found, size of the list: {}", computers.size());
+    LOGGER.info("List of computers found, size of the list: {}", computers.size());
     return computers;
   }
 
@@ -178,7 +220,8 @@ public class ComputerDaoImpl implements ComputerDao {
     Criteria crit = session.createCriteria(Computer.class, "computer")
         .createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
         .add(Restrictions.or(Restrictions.like("computer.name", name + '%'),
-            Restrictions.like("company.name", name + '%')));
+            Restrictions.like("company.name", name + '%')))
+        .setProjection(Projections.projectionList().add(Projections.property("id"), "id"));
 
     crit.setProjection(Projections.rowCount());
 

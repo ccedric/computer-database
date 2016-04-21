@@ -1,5 +1,8 @@
 package com.excilys.formation.java.computerdb.model;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -8,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 /**
  * A company is represented by an id, and a name.
  * 
@@ -15,6 +19,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "company")
 public class Company implements Serializable {
   

@@ -83,10 +83,10 @@ public class ComputerController {
 
     List<ComputerDto> computers = computerDtoMapper
         .listFromModel(computerService.listPageByName(pageComputer));
-
-    int maxPage = (computerService.selectCount(searchByName) + numberResultsPage - 1)
-        / numberResultsPage;
     int numberResults = computerService.selectCount(searchByName);
+    
+    int maxPage = ( numberResults + numberResultsPage - 1)
+        / numberResultsPage;
     Column orderColumn = pageComputer.getOrderSearch().getColumn();
     Order orderOrder = pageComputer.getOrderSearch().getOrder();
 
@@ -126,6 +126,7 @@ public class ComputerController {
    */
   @RequestMapping(path = "computer/add", method = RequestMethod.GET)
   public String addPage(ModelMap modelMap) throws ServletException, IOException {
+    
     List<CompanyDto> companies = companyDtoMapper.listFromModel(companyService.list());
     modelMap.addAttribute("companies", companies);
     return "addComputer";

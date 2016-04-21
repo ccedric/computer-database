@@ -1,5 +1,8 @@
 package com.excilys.formation.java.computerdb.model;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Entity;
@@ -10,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 /**
  * A computer is represented by an id, a name, a company (manufacturer), an introduced date and
  * discontinued date.
@@ -18,6 +22,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "computer")
 public class Computer implements Serializable {
 
